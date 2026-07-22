@@ -6,14 +6,16 @@
     <title>Dyson Supersonic Nural™ HD19 | 情人節專屬登機證</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- html2canvas for Direct HTML Snapshot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- QRCode.js for 100% Reliable Native QR Code Generation (No CORS Issues) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Montserrat:ital,wght@0,300;0,400;0,600;0,800;1,400&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- html2canvas for downloading ticket -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <script>
         tailwind.config = {
@@ -35,7 +37,7 @@
                     }
                 }
             }
-        }
+        };
     </script>
     <style>
         body {
@@ -46,7 +48,6 @@
             overflow-x: hidden;
         }
 
-        /* Ambient Glow Effect */
         .ambient-glow {
             position: absolute;
             width: 500px;
@@ -58,7 +59,6 @@
             z-index: 0;
         }
 
-        /* Perforated ticket tear notches */
         .ticket-tear-left, .ticket-tear-right {
             position: absolute;
             top: 50%;
@@ -72,7 +72,12 @@
         .ticket-tear-left { left: -10px; }
         .ticket-tear-right { right: -10px; }
 
-        /* Ticket dashed divider */
+        .export-mode .ticket-tear-left,
+        .export-mode .ticket-tear-right {
+            background-color: #ffffff;
+            box-shadow: inset 0 0 4px rgba(0,0,0,0.15);
+        }
+
         .dashed-tear {
             background-image: linear-gradient(to bottom, #cbd5e1 50%, rgba(255, 255, 255, 0) 0%);
             background-position: left;
@@ -80,7 +85,6 @@
             background-repeat: repeat-y;
         }
 
-        /* 3D Flip Container CSS */
         .perspective-1000 {
             perspective: 1000px;
         }
@@ -96,7 +100,6 @@
             transform: rotateY(180deg);
         }
 
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -124,7 +127,7 @@
     <header class="relative z-10 border-b border-white/10 backdrop-blur-md bg-black/20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" class="h-6 object-contain filter invert brightness-200">
+                <span class="font-black tracking-tighter text-white text-xl font-serif">dyson</span>
                 <span class="text-xs bg-dyson-pink/20 text-dyson-pink border border-dyson-pink/40 px-2.5 py-0.5 rounded-full font-semibold uppercase tracking-wider">HD19 Supersonic Nural™</span>
             </div>
             
@@ -140,7 +143,7 @@
 
     <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        <!-- Input Controls Section -->
+        <!-- Form Controls Panel -->
         <section class="lg:col-span-5 bg-white/10 backdrop-blur-xl border border-white/15 p-6 rounded-3xl shadow-2xl space-y-6">
             <div class="border-b border-white/10 pb-3">
                 <h2 class="text-xl font-bold text-white flex items-center gap-2">
@@ -164,15 +167,14 @@
 
             <form id="ticketForm" class="space-y-4" onsubmit="event.preventDefault();">
                 
-                <!-- Passenger Name -->
                 <div>
                     <div class="flex justify-between items-center mb-1">
                         <label class="block text-xs font-semibold text-dyson-pink uppercase tracking-wider">
                             <i class="fa-solid fa-user-heart mr-1"></i> 旅客姓名 / 情侶名稱 (Passenger)
                         </label>
-                        <span id="charCount" class="text-[10px] text-slate-400 font-mono">8/20</span>
+                        <span id="charCount" class="text-[10px] text-slate-400 font-mono">8/18</span>
                     </div>
-                    <input type="text" id="inPassenger" value="YOU & ME" maxlength="20" class="w-full bg-black/40 border border-white/20 rounded-xl px-4 py-2.5 text-sm font-semibold text-white placeholder-slate-500 focus:outline-none focus:border-dyson-pink focus:ring-1 focus:ring-dyson-pink transition">
+                    <input type="text" id="inPassenger" value="YOU & ME" maxlength="18" class="w-full bg-black/40 border border-white/20 rounded-xl px-4 py-2.5 text-sm font-semibold text-white placeholder-slate-500 focus:outline-none focus:border-dyson-pink focus:ring-1 focus:ring-dyson-pink transition">
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
@@ -180,66 +182,26 @@
                         <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
                             <i class="fa-solid fa-plane-departure mr-1 text-dyson-pink"></i> 出發地 (FROM)
                         </label>
-                        <input type="text" id="inOrigin" value="TAIPEI" maxlength="15" class="w-full bg-black/40 border border-white/20 rounded-xl px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-dyson-pink transition uppercase">
+                        <input type="text" id="inOrigin" value="TAIPEI" maxlength="12" class="w-full bg-black/40 border border-white/20 rounded-xl px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-dyson-pink transition uppercase">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
                             <i class="fa-solid fa-plane-arrival mr-1 text-dyson-pink"></i> 目的地 (TO)
                         </label>
-                        <input type="text" id="inDestination" value="LONDON" maxlength="15" class="w-full bg-black/40 border border-white/20 rounded-xl px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-dyson-pink transition uppercase">
-                    </div>
-                </div>
-
-                <!-- Romantic Destination Presets -->
-                <div>
-                    <span class="text-[11px] text-slate-400 block mb-1">快速套用浪漫目的地：</span>
-                    <div class="flex flex-wrap gap-1.5">
-                        <button type="button" onclick="setDestination('LONDON')" class="text-xs bg-white/10 hover:bg-dyson-pink/30 text-white px-2.5 py-1 rounded-lg border border-white/10 transition">LONDON</button>
-                        <button type="button" onclick="setDestination('PARIS')" class="text-xs bg-white/10 hover:bg-dyson-pink/30 text-white px-2.5 py-1 rounded-lg border border-white/10 transition">PARIS</button>
-                        <button type="button" onclick="setDestination('YOUR HEART')" class="text-xs bg-white/10 hover:bg-dyson-pink/30 text-white px-2.5 py-1 rounded-lg border border-white/10 transition">YOUR HEART</button>
-                        <button type="button" onclick="setDestination('FOREVER')" class="text-xs bg-white/10 hover:bg-dyson-pink/30 text-white px-2.5 py-1 rounded-lg border border-white/10 transition">FOREVER</button>
+                        <input type="text" id="inDestination" value="YOUR HEART" maxlength="12" class="w-full bg-black/40 border border-white/20 rounded-xl px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-dyson-pink transition uppercase">
                     </div>
                 </div>
 
                 <div>
                     <div class="flex justify-between items-center mb-1">
                         <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                            登機日期 (Date)
+                            <i class="fa-solid fa-quote-left mr-1 text-dyson-pink"></i> 情意悄悄話 (Message)
                         </label>
-                        <div class="flex gap-1">
-                            <button type="button" onclick="setDate('2026-08-19')" class="text-[10px] bg-dyson-pink/20 hover:bg-dyson-pink/40 text-dyson-pink px-2 py-0.5 rounded-full border border-dyson-pink/30 transition">七夕 (08/19)</button>
-                            <button type="button" onclick="setDate('2026-02-14')" class="text-[10px] bg-white/10 hover:bg-white/20 text-slate-300 px-2 py-0.5 rounded-full border border-white/10 transition">2/14</button>
-                        </div>
+                        <button type="button" onclick="randomizeInspiration()" class="text-[10px] text-dyson-pink hover:text-white bg-dyson-pink/20 hover:bg-dyson-pink/40 border border-dyson-pink/30 px-2.5 py-0.5 rounded-full transition flex items-center justify-center">
+                            隨機靈感
+                        </button>
                     </div>
-                    <div class="grid grid-cols-2 gap-3">
-                        <input type="date" id="inDate" value="2026-08-19" class="w-full bg-black/40 border border-white/20 rounded-xl px-3 py-2 text-sm font-semibold text-white focus:outline-none focus:border-dyson-pink transition">
-                        <div>
-                            <input type="text" id="inTime" value="13:14" class="w-full bg-black/40 border border-white/20 rounded-xl px-3 py-2 text-sm font-semibold text-white focus:outline-none focus:border-dyson-pink transition" placeholder="登機時間 (Boarding Time)">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
-                            登機門 (Gate)
-                        </label>
-                        <input type="text" id="inGate" value="19" class="w-full bg-black/40 border border-white/20 rounded-xl px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-dyson-pink transition">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
-                            座位 (Seat)
-                        </label>
-                        <input type="text" id="inSeat" value="52A" class="w-full bg-black/40 border border-white/20 rounded-xl px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-dyson-pink transition">
-                    </div>
-                </div>
-
-                <!-- Romantic Message -->
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
-                        <i class="fa-solid fa-quote-left mr-1 text-dyson-pink"></i> 情人節浪漫悄悄話 (Message)
-                    </label>
-                    <input type="text" id="inMessage" value="LOVE IS WORTH THE JOURNEY." maxlength="70" class="w-full bg-black/40 border border-white/20 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-dyson-pink transition">
+                    <input type="text" id="inMessage" value="YOU ARE MY DESTINATION." maxlength="45" class="w-full bg-black/40 border border-white/20 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-dyson-pink transition">
                 </div>
 
                 <div class="pt-2">
@@ -254,10 +216,9 @@
                     </div>
                 </div>
 
-                <!-- Download Action Button -->
                 <div class="pt-2">
                     <button type="button" onclick="downloadBoardingPass()" class="w-full py-3.5 bg-gradient-to-r from-dyson-pink via-dyson-rose to-dyson-bronze hover:opacity-90 text-white font-bold text-sm rounded-xl shadow-xl hover:shadow-dyson-pink/30 flex items-center justify-center gap-2 transition transform active:scale-95">
-                        <i class="fa-solid fa-download"></i> 下載專屬登機證
+                        <i class="fa-solid fa-download"></i> 下載專屬登機證 (100% 完整產出)
                     </button>
                 </div>
             </form>
@@ -275,54 +236,52 @@
                 </button>
             </div>
 
-            <!-- Landscape Boarding Pass Container (3D Flip Supported) -->
+            <!-- Landscape Boarding Pass Container (672x320) -->
             <div id="wrapperLandscape" class="w-full flex justify-center transition-all duration-300 perspective-1000">
-                
                 <div id="cardInnerLandscape" onclick="toggleCardFlip()" class="transform-style-3d w-full max-w-2xl h-[320px] relative cursor-pointer group">
                     
                     <!-- LANDSCAPE FRONT SIDE -->
                     <div id="ticketLandscape" class="backface-hidden ticket-pass-bg w-full h-full rounded-3xl shadow-2xl text-slate-800 overflow-hidden relative border border-white/60 flex absolute inset-0">
-                        
-                        <!-- Left Tear Hole Notch -->
                         <div class="ticket-tear-left shadow-inner"></div>
                         
-                        <!-- Main Ticket Area (2/3) -->
                         <div class="w-2/3 p-5 flex flex-col justify-between relative bg-gradient-to-br from-white/90 via-rose-50/60 to-orange-50/40 overflow-hidden">
-                            
-                            <!-- Header -->
                             <div class="flex justify-between items-start relative z-10 shrink-0">
                                 <div>
                                     <div class="flex items-center space-x-2">
-                                        <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" class="h-4 sm:h-5 object-contain">
-                                        <span class="text-[10px] font-bold bg-dyson-rose text-white px-2 py-0.5 rounded-full uppercase">HD19</span>
+                                        <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" referrerpolicy="no-referrer" class="h-4 sm:h-5 object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                        <img src="https://img2.91mai.com/o2o/image/868ce2a2-8242-44af-a034-4af1b72ea151.png" alt="Category Logo" referrerpolicy="no-referrer" class="h-3.5 sm:h-4 object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                        <!-- Bulletproof SVG Image Pill Badge for HD19 -->
+                                        <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2248%22%20height%3D%2220%22%20viewBox%3D%220%200%2048%2020%22%3E%3Crect%20width%3D%2248%22%20height%3D%2220%22%20rx%3D%2210%22%20fill%3D%22%23d1828e%22%2F%3E%3Ctext%20x%3D%2224%22%20y%3D%2210.5%22%20font-family%3D%22Montserrat%2C%20Arial%2C%20sans-serif%22%20font-weight%3D%22800%22%20font-size%3D%2210%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22central%22%3EHD19%3C%2Ftext%3E%3C%2Fsvg%3E" alt="HD19" class="h-4 sm:h-4.5 object-contain shrink-0">
                                     </div>
                                     <p class="text-[9px] text-dyson-rose font-bold tracking-wider mt-0.5">DYSON AIRWAYS • VALENTINE SPECIAL</p>
                                 </div>
                                 <span class="text-xs font-extrabold text-slate-400 tracking-widest font-serif">BOARDING PASS</span>
                             </div>
 
-                            <!-- Route Info -->
-                            <div class="mt-6 mb-1 relative z-10 shrink-0">
-                                <!-- Locations Row -->
-                                <div class="flex items-end justify-between px-1 min-h-[52px]">
-                                    <div class="text-left w-[42%] min-w-0 pr-1 flex flex-col justify-end">
-                                        <p id="outOriginL" class="text-2xl sm:text-3xl font-black text-slate-800 tracking-tight font-sans leading-tight break-normal">TAIPEI</p>
+                            <div class="mt-4 mb-1 relative z-10 shrink-0">
+                                <div class="flex items-center justify-between px-1 min-h-[48px]">
+                                    <div class="text-left w-[42%] min-w-0 pr-1 flex flex-col justify-center">
+                                        <p id="outOriginL" class="text-2xl sm:text-3xl font-black text-slate-800 tracking-tight font-sans leading-none break-normal">TAIPEI</p>
                                     </div>
 
-                                    <!-- Aircraft Vector Line -->
-                                    <div class="w-16 sm:w-20 px-1 flex flex-col items-center justify-center shrink-0 pb-1">
-                                        <div class="w-full relative flex items-center justify-center h-5">
+                                    <div class="w-16 sm:w-20 px-1 flex flex-col items-center justify-center shrink-0">
+                                        <div class="w-full relative flex items-center justify-center h-6">
                                             <div class="w-full border-t-2 border-dashed border-dyson-rose/60"></div>
-                                            <i class="fa-solid fa-plane text-dyson-rose text-xs absolute bg-rose-50/90 px-1 py-0.5 rounded-full leading-none"></i>
+                                            <div class="absolute w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white/90 border border-white/80 shadow-sm flex items-center justify-center">
+                                                <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-dyson-rose fill-current" viewBox="0 0 24 24">
+                                                    <g transform="rotate(90 12 12)">
+                                                        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                                                    </g>
+                                                </svg>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div class="text-right w-[42%] min-w-0 pl-1 flex flex-col justify-end">
-                                        <p id="outDestinationL" class="text-2xl sm:text-3xl font-black text-dyson-rose tracking-tight font-sans leading-tight break-normal">LONDON</p>
+                                    <div class="text-right w-[42%] min-w-0 pl-1 flex flex-col justify-center">
+                                        <p id="outDestinationL" class="text-2xl sm:text-3xl font-black text-dyson-rose tracking-tight font-sans leading-none break-normal">LONDON</p>
                                     </div>
                                 </div>
 
-                                <!-- Fixed Baseline Labels Row -->
                                 <div class="flex items-center justify-between px-1 mt-1">
                                     <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest w-[42%] text-left">FROM</p>
                                     <span class="text-[8px] font-bold text-dyson-rose/80 uppercase tracking-widest text-center w-16 sm:w-20 shrink-0">FLIGHT HD19</span>
@@ -330,51 +289,39 @@
                                 </div>
                             </div>
 
-                            <!-- Bottom Section -->
-                            <div class="flex items-center justify-between pt-3 border-t border-slate-200/80 relative z-10 shrink-0">
-                                
+                            <div class="flex items-center justify-between pt-2.5 border-t border-slate-200/80 relative z-10 shrink-0">
                                 <div class="pr-2 flex-1 min-w-0 flex flex-col justify-center">
-                                    <p id="outMessageL" class="text-xs italic text-dyson-rose font-semibold tracking-wide line-clamp-2">"LOVE IS WORTH THE JOURNEY."</p>
-                                    <p class="text-[9px] text-slate-400 font-medium mt-0.5 truncate">Supersonic Nural™ 吹護合一 • 情人節特別限定</p>
+                                    <p id="outMessageL" class="text-sm italic text-dyson-rose font-semibold tracking-wide leading-snug break-words">"YOU ARE MY DESTINATION."</p>
+                                    <p class="text-[9px] text-slate-400 font-medium mt-0.5 leading-tight">情人節限定 x 輕巧登機 x 完美造型<br>Supersonic Nural™ 吹護合一</p>
                                 </div>
 
                                 <div class="flex flex-col items-center shrink-0">
-                                    <div class="w-14 h-14 sm:w-16 sm:h-16 bg-white/70 rounded-2xl p-1 flex items-center justify-center shrink-0">
-                                        <img src="https://img.91app.com/webapi/imagesV3/Original/SalePage/11670106/2/639202210906470000?v=1" alt="Dyson HD19" class="h-full object-contain" onerror="this.onerror=null; this.src='https://placehold.co/150x150/f7ece8/d1828e?text=Dyson+HD19';">
-                                    </div>
-                                    <img src="https://img2.91mai.com/o2o/image/868ce2a2-8242-44af-a034-4af1b72ea151.png" alt="Category Logo" class="h-3 sm:h-3.5 object-contain mt-1" onerror="this.style.display='none';">
+                                    <img src="https://img.91app.com/webapi/imagesV3/Original/SalePage/11670106/2/639202210906470000?v=1" alt="Dyson HD19" referrerpolicy="no-referrer" class="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-2xl overflow-hidden" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                                 </div>
-
                             </div>
-
                         </div>
 
-                        <!-- Perforated Tear Line -->
                         <div class="w-px dashed-tear relative"></div>
 
-                        <!-- Right Stub Area (1/3 - Cleaner layout with larger QR code) -->
-                        <div class="w-1/3 p-4 bg-white/95 flex flex-col justify-between relative overflow-hidden shrink-0">
-                            <!-- Right Tear Hole Notch -->
+                        <!-- Right Stub Area -->
+                        <div class="w-1/3 p-5 bg-white/95 flex flex-col justify-between relative overflow-hidden shrink-0">
                             <div class="ticket-tear-right shadow-inner"></div>
 
                             <div class="flex justify-between items-center shrink-0 pb-1 border-b border-slate-100">
-                                <span class="font-bold text-slate-400 text-[10px] tracking-wider uppercase">PASSENGER COUPON</span>
+                                <span class="font-extrabold text-slate-400 text-[10px] tracking-widest uppercase font-serif">PASSENGER COUPON</span>
                                 <i class="fa-solid fa-heart text-dyson-rose text-xs"></i>
                             </div>
 
-                            <!-- Dedicated Passenger Info Stub -->
-                            <div class="space-y-2 py-2 text-xs min-w-0 flex-1 flex flex-col justify-center">
-                                <div>
+                            <div class="space-y-1.5 py-1 text-xs min-w-0 flex-1 flex flex-col justify-center">
+                                <div class="pb-0.5">
                                     <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest">PASSENGER</p>
-                                    <p id="outPassengerStub" class="font-extrabold text-slate-900 truncate text-sm">YOU & ME</p>
+                                    <p id="outPassengerStub" class="font-black text-dyson-rose text-[18px] leading-snug break-words">YOU & ME</p>
                                 </div>
                                 
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">CLASS</p>
-                                        <div id="outClassStub" class="font-extrabold text-slate-800 text-xs leading-tight">
-                                            First Class<br><span class="text-[9px] font-medium text-slate-500">頭等艙</span>
-                                        </div>
+                                <div>
+                                    <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">CLASS</p>
+                                    <div id="outClassStub" class="font-extrabold text-slate-800 text-xs leading-snug">
+                                        First Class<br><span class="text-[9px] font-medium text-slate-500">頭等艙</span>
                                     </div>
                                 </div>
 
@@ -389,67 +336,74 @@
                                     </div>
                                 </div>
 
-                                <!-- Gate & Seat Row -->
-                                <div class="flex justify-between items-center pt-0.5">
+                                <div class="flex justify-between items-center">
                                     <div>
                                         <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">GATE</p>
-                                        <p id="outGateStub" class="font-extrabold text-dyson-rose text-xs">19</p>
+                                        <p id="outGateStub" class="font-extrabold text-slate-900 text-xs">19</p>
                                     </div>
                                     <div class="text-right">
                                         <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">SEAT</p>
-                                        <p id="outSeatStub" class="font-extrabold text-dyson-rose text-xs">52A</p>
+                                        <p id="outSeatStub" class="font-extrabold text-slate-900 text-xs">52A</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="shrink-0 pt-2 border-t border-slate-100 flex items-center justify-center">
-                                <img src="https://img2.91mai.com/o2o/image/dce7f5e3-3616-4cb6-9e75-aa5f3c630298.png" alt="QR Code" class="h-14 w-14 object-contain mix-blend-multiply">
+                            <div class="shrink-0 pt-1 flex items-center justify-center">
+                                <img id="qrCodeLandscape" src="" alt="QR Code" class="h-12 w-12 object-contain rounded-none">
                             </div>
                         </div>
-
                     </div>
 
-                    <!-- LANDSCAPE BACK SIDE (Dyson Specs Card) -->
-                    <div id="ticketLandscapeBack" class="backface-hidden rotate-y-180 bg-gradient-to-br from-[#1e1c24] via-[#2d2230] to-[#17121b] text-white w-full h-full rounded-3xl shadow-2xl p-6 border border-dyson-rose/40 flex flex-col justify-between absolute inset-0 overflow-hidden">
+                    <!-- LANDSCAPE BACK SIDE -->
+                    <div id="ticketLandscapeBack" class="backface-hidden rotate-y-180 bg-gradient-to-br from-[#1e1c24] via-[#2d2230] to-[#17121b] text-white w-full h-full rounded-3xl shadow-2xl p-5 border border-dyson-rose/40 flex flex-col justify-between absolute inset-0 overflow-hidden">
                         
-                        <!-- Header -->
-                        <div class="flex justify-between items-center border-b border-white/10 pb-3">
+                        <div class="flex justify-between items-center border-b border-white/10 pb-2.5 shrink-0">
                             <div class="flex items-center space-x-2">
-                                <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" class="h-4 object-contain filter invert">
+                                <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" referrerpolicy="no-referrer" class="h-4 sm:h-5 object-contain filter brightness-0 invert" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                                 <span class="text-xs font-bold text-dyson-pink">Supersonic Nural™ HD19</span>
                             </div>
-                            <span class="text-[10px] bg-dyson-rose/30 text-dyson-pink border border-dyson-rose/40 px-2 py-0.5 rounded-full font-mono uppercase">TRAVEL ESSENTIALS</span>
+                            <span class="inline-flex items-center justify-center text-[10px] bg-dyson-rose/30 text-dyson-pink border border-dyson-rose/40 px-3 py-1 rounded-full font-mono uppercase leading-none text-center">TRAVEL ESSENTIALS</span>
                         </div>
 
-                        <!-- 2 Custom Travel Features Grid -->
-                        <div class="grid grid-cols-2 gap-4 py-2">
-                            <!-- Feature 1: Worldwide Voltage -->
-                            <div class="bg-white/5 border border-white/10 rounded-2xl p-3.5 flex items-start gap-3 hover:border-dyson-pink/40 transition">
-                                <div class="w-12 h-12 rounded-xl bg-dyson-pink/10 border border-dyson-pink/30 flex items-center justify-center shrink-0 p-1">
-                                    <img src="https://img2.91mai.com/o2o/image/8f7026ab-fa75-439f-95ae-bcc5d3b6d994.png" alt="Worldwide Voltage" class="h-full object-contain filter brightness-120">
-                                </div>
-                                <div class="space-y-1">
-                                    <h4 class="text-xs font-bold text-dyson-pink tracking-wide uppercase">WORLDWIDE VOLTAGE</h4>
-                                    <p class="text-[11px] font-semibold text-slate-200">國際電壓設計 • 全球適用</p>
-                                    <p class="text-[10px] text-slate-400">全球適用 100-240V~ 50/60Hz</p>
-                                </div>
+                        <div class="flex-1 grid grid-cols-12 gap-3 items-center py-1.5 min-h-0">
+                            <div class="col-span-4 h-[180px] w-full bg-white/5 rounded-2xl border border-white/10 relative overflow-hidden mx-auto">
+                                <img src="https://img2.91mai.com/o2o/image/8c945b4d-ce18-4ac1-8b0e-08d3f19d287a.png" alt="Dyson Product Back" referrerpolicy="no-referrer" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[100%] w-auto max-w-none max-h-none object-contain filter drop-shadow-lg" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                             </div>
 
-                            <!-- Feature 2: Travel Ready -->
-                            <div class="bg-white/5 border border-white/10 rounded-2xl p-3.5 flex items-start gap-3 hover:border-dyson-pink/40 transition">
-                                <div class="w-12 h-12 rounded-xl bg-dyson-pink/10 border border-dyson-pink/30 flex items-center justify-center shrink-0 p-1">
-                                    <img src="https://img2.91mai.com/o2o/image/e4fdaf70-c264-42d4-ad0b-6b615005d1e7.png" alt="Travel Ready" class="h-full object-contain filter brightness-120">
+                            <div class="col-span-8 flex flex-col justify-center space-y-2">
+                                <div class="bg-white/5 border border-white/10 rounded-xl p-2.5 flex items-center gap-3 hover:border-dyson-pink/40 transition">
+                                    <div class="w-8 h-8 rounded-lg bg-dyson-pink/10 border border-dyson-pink/30 flex items-center justify-center shrink-0 p-1">
+                                        <img src="https://img2.91mai.com/o2o/image/8f7026ab-fa75-439f-95ae-bcc5d3b6d994.png" alt="Worldwide Voltage" referrerpolicy="no-referrer" class="h-full object-contain filter brightness-120" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                    </div>
+                                    <div class="min-w-0">
+                                        <div class="text-[11px] font-bold text-dyson-pink tracking-wide uppercase leading-normal mb-0.5">WORLDWIDE VOLTAGE 國際電壓</div>
+                                        <div class="text-[10px] font-semibold text-slate-200 leading-normal">100-240V~ 50/60Hz．全球適用</div>
+                                    </div>
                                 </div>
-                                <div class="space-y-1">
-                                    <h4 class="text-xs font-bold text-dyson-pink tracking-wide uppercase">TRAVEL READY</h4>
-                                    <p class="text-[11px] font-semibold text-slate-200">輕巧好收納 • 旅行好夥伴</p>
-                                    <p class="text-[10px] text-dyson-rose font-medium tracking-wider">PERFECT FOR EVERY JOURNEY</p>
+
+                                <div class="bg-white/5 border border-white/10 rounded-xl p-2.5 flex items-center gap-3 hover:border-dyson-pink/40 transition">
+                                    <div class="w-8 h-8 rounded-lg bg-dyson-pink/10 border border-dyson-pink/30 flex items-center justify-center shrink-0 p-1">
+                                        <img src="https://img2.91mai.com/o2o/image/e4fdaf70-c264-42d4-ad0b-6b615005d1e7.png" alt="Travel Ready" referrerpolicy="no-referrer" class="h-full object-contain filter brightness-120" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                    </div>
+                                    <div class="min-w-0">
+                                        <div class="text-[11px] font-bold text-dyson-pink tracking-wide uppercase leading-normal mb-0.5">TRAVEL READY 旅行好夥伴</div>
+                                        <div class="text-[10px] font-semibold text-slate-200 leading-normal">輕巧好收納．輕鬆好攜帶</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white/5 border border-white/10 rounded-xl p-2.5 flex items-center gap-3 hover:border-dyson-pink/40 transition">
+                                    <div class="w-8 h-8 rounded-lg bg-dyson-pink/10 border border-dyson-pink/30 flex items-center justify-center shrink-0 p-1">
+                                        <img src="https://img2.91mai.com/o2o/image/7317e915-5215-4653-870d-5e32b76fab4e.png" alt="Smart Temp Control" referrerpolicy="no-referrer" class="h-full object-contain filter brightness-120" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                    </div>
+                                    <div class="min-w-0">
+                                        <div class="text-[11px] font-bold text-dyson-pink tracking-wide uppercase leading-normal mb-0.5">SMART TEMPERATURE CONTROL 智慧控溫</div>
+                                        <div class="text-[10px] font-semibold text-slate-200 leading-normal">每秒智慧監測100次．秀髮零熱損</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Footer -->
-                        <div class="flex justify-between items-center border-t border-white/10 pt-2.5 text-[10px] text-slate-400">
+                        <div class="flex justify-between items-center border-t border-white/10 pt-1.5 text-[10px] text-slate-400 shrink-0">
                             <span>智慧護髮黑科技 • 隨行寵愛首選</span>
                             <span class="text-dyson-pink font-semibold flex items-center gap-1"><i class="fa-solid fa-plane-departure"></i> Ready To Take Off</span>
                         </div>
@@ -459,50 +413,55 @@
                 </div>
             </div>
 
+            <!-- Portrait Boarding Pass Container (320x580) -->
             <div id="wrapperPortrait" class="hidden w-full flex justify-center transition-all duration-300 perspective-1000">
                 <div id="cardInnerPortrait" onclick="toggleCardFlip()" class="transform-style-3d w-[320px] h-[580px] relative cursor-pointer group">
                     
                     <!-- PORTRAIT FRONT SIDE -->
                     <div id="ticketPortrait" class="backface-hidden w-full h-full bg-white shadow-2xl rounded-3xl overflow-hidden relative text-slate-800 flex flex-col justify-between absolute inset-0 border border-rose-100">
-                        
-                        <!-- Side Tear Hole Notches -->
                         <div class="ticket-tear-left shadow-inner"></div>
                         <div class="ticket-tear-right shadow-inner"></div>
 
-                        <!-- Header Banner -->
                         <div class="ticket-header-grad p-4 text-white relative overflow-hidden shrink-0">
                             <div class="flex justify-between items-center relative z-10">
                                 <div class="flex items-center space-x-2">
-                                    <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" class="h-4 object-contain filter invert brightness-200">
-                                    <span class="text-[9px] bg-white/20 backdrop-blur px-1.5 py-0.5 font-bold uppercase rounded">HD19</span>
+                                    <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" referrerpolicy="no-referrer" class="h-4 object-contain filter brightness-0 invert" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                    <img src="https://img2.91mai.com/o2o/image/868ce2a2-8242-44af-a034-4af1b72ea151.png" alt="Category Logo" referrerpolicy="no-referrer" class="h-3.5 object-contain filter brightness-0 invert" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                    <!-- Bulletproof SVG Image Pill Badge for Portrait HD19 -->
+                                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2248%22%20height%3D%2220%22%20viewBox%3D%220%200%2048%2020%22%3E%3Crect%20width%3D%2248%22%20height%3D%2220%22%20rx%3D%2210%22%20fill%3D%22rgba(255%2C255%2C255%2C0.3)%22%2F%3E%3Ctext%20x%3D%2224%22%20y%3D%2210.5%22%20font-family%3D%22Montserrat%2C%20Arial%2C%20sans-serif%22%20font-weight%3D%22800%22%20font-size%3D%2210%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22central%22%3EHD19%3C%2Ftext%3E%3C%2Fsvg%3E" alt="HD19" class="h-3.5 object-contain shrink-0">
                                 </div>
-                                <span class="text-xs font-black tracking-widest uppercase">BOARDING PASS</span>
+                                <span class="text-xs font-black tracking-widest uppercase font-serif">BOARDING PASS</span>
                             </div>
                             <p class="text-[8px] tracking-widest uppercase mt-1 text-white/90 font-bold">DYSON AIRWAYS • FLIGHT HD19</p>
                         </div>
 
-                        <!-- Unified Continuous White Ticket Body -->
-                        <div class="p-3.5 flex-1 flex flex-col justify-between bg-white divide-y divide-slate-100 overflow-hidden">
+                        <div class="px-4 py-3 flex-1 flex flex-col justify-between bg-white divide-y divide-slate-100 overflow-hidden">
                             
-                            <!-- 1. Dyson Product Showcase (Larger Image at Top) -->
-                            <div class="pb-2 relative h-32 flex items-center justify-center shrink-0">
-                                <img src="https://img.91app.com/webapi/imagesV3/Original/SalePage/11670106/2/639202210906470000?v=1" alt="Dyson HD19" class="h-full object-contain filter drop-shadow-md" onerror="this.onerror=null; this.src='https://placehold.co/180x180/f7ece8/d1828e?text=Dyson+HD19';">
-                                <div class="absolute bottom-0 right-1 flex items-center">
-                                    <img src="https://img2.91mai.com/o2o/image/868ce2a2-8242-44af-a034-4af1b72ea151.png" alt="Category Logo" class="h-3.5 object-contain" onerror="this.style.display='none';">
-                                </div>
+                            <div class="pb-1.5 relative h-32 flex items-center justify-center shrink-0">
+                                <img src="https://img.91app.com/webapi/imagesV3/Original/SalePage/11670106/2/639202210906470000?v=1" alt="Dyson HD19" referrerpolicy="no-referrer" class="w-28 h-28 object-contain rounded-2xl overflow-hidden" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                             </div>
 
-                            <!-- 2. Flight Route / Location -->
                             <div class="py-2 shrink-0">
-                                <div class="flex items-end justify-between px-1 min-h-[38px]">
-                                    <div class="text-left w-[42%] min-w-0 flex flex-col justify-end">
-                                        <p id="outOriginP" class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight leading-tight break-normal">TAIPEI</p>
+                                <div class="flex items-center justify-between px-1 min-h-[36px]">
+                                    <div class="text-left w-[38%] min-w-0 flex flex-col justify-center">
+                                        <p id="outOriginP" class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight leading-none break-normal">TAIPEI</p>
                                     </div>
-                                    <div class="text-center px-1 shrink-0 pb-1">
-                                        <i class="fa-solid fa-plane text-dyson-rose text-xs"></i>
+
+                                    <div class="w-16 px-1 flex flex-col items-center justify-center shrink-0">
+                                        <div class="w-full relative flex items-center justify-center h-5">
+                                            <div class="w-full border-t-2 border-dashed border-dyson-rose/60"></div>
+                                            <div class="absolute w-6 h-6 rounded-full bg-white/90 border border-white/80 shadow-sm flex items-center justify-center">
+                                                <svg class="w-3.5 h-3.5 text-dyson-rose fill-current" viewBox="0 0 24 24">
+                                                    <g transform="rotate(90 12 12)">
+                                                        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                                                    </g>
+                                                </svg>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="text-right w-[42%] min-w-0 flex flex-col justify-end">
-                                        <p id="outDestinationP" class="text-xl sm:text-2xl font-black text-dyson-rose tracking-tight leading-tight break-normal">LONDON</p>
+
+                                    <div class="text-right w-[38%] min-w-0 flex flex-col justify-center">
+                                        <p id="outDestinationP" class="text-xl sm:text-2xl font-black text-dyson-rose tracking-tight leading-none break-normal">LONDON</p>
                                     </div>
                                 </div>
 
@@ -513,94 +472,103 @@
                                 </div>
                             </div>
 
-                            <!-- 3. Ticket Flight Details (Pure White Background + Sharp Corners) -->
                             <div class="py-2 space-y-1.5 shrink-0 bg-white">
-                                <div class="flex justify-between items-center min-w-0">
-                                    <span class="text-[8px] font-bold text-slate-400 uppercase tracking-widest">PASSENGER</span>
-                                    <span id="outPassengerP" class="font-extrabold text-slate-900 text-xs truncate">YOU & ME</span>
+                                <div class="flex justify-between items-center min-w-0 pb-0.5">
+                                    <span class="text-[8px] font-bold text-slate-400 uppercase tracking-widest shrink-0 mr-1">PASSENGER</span>
+                                    <span id="outPassengerP" class="font-black text-dyson-rose text-[18px] leading-snug break-words text-right">YOU & ME</span>
                                 </div>
 
                                 <div class="flex justify-between items-center min-w-0">
-                                    <span class="text-[8px] font-bold text-slate-400 uppercase tracking-widest">CLASS</span>
-                                    <div id="outClassP" class="font-bold text-dyson-rose text-xs text-right leading-tight">
+                                    <span class="text-[8px] font-bold text-slate-400 uppercase tracking-widest shrink-0 mr-1">CLASS</span>
+                                    <div id="outClassP" class="font-bold text-dyson-rose text-xs text-right leading-snug min-w-0 max-w-[170px] break-words">
                                         First Class<br><span class="text-[9px] font-medium text-dyson-rose/80">頭等艙</span>
                                     </div>
                                 </div>
 
-                                <div class="grid grid-cols-4 gap-1 pt-1 text-center bg-white p-1.5 rounded-none border border-rose-100/60">
-                                    <div class="border-r border-rose-100 pr-0.5">
-                                        <p class="text-[7px] font-bold text-slate-400 uppercase tracking-wider">FLIGHT</p>
-                                        <p class="font-extrabold text-dyson-rose text-[9px] mt-0.5 truncate">HD19</p>
+                                <div class="grid grid-cols-4 gap-1 py-2 text-center bg-white rounded-xl border border-rose-100 items-start">
+                                    <div class="border-r border-rose-100 px-0.5 min-w-0">
+                                        <div class="text-[7px] font-bold text-slate-400 uppercase tracking-tight leading-normal mb-1">FLIGHT</div>
+                                        <div class="font-extrabold text-dyson-rose text-[9px] leading-normal">HD19</div>
                                     </div>
-                                    <div class="border-r border-rose-100 pr-0.5">
-                                        <p class="text-[7px] font-bold text-slate-400 uppercase tracking-wider">DATE</p>
-                                        <p id="outDateP" class="font-extrabold text-slate-800 text-[9px] mt-0.5 truncate">2026/08/19</p>
+                                    <div class="border-r border-rose-100 px-0.5 min-w-0">
+                                        <div class="text-[7px] font-bold text-slate-400 uppercase tracking-tight leading-normal mb-1">DATE</div>
+                                        <div id="outDateP" class="font-extrabold text-slate-800 text-[9px] leading-normal">2026/08/19</div>
                                     </div>
-                                    <div class="border-r border-rose-100 pr-0.5">
-                                        <p class="text-[6px] font-bold text-slate-400 uppercase tracking-wider">BOARDING TIME</p>
-                                        <p id="outTimeP" class="font-extrabold text-slate-800 text-[9px] mt-0.5 truncate">13:14</p>
+                                    <div class="border-r border-rose-100 px-0.5 min-w-0">
+                                        <div class="text-[6.5px] font-bold text-slate-400 uppercase tracking-tighter leading-normal mb-1">BOARDING TIME</div>
+                                        <div id="outTimeP" class="font-extrabold text-slate-800 text-[9px] leading-normal">13:14</div>
                                     </div>
-                                    <div>
-                                        <p class="text-[7px] font-bold text-slate-400 uppercase tracking-wider">GATE/SEAT</p>
-                                        <p class="font-extrabold text-dyson-rose text-[9px] mt-0.5 truncate"><span id="outGateP">19</span> / <span id="outSeatP">52A</span></p>
+                                    <div class="px-0.5 min-w-0">
+                                        <div class="text-[6.5px] font-bold text-slate-400 uppercase tracking-tighter leading-normal mb-1">GATE / SEAT</div>
+                                        <div class="font-extrabold text-dyson-rose text-[9px] leading-normal"><span id="outGateP">19</span> / <span id="outSeatP">52A</span></div>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- 4. Message Box (Rounded Corners, placed below Flight Details & above QR Code) -->
                             <div class="py-2 text-center bg-rose-50/80 rounded-2xl px-2.5 shrink-0 min-w-0 my-0.5 border border-rose-100">
-                                <p id="outMessageP" class="text-[11px] italic font-semibold text-dyson-rose line-clamp-2">"LOVE IS WORTH THE JOURNEY."</p>
-                                <p class="text-[8px] text-slate-400 mt-0.5 truncate">Supersonic Nural™ 吹護合一</p>
+                                <p id="outMessageP" class="text-sm italic font-semibold text-dyson-rose leading-snug break-words">"YOU ARE MY DESTINATION."</p>
+                                <p class="text-[8px] text-slate-400 mt-0.5 leading-tight">情人節限定 x 輕巧登機 x 完美造型<br>Supersonic Nural™ 吹護合一</p>
                             </div>
 
-                            <!-- 5. QR Code -->
                             <div class="pt-1 text-center flex justify-center shrink-0">
-                                <img src="https://img2.91mai.com/o2o/image/dce7f5e3-3616-4cb6-9e75-aa5f3c630298.png" alt="QR Code" class="h-10 w-10 object-contain mix-blend-multiply">
+                                <img id="qrCodePortrait" src="" alt="QR Code" class="h-12 w-12 object-contain rounded-none">
                             </div>
 
                         </div>
                     </div>
 
-                    <!-- PORTRAIT BACK SIDE (Dyson Specs Card) -->
+                    <!-- PORTRAIT BACK SIDE -->
                     <div id="ticketPortraitBack" class="backface-hidden rotate-y-180 bg-gradient-to-br from-[#1e1c24] via-[#2d2230] to-[#17121b] text-white w-full h-full rounded-3xl shadow-2xl p-5 border border-dyson-rose/40 flex flex-col justify-between absolute inset-0 overflow-hidden">
                         
-                        <div class="ticket-header-grad p-3 text-white relative -m-5 mb-2 shrink-0">
-                            <div class="flex justify-between items-center">
+                        <div class="ticket-header-grad p-3 text-white relative -m-5 mb-1 shrink-0">
+                            <div class="flex justify-between items-center px-1">
                                 <div class="flex items-center space-x-2">
-                                    <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" class="h-3.5 object-contain filter invert">
+                                    <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" referrerpolicy="no-referrer" class="h-4 object-contain filter brightness-0 invert" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                                     <span class="text-[9px] font-bold uppercase">HD19</span>
                                 </div>
-                                <span class="text-[10px] font-black uppercase">TRAVEL SPECIFICATIONS</span>
+                                <span class="text-[10px] font-black uppercase tracking-wider">TRAVEL SPECIFICATIONS</span>
                             </div>
                         </div>
 
-                        <div class="space-y-3 my-auto py-2">
-                            <!-- Feature 1 -->
-                            <div class="bg-white/5 border border-white/10 rounded-2xl p-3 flex items-start gap-2.5">
-                                <div class="w-10 h-10 rounded-xl bg-dyson-pink/10 border border-dyson-pink/30 flex items-center justify-center shrink-0 p-1">
-                                    <img src="https://img2.91mai.com/o2o/image/8f7026ab-fa75-439f-95ae-bcc5d3b6d994.png" alt="Worldwide Voltage" class="h-full object-contain filter brightness-120">
-                                </div>
-                                <div>
-                                    <h4 class="text-[11px] font-bold text-dyson-pink uppercase">WORLDWIDE VOLTAGE</h4>
-                                    <p class="text-[10px] font-semibold text-slate-200 mt-0.5">國際電壓設計 • 全球適用</p>
-                                    <p class="text-[9px] text-slate-400 mt-0.5">全球適用 100-240V~ 50/60Hz</p>
-                                </div>
+                        <div class="flex-1 flex flex-col justify-start space-y-2 pt-1">
+                            <div class="w-[140px] h-[140px] bg-white/5 border border-white/10 rounded-2xl shrink-0 mx-auto relative overflow-hidden">
+                                <img src="https://img2.91mai.com/o2o/image/8c945b4d-ce18-4ac1-8b0e-08d3f19d287a.png" alt="Dyson Product Back" referrerpolicy="no-referrer" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[100%] w-auto max-w-none max-h-none object-contain filter drop-shadow-md" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                             </div>
 
-                            <!-- Feature 2 -->
-                            <div class="bg-white/5 border border-white/10 rounded-2xl p-3 flex items-start gap-2.5">
-                                <div class="w-10 h-10 rounded-xl bg-dyson-pink/10 border border-dyson-pink/30 flex items-center justify-center shrink-0 p-1">
-                                    <img src="https://img2.91mai.com/o2o/image/e4fdaf70-c264-42d4-ad0b-6b615005d1e7.png" alt="Travel Ready" class="h-full object-contain filter brightness-120">
+                            <div class="space-y-1.5">
+                                <div class="bg-white/5 border border-white/10 rounded-xl p-2 flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-lg bg-dyson-pink/10 border border-dyson-pink/30 flex items-center justify-center shrink-0 p-1">
+                                        <img src="https://img2.91mai.com/o2o/image/8f7026ab-fa75-439f-95ae-bcc5d3b6d994.png" alt="Worldwide Voltage" referrerpolicy="no-referrer" class="h-full object-contain filter brightness-120" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                    </div>
+                                    <div class="min-w-0">
+                                        <div class="text-[11px] font-bold text-dyson-pink tracking-wide uppercase leading-normal mb-0.5">WORLDWIDE VOLTAGE 國際電壓</div>
+                                        <div class="text-[10px] font-semibold text-slate-200 leading-normal">100-240V~ 50/60Hz．全球適用</div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h4 class="text-[11px] font-bold text-dyson-pink uppercase">TRAVEL READY</h4>
-                                    <p class="text-[10px] font-semibold text-slate-200 mt-0.5">輕巧好收納 • 旅行好夥伴</p>
-                                    <p class="text-[9px] text-dyson-rose font-medium mt-0.5">PERFECT FOR EVERY JOURNEY</p>
+
+                                <div class="bg-white/5 border border-white/10 rounded-xl p-2 flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-lg bg-dyson-pink/10 border border-dyson-pink/30 flex items-center justify-center shrink-0 p-1">
+                                        <img src="https://img2.91mai.com/o2o/image/e4fdaf70-c264-42d4-ad0b-6b615005d1e7.png" alt="Travel Ready" referrerpolicy="no-referrer" class="h-full object-contain filter brightness-120" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                    </div>
+                                    <div class="min-w-0">
+                                        <div class="text-[11px] font-bold text-dyson-pink tracking-wide uppercase leading-normal mb-0.5">TRAVEL READY 旅行好夥伴</div>
+                                        <div class="text-[10px] font-semibold text-slate-200 leading-normal">輕巧好收納．輕鬆好攜帶</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white/5 border border-white/10 rounded-xl p-2 flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-lg bg-dyson-pink/10 border border-dyson-pink/30 flex items-center justify-center shrink-0 p-1">
+                                        <img src="https://img2.91mai.com/o2o/image/7317e915-5215-4653-870d-5e32b76fab4e.png" alt="Smart Temp Control" referrerpolicy="no-referrer" class="h-full object-contain filter brightness-120" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                    </div>
+                                    <div class="min-w-0">
+                                        <div class="text-[11px] font-bold text-dyson-pink tracking-wide uppercase leading-normal mb-0.5">SMART TEMPERATURE CONTROL 智慧控溫</div>
+                                        <div class="text-[10px] font-semibold text-slate-200 leading-normal">每秒智慧監測100次．秀髮零熱損</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="border-t border-white/10 pt-2 text-center text-[9px] text-slate-400 shrink-0">
+                        <div class="border-t border-white/10 pt-1.5 text-center text-[9px] text-slate-400 shrink-0">
                             <p>Dyson Supersonic Nural™ 隨行護航</p>
                         </div>
 
@@ -627,206 +595,444 @@
         let currentMode = 'landscape';
         let isFlipped = false;
 
-        // 5 Specific Ticket Classes Pool
-        const classPool = [
+        const classOptions = [
             { en: 'First Class', zh: '頭等艙' },
             { en: 'Business Class', zh: '商務艙' },
             { en: 'Premium Economy Class', zh: '豪經艙' },
             { en: 'Economy Class', zh: '經濟艙' },
-            { en: 'NURAL™ First Class', zh: 'dyson專屬艙' }
+            { en: 'Love VIP Class', zh: '戀人專屬頭等艙' },
+            { en: 'Dyson VIP Class', zh: 'Dyson限定艙' }
         ];
 
-        // 3 Romantic Slogans Pool for random load
-        const sloganPool = [
-            "LOVE IS WORTH THE JOURNEY.",
-            "YOU ARE MY DESTINATION.",
-            "下一站，想見的人。"
-        ];
+        let currentClassObj = classOptions[0];
 
-        // Initialization on DOM load
-        document.addEventListener('DOMContentLoaded', () => {
-            const outClassStub = document.getElementById('outClassStub');
-            const outClassP = document.getElementById('outClassP');
-            const randomClass = classPool[Math.floor(Math.random() * classPool.length)];
+        window.onload = function() {
+            currentClassObj = getRandomClass();
+            setupEventListeners();
+            initQrCode();
+            updatePass();
+            preloadAllImagesToDataUrls();
+        };
 
-            if (outClassStub) {
-                outClassStub.innerHTML = `${randomClass.en}<br><span class="text-[9px] font-medium text-slate-500">${randomClass.zh}</span>`;
-            }
-            if (outClassP) {
-                outClassP.innerHTML = `${randomClass.en}<br><span class="text-[9px] font-medium text-dyson-rose/80">${randomClass.zh}</span>`;
-            }
-
-            // Random slogan selection
-            const randomSlogan = sloganPool[Math.floor(Math.random() * sloganPool.length)];
-            const msgInput = document.getElementById('inMessage');
-            if (msgInput) {
-                msgInput.value = randomSlogan;
-                msgInput.dispatchEvent(new Event('input'));
-            }
-
-            adjustRouteFontSize();
-        });
-
-        // 3D Flip Card Toggle Handler
-        function toggleCardFlip() {
-            isFlipped = !isFlipped;
-            const innerL = document.getElementById('cardInnerLandscape');
-            const innerP = document.getElementById('cardInnerPortrait');
-
-            if (isFlipped) {
-                innerL.classList.add('rotate-y-180');
-                innerP.classList.add('rotate-y-180');
-                showToast("已翻轉檢視 Dyson 隨行護航規格卡 (背面)");
-            } else {
-                innerL.classList.remove('rotate-y-180');
-                innerP.classList.remove('rotate-y-180');
-                showToast("已翻轉回浪漫情人節登機證 (正面)");
-            }
-        }
-
-        // Apply romantic mode preset
-        function applyModePreset(type) {
-            const originInput = document.getElementById('inOrigin');
-            const destInput = document.getElementById('inDestination');
-            const msgInput = document.getElementById('inMessage');
-
-            if (type === 'gift') {
-                if (originInput) originInput.value = 'MY HEART';
-                destInput.value = 'YOUR HEART';
-                msgInput.value = 'FROM MY HEART TO YOUR HEART.';
-                showToast("已套用【飛向心愛的人】模式");
-            } else if (type === 'together') {
-                if (originInput) originInput.value = 'TAIPEI';
-                destInput.value = 'LONDON';
-                msgInput.value = 'LOVE IS WORTH THE JOURNEY.';
-                showToast("已套用【浪漫同行】模式");
-            }
-
-            if (originInput) originInput.dispatchEvent(new Event('input'));
-            destInput.dispatchEvent(new Event('input'));
-            msgInput.dispatchEvent(new Event('input'));
-        }
-
-        // Input field mapping logic
-        const fieldMap = [
-            { id: 'inPassenger', targets: ['outPassengerStub', 'outPassengerP'] },
-            { id: 'inOrigin', targets: ['outOriginL', 'outOriginP'] },
-            { id: 'inDestination', targets: ['outDestinationL', 'outDestinationP'] },
-            { id: 'inDate', targets: ['outDateStub', 'outDateP'] },
-            { id: 'inTime', targets: ['outTimeStub', 'outTimeP'] },
-            { id: 'inGate', targets: ['outGateStub', 'outGateP'] },
-            { id: 'inSeat', targets: ['outSeatStub', 'outSeatP'] },
-            { id: 'inMessage', targets: ['outMessageL', 'outMessageP'], prefix: '"', suffix: '"' }
-        ];
-
-        // Dynamic route font size adjustment
-        function adjustRouteFontSize() {
-            const origL = document.getElementById('outOriginL');
-            const destL = document.getElementById('outDestinationL');
-            if (origL && destL) {
-                const maxLen = Math.max((origL.innerText || '').length, (destL.innerText || '').length);
-                let fontClass = 'text-2xl sm:text-3xl leading-none';
-                if (maxLen > 12) {
-                    fontClass = 'text-lg sm:text-xl leading-tight';
-                } else if (maxLen > 7) {
-                    fontClass = 'text-xl sm:text-2xl leading-tight';
-                }
-                
-                origL.className = `${fontClass} font-black text-slate-800 tracking-tight font-sans break-normal`;
-                destL.className = `${fontClass} font-black text-dyson-rose tracking-tight font-sans break-normal`;
-            }
-
-            const origP = document.getElementById('outOriginP');
-            const destP = document.getElementById('outDestinationP');
-            if (origP && destP) {
-                const maxLen = Math.max((origP.innerText || '').length, (destP.innerText || '').length);
-                let fontClass = 'text-xl sm:text-2xl leading-none';
-                if (maxLen > 12) {
-                    fontClass = 'text-sm sm:text-base leading-tight';
-                } else if (maxLen > 7) {
-                    fontClass = 'text-base sm:text-lg leading-tight';
-                }
-
-                origP.className = `${fontClass} font-black text-slate-800 tracking-tight leading-tight break-normal`;
-                destP.className = `${fontClass} font-black text-dyson-rose tracking-tight leading-tight break-normal`;
-            }
-        }
-
-        // Passenger Character Counter
-        const passengerInput = document.getElementById('inPassenger');
-        const charCountEl = document.getElementById('charCount');
-        if (passengerInput && charCountEl) {
-            passengerInput.addEventListener('input', (e) => {
-                charCountEl.innerText = `${e.target.value.length}/20`;
-            });
-        }
-
-        // Live Preview Binding
-        fieldMap.forEach(item => {
-            const inputEl = document.getElementById(item.id);
-            if (!inputEl) return;
-
-            inputEl.addEventListener('input', (e) => {
-                let val = e.target.value;
-                if (item.id !== 'inMessage') {
-                    val = val.toUpperCase();
-                }
-
-                item.targets.forEach(targetId => {
-                    const targetEl = document.getElementById(targetId);
-                    if (targetEl) {
-                        targetEl.innerText = `${item.prefix || ''}${val}${item.suffix || ''}`;
+        async function preloadAllImagesToDataUrls() {
+            const images = document.querySelectorAll('img');
+            for (const img of images) {
+                if (!img.src || img.src.startsWith('data:')) continue;
+                try {
+                    const dataUrl = await imageToDataUrl(img.src, img.alt || img.id || '');
+                    if (dataUrl && dataUrl.startsWith('data:')) {
+                        img.src = dataUrl;
                     }
-                });
-
-                if (item.id === 'inOrigin' || item.id === 'inDestination') {
-                    adjustRouteFontSize();
+                } catch (e) {
+                    console.log('Preload error for image:', img.src);
                 }
-            });
-        });
-
-        function setDestination(destName) {
-            const destInput = document.getElementById('inDestination');
-            destInput.value = destName;
-            destInput.dispatchEvent(new Event('input'));
-            showToast(`已套用目的地: ${destName}`);
+            }
         }
 
-        function setDate(dateStr) {
-            const dateInput = document.getElementById('inDate');
-            dateInput.value = dateStr;
-            dateInput.dispatchEvent(new Event('input'));
-            const label = dateStr === '2026-08-19' ? '七夕情人節 (08/19)' : '2/14 情人節';
-            showToast(`已設定登機日期: ${label}`);
+        function getRandomClass() {
+            const idx = Math.floor(Math.random() * classOptions.length);
+            return classOptions[idx];
+        }
+
+        function initQrCode() {
+            // Generate a 100% native Base64 QR Code to prevent CORS/html2canvas export missing issue
+            const targetUrl = "https://www.dyson.tw/";
+            const tempContainer = document.createElement('div');
+            tempContainer.style.display = 'none';
+            document.body.appendChild(tempContainer);
+
+            function applyQrDataUrl(dataUrl) {
+                const qrL = document.getElementById('qrCodeLandscape');
+                const qrP = document.getElementById('qrCodePortrait');
+                if (qrL) qrL.src = dataUrl;
+                if (qrP) qrP.src = dataUrl;
+            }
+
+            // Set initial reliable vector fallback
+            const defaultSvgQr = getFallbackSvgDataUrl('qr');
+            applyQrDataUrl(defaultSvgQr);
+
+            if (typeof QRCode !== 'undefined') {
+                try {
+                    const qrcode = new QRCode(tempContainer, {
+                        text: targetUrl,
+                        width: 160,
+                        height: 160,
+                        colorDark: "#1e1c24",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.M
+                    });
+
+                    setTimeout(() => {
+                        const img = tempContainer.querySelector('img');
+                        const cvs = tempContainer.querySelector('canvas');
+                        let dataUrl = '';
+                        if (img && img.src && img.src.startsWith('data:')) {
+                            dataUrl = img.src;
+                        } else if (cvs) {
+                            dataUrl = cvs.toDataURL('image/png');
+                        }
+                        if (dataUrl) {
+                            applyQrDataUrl(dataUrl);
+                        }
+                        if (document.body.contains(tempContainer)) {
+                            document.body.removeChild(tempContainer);
+                        }
+                    }, 100);
+                } catch (e) {
+                    console.log("QRCode library init error, using vector QR code fallback");
+                }
+            }
+        }
+
+        function setupEventListeners() {
+            const inputs = ['inPassenger', 'inOrigin', 'inDestination', 'inDate', 'inTime', 'inGate', 'inSeat', 'inMessage'];
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('input', () => {
+                        updatePass();
+                        if (id === 'inPassenger') {
+                            const countEl = document.getElementById('charCount');
+                            if (countEl) countEl.innerText = `${el.value.length}/18`;
+                        }
+                    });
+                }
+            });
+        }
+
+        function updatePass() {
+            const passenger = document.getElementById('inPassenger')?.value || 'YOU & ME';
+            const origin = (document.getElementById('inOrigin')?.value || 'TAIPEI').toUpperCase();
+            const destination = (document.getElementById('inDestination')?.value || 'YOUR HEART').toUpperCase();
+            const rawDate = document.getElementById('inDate')?.value || '2026-08-19';
+            const formattedDate = rawDate.replace(/-/g, '/');
+            const time = document.getElementById('inTime')?.value || '13:14';
+            const gate = document.getElementById('inGate')?.value || '19';
+            const seat = document.getElementById('inSeat')?.value || '52A';
+            const message = document.getElementById('inMessage')?.value || 'YOU ARE MY DESTINATION.';
+
+            // Render Class dynamically from random selection
+            const classHtmlStub = `${currentClassObj.en}<br><span class="text-[9px] font-medium text-slate-500">${currentClassObj.zh}</span>`;
+            const classHtmlP = `${currentClassObj.en}<br><span class="text-[9px] font-medium text-slate-500">${currentClassObj.zh}</span>`;
+
+            // Landscape updates
+            setText('outPassengerStub', passenger);
+            setText('outOriginL', origin);
+            setText('outDestinationL', destination);
+            setText('outDateStub', formattedDate);
+            setText('outTimeStub', time);
+            setText('outGateStub', gate);
+            setText('outSeatStub', seat);
+            setText('outMessageL', `"${message}"`);
+
+            const elClassStub = document.getElementById('outClassStub');
+            if (elClassStub) elClassStub.innerHTML = classHtmlStub;
+
+            // Portrait updates
+            setText('outPassengerP', passenger);
+            setText('outOriginP', origin);
+            setText('outDestinationP', destination);
+            setText('outDateP', formattedDate);
+            setText('outTimeP', time);
+            setText('outGateP', gate);
+            setText('outSeatP', seat);
+            setText('outMessageP', `"${message}"`);
+
+            const elClassP = document.getElementById('outClassP');
+            if (elClassP) elClassP.innerHTML = classHtmlP;
+        }
+
+        function setText(id, value) {
+            const el = document.getElementById(id);
+            if (el) el.innerText = value;
         }
 
         function switchMode(mode) {
             currentMode = mode;
-            const wLandscape = document.getElementById('wrapperLandscape');
-            const wPortrait = document.getElementById('wrapperPortrait');
+            const wrapL = document.getElementById('wrapperLandscape');
+            const wrapP = document.getElementById('wrapperPortrait');
             const btnL = document.getElementById('btnModeLandscape');
             const btnP = document.getElementById('btnModePortrait');
 
             if (mode === 'landscape') {
-                wLandscape.classList.remove('hidden');
-                wPortrait.classList.add('hidden');
-                
+                wrapL.classList.remove('hidden');
+                wrapP.classList.add('hidden');
                 btnL.className = "py-2.5 px-3 rounded-xl border border-dyson-pink bg-dyson-pink/20 text-white font-semibold text-xs flex items-center justify-center gap-2 transition shadow-lg";
                 btnP.className = "py-2.5 px-3 rounded-xl border border-white/10 bg-black/30 text-slate-300 hover:text-white font-semibold text-xs flex items-center justify-center gap-2 transition";
             } else {
-                wLandscape.classList.add('hidden');
-                wPortrait.classList.remove('hidden');
-
+                wrapL.classList.add('hidden');
+                wrapP.classList.remove('hidden');
                 btnP.className = "py-2.5 px-3 rounded-xl border border-dyson-pink bg-dyson-pink/20 text-white font-semibold text-xs flex items-center justify-center gap-2 transition shadow-lg";
                 btnL.className = "py-2.5 px-3 rounded-xl border border-white/10 bg-black/30 text-slate-300 hover:text-white font-semibold text-xs flex items-center justify-center gap-2 transition";
             }
-            showToast(`已切換為${mode === 'landscape' ? '橫式電腦/分享版' : '直式手機版'}`);
+
+            if (isFlipped) {
+                isFlipped = false;
+                resetFlipVisuals();
+            }
         }
 
-        // Image Download Handler
-        function downloadBoardingPass() {
-            showToast("正在生成專屬圖檔...", "fa-spinner fa-spin");
+        function toggleCardFlip() {
+            isFlipped = !isFlipped;
+            const targetId = currentMode === 'landscape' ? 'cardInnerLandscape' : 'cardInnerPortrait';
+            const card = document.getElementById(targetId);
+            if (card) {
+                if (isFlipped) {
+                    card.classList.add('rotate-y-180');
+                } else {
+                    card.classList.remove('rotate-y-180');
+                }
+            }
+        }
+
+        function resetFlipVisuals() {
+            const cardL = document.getElementById('cardInnerLandscape');
+            const cardP = document.getElementById('cardInnerPortrait');
+            if (cardL) cardL.classList.remove('rotate-y-180');
+            if (cardP) cardP.classList.remove('rotate-y-180');
+        }
+
+        function applyModePreset(preset) {
+            const elPass = document.getElementById('inPassenger');
+            const elDest = document.getElementById('inDestination');
+            const elMsg = document.getElementById('inMessage');
+
+            if (preset === 'gift') {
+                if (elPass) elPass.value = 'MY BELOVED';
+                if (elDest) elDest.value = 'YOUR HEART';
+                if (elMsg) elMsg.value = 'EVERY MOMENT WITH YOU IS MY FAVORITE DESTINATION.';
+                currentClassObj = classOptions.find(c => c.en === 'Love VIP Class') || getRandomClass();
+                showToast("已載入「飛向心愛的人」浪漫設定！");
+            } else if (preset === 'together') {
+                if (elPass) elPass.value = 'YOU & ME';
+                if (elDest) elDest.value = 'FOREVER';
+                if (elMsg) elMsg.value = 'FLYING TOGETHER INTO OUR BRIGHT FUTURE.';
+                currentClassObj = classOptions.find(c => c.en === 'First Class') || getRandomClass();
+                showToast("已載入「浪漫同行」專屬設定！");
+            }
+            updatePass();
+        }
+
+        function randomizeInspiration() {
+            const messages = [
+                "YOU ARE MY DESTINATION.",
+                "EVERY MOMENT WITH YOU IS MAGICAL.",
+                "FLYING HIGH ON YOUR LOVE.",
+                "TO THE MOON AND BACK, WITH YOU.",
+                "MY FAVORITE PLACE IS NEXT TO YOU.",
+                "LOVE IS IN THE AIR, ALWAYS WITH YOU."
+            ];
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            const elMsg = document.getElementById('inMessage');
+            if (elMsg) elMsg.value = randomMsg;
+            currentClassObj = getRandomClass();
+            updatePass();
+            showToast("已隨機套用浪漫靈感與機票艙等！");
+        }
+
+        function setDestination(dest) {
+            const elDest = document.getElementById('inDestination');
+            if (elDest) elDest.value = dest;
+            updatePass();
+        }
+
+        function setDate(dateStr) {
+            const elDate = document.getElementById('inDate');
+            if (elDate) elDate.value = dateStr;
+            updatePass();
+        }
+
+        function randomizeInspiration() {
+            const messages = [
+                "YOU ARE MY DESTINATION.",
+                "EVERY MOMENT WITH YOU IS MAGICAL.",
+                "FLYING HIGH ON YOUR LOVE.",
+                "TO THE MOON AND BACK, WITH YOU.",
+                "MY FAVORITE PLACE IS NEXT TO YOU.",
+                "LOVE IS IN THE AIR, ALWAYS WITH YOU."
+            ];
+            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+            document.getElementById('inMessage').value = randomMsg;
+            currentClassObj = getRandomClass();
+            updatePass();
+            showToast("已隨機套用浪漫靈感與機票艙等！");
+        }
+
+        function setDestination(dest) {
+            document.getElementById('inDestination').value = dest;
+            updatePass();
+        }
+
+        function setDate(dateStr) {
+            document.getElementById('inDate').value = dateStr;
+            updatePass();
+        }
+
+        function showToast(msg, iconClass = "fa-circle-check") {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            const toastIcon = document.getElementById('toastIcon');
+            if (!toast) return;
+
+            toastMsg.innerText = msg;
+            toastIcon.className = `fa-solid ${iconClass} text-dyson-pink text-lg`;
+
+            toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
+            }, 2500);
+        }
+
+        function playAirportChime() {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+
+                const now = ctx.currentTime;
+                
+                const osc1 = ctx.createOscillator();
+                const gain1 = ctx.createGain();
+                osc1.type = 'sine';
+                osc1.frequency.setValueAtTime(698.46, now);
+                gain1.gain.setValueAtTime(0, now);
+                gain1.gain.linearRampToValueAtTime(0.3, now + 0.05);
+                gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+                osc1.connect(gain1);
+                gain1.connect(ctx.destination);
+                osc1.start(now);
+                osc1.stop(now + 0.8);
+
+                const osc2 = ctx.createOscillator();
+                const gain2 = ctx.createGain();
+                osc2.type = 'sine';
+                osc2.frequency.setValueAtTime(523.25, now + 0.35);
+                gain2.gain.setValueAtTime(0, now + 0.35);
+                gain2.gain.linearRampToValueAtTime(0.35, now + 0.4);
+                gain2.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+                osc2.connect(gain2);
+                gain2.connect(ctx.destination);
+                osc2.start(now + 0.35);
+                osc2.stop(now + 1.2);
+            } catch (e) {
+                console.log("Audio not supported or blocked");
+            }
+        }
+
+        function getFallbackSvgDataUrl(imgOrType, isDark = false) {
+            let type = '';
+            if (typeof imgOrType === 'string') {
+                type = imgOrType.toLowerCase();
+            } else if (typeof imgOrType === 'object' && imgOrType !== null) {
+                const alt = (imgOrType.alt || '').toLowerCase();
+                const src = (imgOrType.src || '').toLowerCase();
+                const id = (imgOrType.id || '').toLowerCase();
+                type = alt + ' ' + src + ' ' + id;
+            }
+
+            const logoColor = isDark ? '#ffffff' : '#1e1c24';
+            let svg = '';
+
+            if (type.includes('qr') || type.includes('384e9d67') || type.includes('dce7f5e3')) {
+                // High-resolution vector QR code SVG Data URL
+                svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#ffffff" rx="0"/><rect x="8" y="8" width="28" height="28" rx="0" fill="#1e1c24"/><rect x="13" y="13" width="18" height="18" rx="0" fill="#ffffff"/><rect x="17" y="17" width="10" height="10" rx="0" fill="#d1828e"/><rect x="64" y="8" width="28" height="28" rx="0" fill="#1e1c24"/><rect x="69" y="13" width="18" height="18" rx="0" fill="#ffffff"/><rect x="73" y="17" width="10" height="10" rx="0" fill="#d1828e"/><rect x="8" y="64" width="28" height="28" rx="0" fill="#1e1c24"/><rect x="13" y="69" width="18" height="18" rx="0" fill="#ffffff"/><rect x="17" y="73" width="10" height="10" rx="0" fill="#d1828e"/><rect x="68" y="68" width="14" height="14" rx="0" fill="#1e1c24"/><rect x="71" y="71" width="8" height="8" rx="0" fill="#ffffff"/><rect x="73" y="73" width="4" height="4" rx="0" fill="#d1828e"/><g fill="#1e1c24"><rect x="42" y="10" width="5" height="5"/><rect x="50" y="10" width="5" height="5"/><rect x="42" y="18" width="5" height="5"/><rect x="50" y="26" width="5" height="5"/><rect x="10" y="42" width="5" height="5"/><rect x="18" y="42" width="5" height="5"/><rect x="26" y="42" width="5" height="5"/><rect x="34" y="42" width="5" height="5"/><rect x="42" y="42" width="5" height="5"/><rect x="50" y="42" width="5" height="5"/><rect x="58" y="42" width="5" height="5"/><rect x="66" y="42" width="5" height="5"/><rect x="74" y="42" width="5" height="5"/><rect x="82" y="42" width="5" height="5"/><rect x="42" y="50" width="5" height="5"/><rect x="50" y="50" width="5" height="5"/><rect x="58" y="50" width="5" height="5"/><rect x="42" y="58" width="5" height="5"/><rect x="58" y="58" width="5" height="5"/><rect x="82" y="50" width="5" height="5"/><rect x="82" y="58" width="5" height="5"/><rect x="10" y="50" width="5" height="5"/><rect x="26" y="50" width="5" height="5"/><rect x="34" y="58" width="5" height="5"/><rect x="42" y="66" width="5" height="5"/><rect x="50" y="66" width="5" height="5"/><rect x="42" y="74" width="5" height="5"/><rect x="58" y="74" width="5" height="5"/><rect x="50" y="82" width="5" height="5"/><rect x="58" y="82" width="5" height="5"/><rect x="82" y="82" width="5" height="5"/></g><g fill="#d1828e"><rect x="50" y="18" width="5" height="5"/><rect x="42" y="26" width="5" height="5"/><rect x="50" y="34" width="5" height="5"/><rect x="58" y="34" width="5" height="5"/><rect x="50" y="58" width="5" height="5"/><rect x="66" y="50" width="5" height="5"/><rect x="74" y="58" width="5" height="5"/><rect x="18" y="50" width="5" height="5"/><rect x="18" y="58" width="5" height="5"/><rect x="50" y="74" width="5" height="5"/><rect x="42" y="82" width="5" height="5"/></g></svg>`;
+            } else if (type.includes('dyson_back') || type.includes('8c945b4d')) {
+                svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240"><rect width="240" height="240" rx="20" fill="#2a1f2e" stroke="rgba(244,184,190,0.2)" stroke-width="2"/><defs><linearGradient id="pGrad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fce8eb"/><stop offset="100%" stop-color="#d1828e"/></linearGradient><linearGradient id="bGrad1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e0a96d"/><stop offset="100%" stop-color="#b86b72"/></linearGradient></defs><g transform="translate(18, 15)"><circle cx="45" cy="55" r="32" fill="none" stroke="url(#pGrad1)" stroke-width="14"/><circle cx="45" cy="55" r="22" fill="#1e1c24"/><circle cx="45" cy="55" r="12" fill="url(#bGrad1)"/><circle cx="45" cy="55" r="5" fill="#ffffff" opacity="0.9"/><rect x="38" y="86" width="14" height="95" rx="7" fill="url(#pGrad1)"/><rect x="38" y="145" width="14" height="32" rx="4" fill="#17121b"/></g><g transform="translate(115, 15)"><rect x="10" y="32" width="65" height="46" rx="8" fill="url(#pGrad1)"/><rect x="5" y="30" width="12" height="50" rx="4" fill="#1e1c24"/><rect x="62" y="35" width="15" height="40" rx="4" fill="url(#bGrad1)"/><rect x="35" y="78" width="14" height="103" rx="7" fill="url(#pGrad1)"/><rect x="35" y="145" width="14" height="32" rx="4" fill="#17121b"/></g></svg>`;
+            } else if (type.includes('hd19') || type.includes('639202210906470000')) {
+                svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180"><rect width="180" height="180" rx="20" fill="none"/><defs><linearGradient id="pGrad2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fce8eb"/><stop offset="50%" stop-color="#f4b8be"/><stop offset="100%" stop-color="#d1828e"/></linearGradient><linearGradient id="bGrad2" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#e0a96d"/><stop offset="100%" stop-color="#b86b72"/></linearGradient></defs><circle cx="90" cy="62" r="38" fill="none" stroke="url(#pGrad2)" stroke-width="16"/><circle cx="90" cy="62" r="26" fill="#1e1c24"/><circle cx="90" cy="62" r="14" fill="url(#bGrad2)"/><circle cx="90" cy="62" r="6" fill="#ffffff" opacity="0.95"/><rect x="82" y="98" width="16" height="68" rx="8" fill="url(#pGrad2)"/><rect x="82" y="142" width="16" height="22" rx="4" fill="#2d2230"/></svg>`;
+            } else if (type.includes('dyson') || type.includes('b547989b')) {
+                svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 44"><g fill="${logoColor}"><path d="M26,6 h7 v32 h-7 v-3.5 C24,37 21,39 16.5,39 C8.5,39 2,32 2,23 C2,14 8.5,7 16.5,7 C21,7 24,9 26,11.5 Z M18,13.5 C12.5,13.5 8.5,17.5 8.5,23 C8.5,28.5 12.5,32.5 18,32.5 C23.5,32.5 27.5,28.5 27.5,23 C27.5,17.5 23.5,13.5 18,13.5 Z"/><path d="M38,14 h7.5 l5.5,14 l5.5,-14 h7.5 l-9.5,22 c-2.5,6 -5.5,8.5 -11.5,8.5 h-3 v-6 h2 c3,0 4.5,-1 6,-5 Z"/><path d="M85,14 v6 c-2,-1.5 -4.5,-2.5 -7.5,-2.5 c-3.5,0 -5.5,1.5 -5.5,3.5 c0,2.5 3,3.5 7.5,5 c6,2 10.5,4.5 10.5,10.5 C90,43 82.5,46 75,46 C70.5,46 66.5,44.5 63.5,42 v-6.5 c2.5,2 5.5,3.5 9,3.5 c4,0 6,-1.5 6,-4 c0,-2.5 -2.5,-3.5 -7.5,-5 C65,28 60.5,25.5 60.5,19.5 C60.5,13.5 67,11 74.5,11 C78.5,11 82,12 85,14 Z"/><path d="M109,11 C118,11 125,18 125,27 C125,36 118,43 109,43 C100,43 93,36 93,27 C93,18 100,11 109,11 Z M109,17.5 C103.5,17.5 99.5,21.5 99.5,27 C99.5,32.5 103.5,36.5 109,36.5 C114.5,36.5 118.5,32.5 118.5,27 C118.5,21.5 114.5,17.5 109,17.5 Z"/><path d="M131,14 h6.5 v3.5 c2,-2.5 5.5,-4 9.5,-4 c7,0 11,4.5 11,12 v13 h-7 v-12 c0,-4.5 -2,-7 -6,-7 c-4,0 -7,2.5 -7,7 v12 h-7 Z"/></g></svg>`;
+            } else if (type.includes('voltage') || type.includes('8f7026ab')) {
+                svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#d1828e" fill-opacity="0.2" stroke="#f4b8be" stroke-width="2"/><path d="M32 12 L18 32 L28 32 L26 48 L42 28 L32 28 Z" fill="#f4b8be"/></svg>`;
+            } else if (type.includes('travel') || type.includes('e4fdaf70')) {
+                svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#d1828e" fill-opacity="0.2" stroke="#f4b8be" stroke-width="2"/><rect x="18" y="22" width="24" height="24" rx="4" fill="none" stroke="#f4b8be" stroke-width="3"/><path d="M24 22 V16 A4 4 0 0 1 36 16 V22" fill="none" stroke="#f4b8be" stroke-width="3"/><line x1="24" y1="46" x2="24" y2="50" stroke="#f4b8be" stroke-width="3"/><line x1="36" y1="46" x2="36" y2="50" stroke="#f4b8be" stroke-width="3"/></svg>`;
+            } else if (type.includes('temp') || type.includes('7317e915')) {
+                svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"><circle cx="30" cy="30" r="28" fill="#d1828e" fill-opacity="0.2" stroke="#f4b8be" stroke-width="2"/><path d="M30 14 v20 a6 6 0 1 0 0 12 a6 6 0 0 0 0 -12 v-20" fill="none" stroke="#f4b8be" stroke-width="3"/><circle cx="30" cy="40" r="4" fill="#f4b8be"/></svg>`;
+            } else {
+                svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30"><rect width="100" height="30" rx="6" fill="#fce8eb"/><circle cx="15" cy="15" r="6" fill="#d1828e"/></svg>`;
+            }
+
+            return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+        }
+
+        async function imageToDataUrl(url, alt) {
+            if (!url || url.startsWith('data:')) return url;
+
+            // Attempt 1: Direct CORS fetch
+            try {
+                const res = await fetch(url, { mode: 'cors' });
+                if (res.ok) {
+                    const blob = await res.blob();
+                    const dataUrl = await blobToDataUrl(blob);
+                    if (dataUrl) return dataUrl;
+                }
+            } catch (e) {}
+
+            // Attempt 2: Multi-proxy fetch (handles img.91app.com & img2.91mai.com)
+            const proxies = [
+                `https://images.weserv.nl/?url=${encodeURIComponent(url)}`,
+                `https://corsproxy.io/?${encodeURIComponent(url)}`,
+                `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
+            ];
+
+            for (const proxyUrl of proxies) {
+                try {
+                    const res = await fetch(proxyUrl);
+                    if (res.ok) {
+                        const blob = await res.blob();
+                        const dataUrl = await blobToDataUrl(blob);
+                        if (dataUrl) return dataUrl;
+                    }
+                } catch (e) {}
+            }
+
+            // Attempt 3: Canvas drawing
+            try {
+                const dataUrl = await new Promise((resolve) => {
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.onload = () => {
+                        try {
+                            const cvs = document.createElement('canvas');
+                            cvs.width = img.naturalWidth || img.width || 200;
+                            cvs.height = img.naturalHeight || img.height || 200;
+                            const ctx = cvs.getContext('2d');
+                            ctx.drawImage(img, 0, 0);
+                            resolve(cvs.toDataURL('image/png'));
+                        } catch (err) {
+                            resolve(null);
+                        }
+                    };
+                    img.onerror = () => resolve(null);
+                    img.src = `https://images.weserv.nl/?url=${encodeURIComponent(url)}`;
+                });
+                if (dataUrl) return dataUrl;
+            } catch (e) {}
+
+            // Ultimate fallback: guaranteed SVG Data URL
+            return getFallbackSvgDataUrl(alt);
+        }
+
+        function blobToDataUrl(blob) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror = () => resolve(null);
+                reader.readAsDataURL(blob);
+            });
+        }
+
+        async function downloadBoardingPass() {
+            showToast("正在根據 HTML 畫面導出高畫質圖檔...", "fa-spinner fa-spin");
             playAirportChime();
+
+            if (document.fonts && document.fonts.ready) {
+                await document.fonts.ready;
+            }
 
             let targetId = '';
             if (currentMode === 'landscape') {
@@ -835,72 +1041,87 @@
                 targetId = isFlipped ? 'ticketPortraitBack' : 'ticketPortrait';
             }
 
-            const element = document.getElementById(targetId);
+            const sourceEl = document.getElementById(targetId);
+            if (!sourceEl) {
+                showToast("無法找到卡片畫面，請重試", "fa-circle-exclamation");
+                return;
+            }
 
-            html2canvas(element, {
-                scale: 3,
-                useCORS: true,
-                backgroundColor: null,
-                logging: false
-            }).then(canvas => {
+            // Create temporary container for html2canvas snapshot
+            const cloneContainer = document.createElement('div');
+            cloneContainer.style.position = 'fixed';
+            cloneContainer.style.left = '-9999px';
+            cloneContainer.style.top = '-9999px';
+            cloneContainer.style.zIndex = '-9999';
+            
+            if (currentMode === 'landscape') {
+                cloneContainer.style.width = '672px';
+                cloneContainer.style.height = '320px';
+            } else {
+                cloneContainer.style.width = '320px';
+                cloneContainer.style.height = '580px';
+            }
+
+            const clonedEl = sourceEl.cloneNode(true);
+            
+            // Strip 3D rotation / transform effects on clone and add export mode class
+            clonedEl.classList.add('export-mode');
+            clonedEl.style.transform = 'none';
+            clonedEl.style.webkitTransform = 'none';
+            clonedEl.style.position = 'relative';
+            clonedEl.style.top = '0';
+            clonedEl.style.left = '0';
+            clonedEl.style.width = '100%';
+            clonedEl.style.height = '100%';
+            clonedEl.style.backfaceVisibility = 'visible';
+            clonedEl.style.webkitBackfaceVisibility = 'visible';
+
+            // Convert images in cloned element to embedded Data URLs (guaranteed)
+            const imgs = clonedEl.querySelectorAll('img');
+            for (let img of imgs) {
+                try {
+                    if (img.src.startsWith('data:')) continue;
+                    const dataUrl = await imageToDataUrl(img.src, img.alt || img.id || '');
+                    if (dataUrl) {
+                        img.src = dataUrl;
+                    } else {
+                        img.src = getFallbackSvgDataUrl(img);
+                    }
+                } catch (e) {
+                    img.src = getFallbackSvgDataUrl(img);
+                }
+            }
+
+            cloneContainer.appendChild(clonedEl);
+            document.body.appendChild(cloneContainer);
+
+            try {
+                const canvas = await html2canvas(clonedEl, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: null,
+                    logging: false,
+                    width: currentMode === 'landscape' ? 672 : 320,
+                    height: currentMode === 'landscape' ? 320 : 580
+                });
+
+                const passenger = document.getElementById('inPassenger')?.value || 'YOU_AND_ME';
+                const sideLabel = isFlipped ? 'Back' : 'Front';
                 const link = document.createElement('a');
-                const passengerName = document.getElementById('inPassenger').value || 'Dyson';
-                const sideLabel = isFlipped ? 'Specs_Back' : 'Ticket_Front';
-                link.download = `Dyson_HD19_${sideLabel}_${passengerName.replace(/\s+/g, '_')}.png`;
+                link.download = `Dyson_HD19_${currentMode}_${sideLabel}_${passenger.replace(/\s+/g, '_')}.png`;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
-                showToast("專屬圖檔已成功下載！", "fa-circle-check");
-            }).catch(err => {
-                console.error(err);
-                showToast("下載失敗，請重試", "fa-triangle-exclamation");
-            });
-        }
 
-        // Audio Effect
-        function playAirportChime() {
-            try {
-                const AudioContext = window.AudioContext || window.webkitAudioContext;
-                if (!AudioContext) return;
-                const ctx = new AudioContext();
-
-                const notes = [523.25, 659.25, 783.99, 1046.50];
-                notes.forEach((freq, idx) => {
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-
-                    osc.type = 'sine';
-                    osc.frequency.value = freq;
-
-                    const startTime = ctx.currentTime + idx * 0.18;
-                    gain.gain.setValueAtTime(0, startTime);
-                    gain.gain.linearRampToValueAtTime(0.15, startTime + 0.05);
-                    gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.8);
-
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-
-                    osc.start(startTime);
-                    osc.stop(startTime + 0.85);
-                });
-            } catch (e) {
-                console.log('Web Audio API not supported');
+                showToast("登機證圖檔已成功導出（含完整QR碼與精細邊框）！", "fa-circle-check");
+            } catch (err) {
+                console.error('html2canvas export error:', err);
+                showToast("導出失敗，請再試一次", "fa-circle-exclamation");
+            } finally {
+                if (document.body.contains(cloneContainer)) {
+                    document.body.removeChild(cloneContainer);
+                }
             }
-        }
-
-        function showToast(msg, iconClass = "fa-circle-check") {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toastMsg');
-            const toastIcon = document.getElementById('toastIcon');
-
-            toastMsg.innerText = msg;
-            toastIcon.className = `fa-solid ${iconClass} text-dyson-pink text-lg`;
-
-            toast.classList.remove('translate-y-24', 'opacity-0', 'pointer-events-none');
-            
-            clearTimeout(window.toastTimer);
-            window.toastTimer = setTimeout(() => {
-                toast.classList.add('translate-y-24', 'opacity-0', 'pointer-events-none');
-            }, 3000);
         }
     </script>
 </body>
