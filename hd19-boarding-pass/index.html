@@ -193,7 +193,7 @@
                 <div>
                     <div class="flex justify-between items-center mb-1">
                         <label class="block text-xs font-bold text-dyson-rose uppercase tracking-wider">
-                            <i class="fa-solid fa-user-heart mr-1"></i> 旅客姓名 / 情侶名稱 (Passenger)
+                            <i class="fa-solid fa-user-heart mr-1"></i> 旅客 / 情侶名稱 Passenger
                         </label>
                         <span id="charCount" class="text-[10px] text-slate-500 font-mono">8/15</span>
                     </div>
@@ -226,13 +226,13 @@
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
-                            <i class="fa-solid fa-calendar-days mr-1 text-dyson-rose"></i> 日期 (DATE)
+                            <i class="fa-solid fa-calendar-days mr-1 text-dyson-rose"></i> 日期 DATE
                         </label>
                         <input type="date" id="inDate" value="2026-08-19" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
-                            <i class="fa-solid fa-clock mr-1 text-dyson-rose"></i> 登機時間 (TIME)
+                            <i class="fa-solid fa-clock mr-1 text-dyson-rose"></i> BOARDING
                         </label>
                         <input type="text" id="inTime" value="13:14" placeholder="13:14" maxlength="5" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold font-mono text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
                     </div>
@@ -242,7 +242,7 @@
                 <div>
                     <div class="flex justify-between items-center mb-1">
                         <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                            <i class="fa-solid fa-quote-left mr-1 text-dyson-rose"></i> 情意悄悄話 (Message)
+                            <i class="fa-solid fa-quote-left mr-1 text-dyson-rose"></i> 情意悄悄話 Message
                         </label>
                         <div class="flex items-center gap-2">
                             <span id="charCountMsg" class="text-[10px] text-slate-500 font-mono">23/45</span>
@@ -256,7 +256,7 @@
 
                 <!-- Format Controls -->
                 <div class="pt-2">
-                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">預覽與產出版本 (View Format)</label>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">預覽與產出版本 VIEW FORMAT</label>
                     <div class="grid grid-cols-2 gap-2">
                         <button type="button" id="btnModePortrait" onclick="switchMode('portrait')" class="py-2.5 px-3 rounded-xl border border-dyson-rose bg-rose-100/70 text-dyson-dark font-bold text-xs flex items-center justify-center gap-2 transition shadow-sm">
                             <i class="fa-solid fa-mobile-screen-button text-dyson-rose"></i> 手機版
@@ -1023,12 +1023,17 @@
 
         function randomizeInspiration() {
             const messages = [
-                "YOU ARE MY DESTINATION.",
-                "EVERY MOMENT WITH YOU IS MAGICAL.",
-                "FLYING HIGH ON YOUR LOVE.",
-                "TO THE MOON AND BACK, WITH YOU.",
-                "MY FAVORITE PLACE IS NEXT TO YOU.",
-                "LOVE IS IN THE AIR, ALWAYS WITH YOU."
+                "搭程 Dyson HD19航班，一生一世不退票。",
+                "每秒100次智慧控溫，就像我對你的愛永遠保溫。",
+                "登機證已入手，立馬把你打包走！",
+                "你的心深處，請準備好被我降落！",
+                "下一站，全世界！準備好跟我一起去探索與體驗這世界了嗎？",
+                "YOU ARE MY FAVORITE DESTINATION.",
+                "FLY ME TO YOUR HEART.",
+                "LOVE IS IN THE AIR, ALWAYS WITH YOU.",
+                "100% LOVE, ZERO DAMAGE.",
+                "READY FOR OUR NEXT CHAPTER.",
+                "EVERY MOMENT WITH YOU IS MAGICAL."
             ];
             const randomMsg = messages[Math.floor(Math.random() * messages.length)];
             const elMsg = document.getElementById('inMessage');
