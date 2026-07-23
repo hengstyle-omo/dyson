@@ -1123,14 +1123,30 @@
 
                     const file = new File([blob], fileName, { type: 'image/png' });
 
-                    // Try Native Web Share API first
-                    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                    // Auto copy share text to clipboard before native share call (handles apps like LINE/IG that drop text when receiving files)
+                    try {
+                        const tempInput = document.createElement('textarea');
+                        tempInput.value = shareText;
+                        document.body.appendChild(tempInput);
+                        tempInput.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(tempInput);
+                    } catch (clipErr) {
+                        console.log('Clipboard copy failed');
+                    }
+
+                    const shareData = {
+                        title: "Dyson HD19 情人節專屬登機證",
+                        text: shareText,
+                        url: shareUrl,
+                        files: [file]
+                    };
+
+                    // Try Native Web Share API
+                    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
                         try {
-                            await navigator.share({
-                                text: shareText,
-                                files: [file]
-                            });
-                            showToast("分享成功！", "fa-circle-check");
+                            await navigator.share(shareData);
+                            showToast("已開啟分享！文案已自動複製，可長按貼上 ❤️", "fa-circle-check");
                             return;
                         } catch (shareErr) {
                             if (shareErr.name === 'AbortError') {
