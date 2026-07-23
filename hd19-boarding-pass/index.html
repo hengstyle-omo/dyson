@@ -46,7 +46,7 @@
             background: linear-gradient(135deg, #faf7f5 0%, #f4ecee 50%, #fdfbfb 100%);
             color: #2d2a32;
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow-x: clip;
         }
 
         .ambient-glow {
@@ -131,22 +131,25 @@
         }
     </style>
 </head>
-<body class="relative min-h-screen flex flex-col justify-between selection:bg-dyson-rose selection:text-white">
+<body class="relative min-h-screen flex flex-col justify-between selection:bg-dyson-rose selection:text-white overflow-x-clip">
 
-    <!-- Ambient background light -->
-    <div class="ambient-glow -top-20 -left-20"></div>
-    <div class="ambient-glow top-1/2 right-0"></div>
+    <!-- Ambient background light container (fixed & overflow-hidden to prevent mobile horizontal scrolling) -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div class="ambient-glow -top-20 -left-20"></div>
+        <div class="ambient-glow top-1/2 -right-20"></div>
+    </div>
 
-    <header class="sticky top-0 z-50 border-b border-rose-100/80 backdrop-blur-md bg-white/80 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <span class="font-black tracking-tighter text-dyson-dark text-xl font-serif">dyson</span>
-                <span class="text-xs bg-rose-100/80 text-dyson-rose border border-rose-200 px-2.5 py-0.5 rounded-full font-semibold uppercase tracking-wider">HD19 Supersonic™ Travel</span>
+    <header class="sticky top-0 z-50 w-full border-b border-rose-100/80 backdrop-blur-md bg-white/90 shadow-sm">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-2 sm:space-x-3 shrink min-w-0">
+                <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" referrerpolicy="no-referrer" class="h-5 sm:h-7 max-w-[90px] sm:max-w-none object-contain shrink-0" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                <div class="h-3.5 sm:h-4 w-px bg-rose-200/80 shrink-0"></div>
+                <img src="https://img2.91mai.com/o2o/image/868ce2a2-8242-44af-a034-4af1b72ea151.png" alt="Supersonic Travel" referrerpolicy="no-referrer" class="h-4 sm:h-6 max-w-[110px] sm:max-w-none object-contain shrink-0" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
             </div>
             
-            <div class="flex items-center space-x-3 text-xs text-slate-600">
-                <span class="hidden sm:inline font-medium"><i class="fa-solid fa-heart text-dyson-rose mr-1 animate-pulse"></i> 情人節特別限定</span>
-                <button onclick="playAirportChime()" class="bg-rose-50 hover:bg-rose-100 text-dyson-dark px-3 py-1.5 rounded-full transition flex items-center gap-2 border border-rose-200/80 shadow-sm active:scale-95">
+            <div class="flex items-center space-x-2 sm:space-x-3 text-xs text-slate-600 shrink-0">
+                <span class="hidden sm:inline font-medium"><i class="fa-solid fa-heart text-dyson-rose mr-1 animate-pulse"></i> 七夕情人節特別限定</span>
+                <button onclick="playAirportChime()" class="bg-rose-50 hover:bg-rose-100 text-dyson-dark px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-full transition flex items-center gap-1.5 sm:gap-2 border border-rose-200/80 shadow-sm active:scale-95 text-[11px] sm:text-xs">
                     <i class="fa-solid fa-volume-high text-dyson-rose"></i>
                     <span>登機廣播音效</span>
                 </button>
@@ -187,9 +190,9 @@
                         <label class="block text-xs font-bold text-dyson-rose uppercase tracking-wider">
                             <i class="fa-solid fa-user-heart mr-1"></i> 旅客姓名 / 情侶名稱 (Passenger)
                         </label>
-                        <span id="charCount" class="text-[10px] text-slate-500 font-mono">8/18</span>
+                        <span id="charCount" class="text-[10px] text-slate-500 font-mono">8/15</span>
                     </div>
-                    <input type="text" id="inPassenger" value="YOU & ME" maxlength="18" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-semibold text-dyson-dark placeholder-slate-400 focus:outline-none focus:border-dyson-rose focus:ring-1 focus:ring-dyson-rose transition">
+                    <input type="text" id="inPassenger" value="YOU & ME" maxlength="15" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-semibold text-dyson-dark placeholder-slate-400 focus:outline-none focus:border-dyson-rose focus:ring-1 focus:ring-dyson-rose transition">
                 </div>
 
                 <!-- Flight Route -->
@@ -218,24 +221,9 @@
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
-                            <i class="fa-solid fa-clock mr-1 text-dyson-rose"></i> 時間 (TIME)
+                            <i class="fa-solid fa-clock mr-1 text-dyson-rose"></i> 登機時間 (BOARDING)
                         </label>
-                        <input type="text" id="inTime" value="13:14" maxlength="5" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
-                            <i class="fa-solid fa-door-open mr-1 text-dyson-rose"></i> 登機門 (GATE)
-                        </label>
-                        <input type="text" id="inGate" value="19" maxlength="6" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
-                            <i class="fa-solid fa-chair mr-1 text-dyson-rose"></i> 座位 (SEAT)
-                        </label>
-                        <input type="text" id="inSeat" value="52A" maxlength="6" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
+                        <input type="text" id="inTime" value="13:14" placeholder="13:14" maxlength="5" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold font-mono text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
                     </div>
                 </div>
 
@@ -331,11 +319,11 @@
                             <div class="flex items-center justify-between pt-2.5 border-t border-slate-200/80 relative z-10 shrink-0">
                                 <div class="pr-2 flex-1 min-w-0 flex flex-col justify-center">
                                     <p id="outMessageL" class="text-sm italic text-dyson-rose font-semibold tracking-wide leading-snug break-words">"YOU ARE MY DESTINATION."</p>
-                                    <p class="text-[9px] text-slate-500 font-medium mt-0.5 leading-tight">情人節限定 x 輕巧登機 x 完美造型<br>Supersonic™ Travel HD19 國際電壓隨行吹風機</p>
+                                    <p class="text-[9px] text-slate-500 font-medium mt-2 leading-relaxed">七夕情人節限定 x 輕巧登機 x 完美造型<br>Supersonic™ Travel HD19 國際電壓隨行吹風機</p>
                                 </div>
 
                                 <div class="flex flex-col items-center shrink-0">
-                                    <img src="https://img.91app.com/webapi/imagesV3/Original/SalePage/11670106/2/639202210906470000?v=1" alt="Dyson HD19" referrerpolicy="no-referrer" class="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-2xl overflow-hidden" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                    <img src="https://img.91app.com/webapi/imagesV3/Original/SalePage/11670106/2/639202210906470000?v=1" alt="Dyson HD19" referrerpolicy="no-referrer" class="w-20 h-20 sm:w-24 sm:h-24 object-contain rounded-2xl overflow-hidden" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                                 </div>
                             </div>
                         </div>
@@ -382,7 +370,7 @@
                                     </div>
                                     <div class="text-right">
                                         <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wider">SEAT</p>
-                                        <p id="outSeatStub" class="font-extrabold text-slate-900 text-xs">52A</p>
+                                        <p id="outSeatStub" class="font-extrabold text-slate-900 text-xs">52O</p>
                                     </div>
                                 </div>
                             </div>
@@ -454,7 +442,7 @@
 
             <!-- Portrait Boarding Pass Container (320x580) -->
             <div id="wrapperPortrait" class="w-full flex justify-center transition-all duration-300 perspective-1000">
-                <div id="cardInnerPortrait" onclick="toggleCardFlip()" class="transform-style-3d w-[320px] h-[580px] relative cursor-pointer group">
+                <div id="cardInnerPortrait" onclick="toggleCardFlip()" class="transform-style-3d w-full max-w-[320px] h-[580px] relative cursor-pointer group">
                     
                     <!-- PORTRAIT FRONT SIDE -->
                     <div id="ticketPortrait" class="backface-hidden w-full h-full bg-white shadow-2xl rounded-3xl overflow-hidden relative text-slate-800 flex flex-col justify-between absolute inset-0 border border-rose-100">
@@ -468,7 +456,7 @@
                                 </div>
                                 <span class="text-xs font-black tracking-widest uppercase font-serif">BOARDING PASS</span>
                             </div>
-                            <p class="text-[8px] tracking-widest uppercase mt-0.5 text-white/90 font-bold">DYSON AIRWAYS • FLIGHT HD19</p>
+                            <p class="text-[7.5px] sm:text-[8px] tracking-wider uppercase mt-1 text-white/90 font-bold whitespace-nowrap overflow-hidden text-ellipsis">DYSON AIRWAYS • FLIGHT HD19 • VALENTINE SPECIAL</p>
                         </div>
 
                         <!-- TOP SECTION (ABOVE TEAR LINE) - FAINT SOFT PINK BG -->
@@ -477,7 +465,7 @@
                             <!-- Product Image & QR Code Side-by-Side -->
                             <div class="pb-1 relative flex items-center justify-between px-1 shrink-0">
                                 <div class="flex items-center justify-center flex-1 pr-2">
-                                    <img src="https://img.91app.com/webapi/imagesV3/Original/SalePage/11670106/2/639202210906470000?v=1" alt="Dyson HD19" referrerpolicy="no-referrer" class="w-[110px] h-[110px] object-contain rounded-none overflow-hidden filter drop-shadow-sm transition-transform hover:scale-105" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                    <img src="https://img.91app.com/webapi/imagesV3/Original/SalePage/11670106/2/639202210906470000?v=1" alt="Dyson HD19" referrerpolicy="no-referrer" class="w-24 h-24 object-contain rounded-2xl overflow-hidden" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                                 </div>
                                 <div class="flex flex-col items-center justify-center shrink-0 pl-3 border-l border-dashed border-rose-200">
                                     <span class="text-[7px] font-extrabold text-dyson-rose uppercase tracking-widest mb-1">BOARDING PASS</span>
@@ -486,11 +474,11 @@
                             </div>
 
                             <!-- PASSENGER, CLASS AND MESSAGE GROUP -->
-                            <div class="pt-2.5 pb-1 shrink-0 bg-transparent space-y-1">
+                            <div class="pt-2 pb-1 shrink-0 bg-transparent space-y-1">
                                 <div class="flex justify-between items-start shrink-0 px-0.5">
                                     <div class="flex flex-col text-left min-w-0 flex-1 pr-2">
                                         <span class="text-[8px] font-medium text-slate-500 uppercase tracking-widest mb-0.5">PASSENGER</span>
-                                        <span id="outPassengerP" class="font-black text-dyson-rose text-[18px] leading-tight break-words">YOU & ME</span>
+                                        <span id="outPassengerP" class="font-black text-dyson-rose text-[18px] leading-tight break-words line-clamp-2">YOU & ME</span>
                                     </div>
                                     <div class="flex flex-col text-right shrink-0 pl-2">
                                         <span class="text-[8px] font-medium text-slate-500 uppercase tracking-widest mb-0.5">CLASS</span>
@@ -501,8 +489,8 @@
                                 </div>
 
                                 <!-- MESSAGE -->
-                                <div class="pt-1 pb-1 flex flex-col items-center justify-center h-[52px] text-center shrink-0 min-w-0 bg-transparent">
-                                    <p id="outMessageP" class="text-sm italic font-semibold text-dyson-rose leading-snug break-words">"YOU ARE MY DESTINATION."</p>
+                                <div class="pt-1 pb-0.5 flex flex-col items-center justify-center min-h-[48px] max-h-[56px] text-center shrink-0 min-w-0 bg-transparent overflow-hidden">
+                                    <p id="outMessageP" class="text-sm italic font-semibold text-dyson-rose leading-snug break-words line-clamp-2">"YOU ARE MY DESTINATION."</p>
                                 </div>
                             </div>
 
@@ -546,7 +534,7 @@
                                             <div id="outDateP" class="font-extrabold text-slate-800 text-xs leading-normal">2026/08/19</div>
                                         </div>
                                         <div class="px-0.5 min-w-0">
-                                            <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tighter leading-normal mb-0.5">BOARDING TIME</div>
+                                            <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tighter leading-normal mb-0.5">BOARDING</div>
                                             <div id="outTimeP" class="font-extrabold text-slate-800 text-xs leading-normal">13:14</div>
                                         </div>
                                         <div class="px-0.5 min-w-0">
@@ -555,7 +543,7 @@
                                         </div>
                                         <div class="px-0.5 min-w-0">
                                             <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tight leading-normal mb-0.5">SEAT</div>
-                                            <div id="outSeatP" class="font-extrabold text-slate-900 text-xs leading-normal">52A</div>
+                                            <div id="outSeatP" class="font-extrabold text-slate-900 text-xs leading-normal">52O</div>
                                         </div>
                                     </div>
                                 </div>
@@ -576,7 +564,7 @@
 
                                     <!-- DYSON PRODUCT SUBTEXT -->
                                     <div class="px-2 py-1.5 text-center border-t border-rose-100/80 my-auto">
-                                        <p class="text-[9px] text-slate-500 font-medium leading-tight">情人節限定 x 輕巧登機 x 完美造型<br>Supersonic™ Travel HD19 國際電壓隨行吹風機</p>
+                                        <p class="text-[9px] text-slate-500 font-medium leading-tight">七夕情人節限定 x 輕巧登機 x 完美造型<br>Supersonic™ Travel HD19 國際電壓隨行吹風機</p>
                                     </div>
                                 </div>
                             </div>
@@ -640,6 +628,9 @@
                         </div>
 
                     </div>
+
+                </div>
+            </div>
 
             <!-- Download / Share Buttons directly under Card Preview -->
             <div class="w-full max-w-md mt-6 px-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -758,19 +749,72 @@
         }
 
         function setupEventListeners() {
-            const inputs = ['inPassenger', 'inOrigin', 'inDestination', 'inDate', 'inTime', 'inGate', 'inSeat', 'inMessage'];
+            const inputs = ['inPassenger', 'inOrigin', 'inDestination', 'inDate', 'inTime', 'inMessage'];
             inputs.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
-                    el.addEventListener('input', () => {
+                    el.addEventListener('input', (e) => {
+                        if (id === 'inTime') {
+                            let raw = el.value.replace(/\D/g, '');
+                            let formatted = '';
+                            
+                            if (raw.length > 0) {
+                                let h = raw.substring(0, 2);
+                                if (h.length === 2 && parseInt(h, 10) > 23) {
+                                    h = '23';
+                                }
+                                formatted = h;
+                                
+                                if (raw.length > 2) {
+                                    let m = raw.substring(2, 4);
+                                    if (m.length === 1 && parseInt(m, 10) > 5) {
+                                        m = '5';
+                                    }
+                                    if (m.length === 2 && parseInt(m, 10) > 59) {
+                                        m = '59';
+                                    }
+                                    formatted += ':' + m;
+                                } else if (raw.length === 2 && e.inputType !== 'deleteContentBackward') {
+                                    formatted += ':';
+                                }
+                            }
+                            el.value = formatted;
+                        }
                         updatePass();
                         if (id === 'inPassenger') {
                             const countEl = document.getElementById('charCount');
-                            if (countEl) countEl.innerText = `${el.value.length}/18`;
+                            if (countEl) countEl.innerText = `${el.value.length}/15`;
                         }
                     });
                 }
             });
+
+            const timeEl = document.getElementById('inTime');
+            if (timeEl) {
+                timeEl.addEventListener('blur', () => {
+                    let parts = timeEl.value.split(':');
+                    let h = parts[0] || '13';
+                    let m = parts[1] || '14';
+                    
+                    if (h.length === 1) h = '0' + h;
+                    if (h === '' || parseInt(h, 10) > 23) h = '13';
+                    
+                    if (m.length === 1) m = '0' + m;
+                    if (m.length === 0) m = '00';
+                    if (parseInt(m, 10) > 59) m = '59';
+                    
+                    timeEl.value = `${h}:${m}`;
+                    updatePass();
+                });
+            }
+        }
+
+        function setTimePreset(timeStr) {
+            const el = document.getElementById('inTime');
+            if (el) {
+                el.value = timeStr;
+                updatePass();
+            }
         }
 
         function updatePass() {
@@ -779,9 +823,11 @@
             const destination = (document.getElementById('inDestination')?.value || 'YOUR HEART').toUpperCase();
             const rawDate = document.getElementById('inDate')?.value || '2026-08-19';
             const formattedDate = rawDate.replace(/-/g, '/');
+            
             const time = document.getElementById('inTime')?.value || '13:14';
+
             const gate = document.getElementById('inGate')?.value || '19';
-            const seat = document.getElementById('inSeat')?.value || '52A';
+            const seat = document.getElementById('inSeat')?.value || '52O';
             const message = document.getElementById('inMessage')?.value || 'YOU ARE MY DESTINATION.';
 
             const classHtmlStub = `${currentClassObj.en}<br><span class="text-[9px] font-medium text-slate-500">${currentClassObj.zh}</span>`;
@@ -870,7 +916,7 @@
             const elMsg = document.getElementById('inMessage');
 
             if (preset === 'gift') {
-                if (elPass) elPass.value = 'MY BELOVED';
+                if (elPass) elPass.value = 'Dyson';
                 if (elDest) elDest.value = 'YOUR HEART';
                 if (elMsg) elMsg.value = 'EVERY MOMENT WITH YOU IS MY FAVORITE DESTINATION.';
                 currentClassObj = classOptions.find(c => c.en === 'Love VIP Class') || getRandomClass();
