@@ -137,7 +137,7 @@
     <div class="ambient-glow -top-20 -left-20"></div>
     <div class="ambient-glow top-1/2 right-0"></div>
 
-    <header class="relative z-10 border-b border-rose-100/80 backdrop-blur-md bg-white/60">
+    <header class="sticky top-0 z-50 border-b border-rose-100/80 backdrop-blur-md bg-white/80 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <span class="font-black tracking-tighter text-dyson-dark text-xl font-serif">dyson</span>
@@ -641,13 +641,13 @@
 
                     </div>
 
-                </div>
-            </div>
-
-            <!-- Download Button directly under Card Preview -->
-            <div class="w-full max-w-md mt-6 px-2">
+            <!-- Download / Share Buttons directly under Card Preview -->
+            <div class="w-full max-w-md mt-6 px-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <button type="button" onclick="shareBoardingPass()" class="w-full py-3.5 bg-gradient-to-r from-dyson-pink via-dyson-rose to-dyson-bronze hover:opacity-95 text-white font-bold text-sm rounded-xl shadow-lg hover:shadow-rose-300/40 flex items-center justify-center gap-2 transition transform active:scale-95">
                     <i class="fa-solid fa-share-nodes"></i> 分享專屬登機證
+                </button>
+                <button type="button" onclick="downloadBoardingPass()" class="w-full py-3.5 bg-white hover:bg-rose-50 text-dyson-dark font-bold text-sm rounded-xl border border-rose-200/80 shadow-md flex items-center justify-center gap-2 transition transform active:scale-95">
+                    <i class="fa-solid fa-download text-dyson-rose"></i> 下載專屬登機證
                 </button>
             </div>
 
@@ -1032,7 +1032,7 @@
             });
         }
 
-        async function shareBoardingPass() {
+        async function generateBoardingPassCanvas() {
             showToast("正在生成專屬登機證...", "fa-spinner fa-spin");
             playAirportChime();
 
@@ -1049,8 +1049,7 @@
 
             const sourceEl = document.getElementById(targetId);
             if (!sourceEl) {
-                showToast("無法找到卡片畫面，請重試", "fa-circle-exclamation");
-                return;
+                throw new Error("無法找到卡片畫面");
             }
 
             const width = currentMode === 'landscape' ? 672 : 320;
@@ -1112,6 +1111,39 @@
                 const passenger = document.getElementById('inPassenger')?.value || 'YOU_AND_ME';
                 const sideLabel = isFlipped ? 'Back' : 'Front';
                 const fileName = `Dyson_HD19_${currentMode}_${sideLabel}_${passenger.replace(/\s+/g, '_')}.png`;
+
+                return { canvas, fileName };
+            } catch (err) {
+                if (document.body.contains(tempContainer)) {
+                    document.body.removeChild(tempContainer);
+                }
+                throw err;
+            }
+        }
+
+        async function downloadBoardingPass() {
+            try {
+                const { canvas, fileName } = await generateBoardingPassCanvas();
+                canvas.toBlob((blob) => {
+                    if (!blob) {
+                        showToast("生成圖片失敗，請再試一次", "fa-circle-exclamation");
+                        return;
+                    }
+                    const link = document.createElement('a');
+                    link.download = fileName;
+                    link.href = URL.createObjectURL(blob);
+                    link.click();
+                    showToast("已成功下載專屬登機證！", "fa-circle-check");
+                }, 'image/png');
+            } catch (err) {
+                console.error('下載失敗:', err);
+                showToast("生成失敗，請再試一次", "fa-circle-exclamation");
+            }
+        }
+
+        async function shareBoardingPass() {
+            try {
+                const { canvas, fileName } = await generateBoardingPassCanvas();
                 const shareText = "✈️ Dyson Airways HD19 航班即將起飛！快來領取你的情人節專屬登機證 ❤️👉 https://hlh.tw/dyson-hd19-boarding-pass";
                 const shareUrl = "https://hlh.tw/dyson-hd19-boarding-pass";
 
@@ -1123,7 +1155,7 @@
 
                     const file = new File([blob], fileName, { type: 'image/png' });
 
-                    // Auto copy share text to clipboard before native share call (handles apps like LINE/IG that drop text when receiving files)
+                    // Auto copy share text to clipboard before native share call
                     try {
                         const tempInput = document.createElement('textarea');
                         tempInput.value = shareText;
@@ -1156,30 +1188,16 @@
                         }
                     }
 
-                    // Fallback for Desktop or devices that don't support file sharing
+                    // Fallback for Desktop or unsupported devices
                     const link = document.createElement('a');
                     link.download = fileName;
                     link.href = URL.createObjectURL(blob);
                     link.click();
 
-                    // Copy share text to clipboard
-                    try {
-                        const tempInput = document.createElement('textarea');
-                        tempInput.value = shareText;
-                        document.body.appendChild(tempInput);
-                        tempInput.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(tempInput);
-                        showToast("已下載圖片並複製分享連結與文案！", "fa-circle-check");
-                    } catch (clipErr) {
-                        showToast("已下載專屬登機證圖檔！", "fa-circle-check");
-                    }
+                    showToast("已下載圖片並複製分享連結與文案！", "fa-circle-check");
                 }, 'image/png');
 
             } catch (err) {
-                if (document.body.contains(tempContainer)) {
-                    document.body.removeChild(tempContainer);
-                }
                 console.error('導出失敗:', err);
                 showToast("生成失敗，請再試一次", "fa-circle-exclamation");
             }
