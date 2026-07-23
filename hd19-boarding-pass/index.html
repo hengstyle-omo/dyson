@@ -218,7 +218,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
-                            <i class="fa-solid fa-clock mr-1 text-dyson-rose"></i> 登機 (BOARDING)
+                            <i class="fa-solid fa-clock mr-1 text-dyson-rose"></i> 登機時間 (TIME)
                         </label>
                         <input type="text" id="inTime" value="13:14" placeholder="13:14" maxlength="5" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold font-mono text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
                     </div>
@@ -639,12 +639,15 @@
             </div>
 
             <!-- Download / Share Buttons directly under Card Preview -->
-            <div class="w-full max-w-md mt-6 px-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <button type="button" onclick="shareBoardingPass()" class="w-full py-3.5 bg-gradient-to-r from-dyson-pink via-dyson-rose to-dyson-bronze hover:opacity-95 text-white font-bold text-sm rounded-xl shadow-lg hover:shadow-rose-300/40 flex items-center justify-center gap-2 transition transform active:scale-95">
+            <div class="w-full max-w-lg mt-6 px-2 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                <button type="button" onclick="shareBoardingPass()" class="w-full py-3.5 bg-gradient-to-r from-dyson-pink via-dyson-rose to-dyson-bronze hover:opacity-95 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg hover:shadow-rose-300/40 flex items-center justify-center gap-1.5 transition transform active:scale-95">
                     <i class="fa-solid fa-share-nodes"></i> 分享專屬登機證
                 </button>
-                <button type="button" onclick="downloadBoardingPass()" class="w-full py-3.5 bg-white hover:bg-rose-50 text-dyson-dark font-bold text-sm rounded-xl border border-rose-200/80 shadow-md flex items-center justify-center gap-2 transition transform active:scale-95">
+                <button type="button" onclick="downloadBoardingPass()" class="w-full py-3.5 bg-white hover:bg-rose-50 text-dyson-dark font-bold text-xs sm:text-sm rounded-xl border border-rose-200/80 shadow-md flex items-center justify-center gap-1.5 transition transform active:scale-95">
                     <i class="fa-solid fa-download text-dyson-rose"></i> 下載專屬登機證
+                </button>
+                <button type="button" onclick="copyShareText()" class="w-full py-3.5 bg-rose-50 hover:bg-rose-100/80 text-dyson-dark font-bold text-xs sm:text-sm rounded-xl border border-rose-200 shadow-sm flex items-center justify-center gap-1.5 transition transform active:scale-95">
+                    <i class="fa-solid fa-copy text-dyson-rose"></i> 複製分享文案
                 </button>
             </div>
 
@@ -1207,21 +1210,42 @@
             }
         }
 
+        function copyShareTextToClipboard() {
+            const shareText = "✈️ Dyson Airways HD19 航班即將起飛！快來領取你的情人節專屬登機證 ❤️👉 https://hlh.tw/dyson-hd19-boarding-pass";
+            try {
+                const tempInput = document.createElement('textarea');
+                tempInput.value = shareText;
+                tempInput.style.position = 'fixed';
+                tempInput.style.left = '-9999px';
+                tempInput.style.top = '0';
+                document.body.appendChild(tempInput);
+                tempInput.focus();
+                tempInput.select();
+                tempInput.setSelectionRange(0, 99999);
+                const successful = document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                return successful;
+            } catch (clipErr) {
+                console.log('Clipboard copy failed', clipErr);
+                return false;
+            }
+        }
+
+        function copyShareText() {
+            const success = copyShareTextToClipboard();
+            if (success) {
+                showToast("文案與連結已複製！發文時直接「貼上」即可 ❤️", "fa-copy");
+            } else {
+                showToast("複製失敗，請手動複製", "fa-circle-exclamation");
+            }
+        }
+
         async function shareBoardingPass() {
             const shareText = "✈️ Dyson Airways HD19 航班即將起飛！快來領取你的情人節專屬登機證 ❤️👉 https://hlh.tw/dyson-hd19-boarding-pass";
             const shareUrl = "https://hlh.tw/dyson-hd19-boarding-pass";
 
-            // Execute clipboard copy IMMEDIATELY on user click gesture to bypass browser async restriction
-            try {
-                const tempInput = document.createElement('textarea');
-                tempInput.value = shareText;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-            } catch (clipErr) {
-                console.log('Clipboard copy failed');
-            }
+            // Execute mobile-compatible clipboard copy IMMEDIATELY on user click gesture
+            copyShareTextToClipboard();
 
             try {
                 const { canvas, fileName } = await generateBoardingPassCanvas();
@@ -1245,7 +1269,7 @@
                     if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
                         try {
                             await navigator.share(shareData);
-                            showToast("已開啟分享！專屬文案與連結已自動複製，可直接貼上 ❤️", "fa-circle-check");
+                            showToast("分享文案與連結已自動複製！貼上即可發文 ❤️", "fa-circle-check");
                             return;
                         } catch (shareErr) {
                             if (shareErr.name === 'AbortError') {
@@ -1261,7 +1285,7 @@
                     link.href = URL.createObjectURL(blob);
                     link.click();
 
-                    showToast("已下載圖片！分享文案與連結已自動複製至剪貼簿 ❤️", "fa-circle-check");
+                    showToast("已下載圖片！分享文案已自動複製，可直接「貼上」❤️", "fa-circle-check");
                 }, 'image/png');
 
             } catch (err) {
