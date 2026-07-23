@@ -144,17 +144,18 @@
     <div class="ambient-glow -top-20 -left-20"></div>
     <div class="ambient-glow top-1/2 right-0"></div>
 
-    <header class="sticky top-0 z-50 border-b border-rose-100/80 backdrop-blur-md bg-white/80 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" referrerpolicy="no-referrer" class="h-5 sm:h-6 object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
-                <span class="h-4 w-px bg-rose-200/80"></span>
-                <img src="https://img2.91mai.com/o2o/image/868ce2a2-8242-44af-a034-4af1b72ea151.png" alt="Supersonic Logo" referrerpolicy="no-referrer" class="h-4 sm:h-5 object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+    <!-- Fixed Header across mobile & desktop -->
+    <header class="fixed top-0 left-0 right-0 z-[100] border-b border-rose-100/80 backdrop-blur-md bg-white/85 shadow-sm transition-all duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-2.5 sm:space-x-3 shrink-0">
+                <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" referrerpolicy="no-referrer" class="h-4 sm:h-6 object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                <span class="h-3.5 sm:h-4 w-px bg-rose-200/80"></span>
+                <img src="https://img2.91mai.com/o2o/image/868ce2a2-8242-44af-a034-4af1b72ea151.png" alt="Supersonic Logo" referrerpolicy="no-referrer" class="h-3.5 sm:h-5 object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
             </div>
             
-            <div class="flex items-center space-x-3 text-xs text-slate-600">
+            <div class="flex items-center space-x-2 sm:space-x-3 text-xs text-slate-600">
                 <span class="hidden sm:inline font-medium"><i class="fa-solid fa-heart text-dyson-rose mr-1 animate-pulse"></i> 七夕情人節特別限定</span>
-                <button onclick="playAirportChime()" class="bg-rose-50 hover:bg-rose-100 text-dyson-dark px-3 py-1.5 rounded-full transition flex items-center gap-2 border border-rose-200/80 shadow-sm active:scale-95">
+                <button onclick="playAirportChime()" class="bg-rose-50 hover:bg-rose-100 text-dyson-dark px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full transition flex items-center gap-1.5 sm:gap-2 border border-rose-200/80 shadow-sm active:scale-95 text-[11px] sm:text-xs">
                     <i class="fa-solid fa-volume-high text-dyson-rose"></i>
                     <span>登機廣播音效</span>
                 </button>
@@ -162,8 +163,7 @@
         </div>
     </header>
 
-    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         <!-- Form Controls Panel -->
         <section class="lg:col-span-5 bg-white/80 backdrop-blur-xl border border-rose-100/80 p-6 rounded-3xl shadow-xl space-y-6">
             <div class="border-b border-rose-100 pb-3">
