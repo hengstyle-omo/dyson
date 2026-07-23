@@ -140,8 +140,9 @@
     <header class="sticky top-0 z-50 border-b border-rose-100/80 backdrop-blur-md bg-white/80 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <span class="font-black tracking-tighter text-dyson-dark text-xl font-serif">dyson</span>
-                <span class="text-xs bg-rose-100/80 text-dyson-rose border border-rose-200 px-2.5 py-0.5 rounded-full font-semibold uppercase tracking-wider">HD19 Supersonic™ Travel</span>
+                <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" referrerpolicy="no-referrer" class="h-5 sm:h-6 object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                <span class="h-4 w-px bg-rose-200/80"></span>
+                <img src="https://img2.91mai.com/o2o/image/868ce2a2-8242-44af-a034-4af1b72ea151.png" alt="Supersonic Logo" referrerpolicy="no-referrer" class="h-4 sm:h-5 object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
             </div>
             
             <div class="flex items-center space-x-3 text-xs text-slate-600">
@@ -251,10 +252,10 @@
                     <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">預覽與產出版本 (View Format)</label>
                     <div class="grid grid-cols-2 gap-2">
                         <button type="button" id="btnModePortrait" onclick="switchMode('portrait')" class="py-2.5 px-3 rounded-xl border border-dyson-rose bg-rose-100/70 text-dyson-dark font-bold text-xs flex items-center justify-center gap-2 transition shadow-sm">
-                            <i class="fa-solid fa-mobile-screen-button text-dyson-rose"></i> 直式 (手機)
+                            <i class="fa-solid fa-mobile-screen-button text-dyson-rose"></i> 手機版
                         </button>
                         <button type="button" id="btnModeLandscape" onclick="switchMode('landscape')" class="py-2.5 px-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 hover:text-dyson-dark font-semibold text-xs flex items-center justify-center gap-2 transition">
-                            <i class="fa-solid fa-desktop"></i> 橫式 (電腦)
+                            <i class="fa-solid fa-desktop"></i> 電腦版
                         </button>
                     </div>
                 </div>
@@ -275,7 +276,7 @@
             </div>
 
             <!-- Landscape Boarding Pass Container (672x320) -->
-            <div id="wrapperLandscape" class="hidden w-full flex justify-center transition-all duration-300 perspective-1000">
+            <div id="wrapperLandscape" class="hidden w-full flex flex-col items-center justify-center transition-all duration-300 perspective-1000">
                 <div id="cardInnerLandscape" onclick="toggleCardFlip()" class="transform-style-3d w-full max-w-2xl h-[320px] relative cursor-pointer group">
                     
                     <!-- LANDSCAPE FRONT SIDE -->
@@ -449,219 +450,240 @@
                     </div>
 
                 </div>
-            </div>
 
-            <!-- Portrait Boarding Pass Container (320x580) -->
-            <div id="wrapperPortrait" class="w-full flex justify-center transition-all duration-300 perspective-1000">
-                <div id="cardInnerPortrait" onclick="toggleCardFlip()" class="transform-style-3d w-[320px] h-[580px] relative cursor-pointer group">
-                    
-                    <!-- PORTRAIT FRONT SIDE -->
-                    <div id="ticketPortrait" class="backface-hidden w-full h-full bg-white shadow-2xl rounded-3xl overflow-hidden relative text-slate-800 flex flex-col justify-between absolute inset-0 border border-rose-100">
-
-                        <!-- Header -->
-                        <div class="ticket-header-grad px-3.5 py-3 text-white relative overflow-hidden shrink-0">
-                            <div class="flex justify-between items-center relative z-10">
-                                <div class="flex items-center space-x-2">
-                                    <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" data-is-dark="true" referrerpolicy="no-referrer" class="h-4 object-contain filter brightness-0 invert" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this, true);">
-                                    <img src="https://img2.91mai.com/o2o/image/868ce2a2-8242-44af-a034-4af1b72ea151.png" alt="Category Logo" data-is-dark="true" referrerpolicy="no-referrer" class="h-3.5 object-contain filter brightness-0 invert" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this, true);">
-                                </div>
-                                <span class="text-xs font-black tracking-widest uppercase font-serif">BOARDING PASS</span>
-                            </div>
-                            <p class="text-[8.5px] tracking-tight uppercase mt-1 text-white/90 font-bold leading-normal block">DYSON AIRWAYS • FLIGHT HD19 • VALENTINE SPECIAL</p>
+                <!-- Action Buttons directly underneath Landscape Card -->
+                <div class="w-full max-w-2xl mt-5 px-2 flex flex-col items-center">
+                    <p class="text-xs font-bold text-dyson-rose tracking-wider uppercase mb-2.5 flex items-center gap-1.5">
+                        <i class="fa-solid fa-heart text-dyson-pink"></i> 立即分享專屬登機證
+                    </p>
+                    <div class="w-full grid grid-cols-3 gap-3">
+                        <button type="button" onclick="downloadBoardingPass()" class="w-full py-2.5 bg-white hover:bg-rose-50 text-dyson-dark font-bold text-xs sm:text-sm rounded-xl border border-rose-200/80 shadow-md flex items-center justify-center gap-1.5 transition transform active:scale-95">
+                            <i class="fa-solid fa-file-arrow-down text-dyson-rose"></i> 下載圖片
+                        </button>
+                        <button type="button" onclick="shareBoardingPass()" class="w-full py-2.5 bg-gradient-to-r from-dyson-pink via-dyson-rose to-dyson-bronze hover:opacity-95 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg hover:shadow-rose-300/40 flex items-center justify-center gap-1.5 transition transform active:scale-95">
+                            <i class="fa-solid fa-image"></i> 分享圖片
+                        </button>
+                        <button type="button" onclick="shareGameLink()" class="w-full py-2.5 bg-rose-50 hover:bg-rose-100/80 text-dyson-dark font-bold text-xs sm:text-sm rounded-xl border border-rose-200 shadow-sm flex items-center justify-center gap-1.5 transition transform active:scale-95">
+                            <i class="fa-solid fa-paper-plane text-dyson-rose"></i> 分享遊戲
+                        </button>
                     </div>
-
-                    <!-- TOP SECTION (ABOVE TEAR LINE) - FAINT SOFT PINK BG -->
-                    <div class="px-4 pt-2 pb-1 bg-rose-50/50 flex flex-col justify-between shrink-0">
-                        
-                        <!-- Product Image & QR Code Side-by-Side -->
-                            <div class="pb-1 relative flex items-center justify-between px-1 shrink-0">
-                                <div class="flex items-center justify-center flex-1 pr-2">
-                                    <img src="https://img.91app.com/webapi/imagesV3/Original/SalePage/11670106/2/639202210906470000?v=1" alt="Dyson HD19" referrerpolicy="no-referrer" class="w-24 h-24 object-contain rounded-2xl overflow-hidden" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
-                                </div>
-                                <div class="flex flex-col items-center justify-center shrink-0 pl-3 border-l border-dashed border-rose-200">
-                                    <span class="text-[8px] font-light text-dyson-rose tracking-tight mb-1">了解更多活動資訊</span>
-                                    <img id="qrCodePortrait" src="" alt="QR Code" class="h-11 w-11 object-contain rounded-none shadow-sm">
-                                </div>
-                            </div>
-
-                            <!-- PASSENGER, CLASS AND MESSAGE GROUP -->
-                            <div class="pt-1.5 pb-1 shrink-0 bg-transparent space-y-1">
-                                <div class="flex justify-between items-start shrink-0 px-0.5">
-                                    <div class="flex flex-col text-left min-w-0 flex-1 pr-2">
-                                        <span class="text-[8px] font-medium text-slate-500 uppercase tracking-widest mb-0.5">PASSENGER</span>
-                                        <div class="h-[48px] flex items-start justify-start min-w-0">
-                                            <span id="outPassengerP" class="font-black text-dyson-rose text-[20px] leading-tight block break-words">YOU & ME</span>
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-col text-right shrink-0 pl-2">
-                                        <span class="text-[8px] font-medium text-slate-500 uppercase tracking-widest mb-0.5">CLASS</span>
-                                        <div class="h-[48px] flex flex-col items-end justify-start min-w-0">
-                                            <div id="outClassP" class="font-extrabold text-slate-900 text-xs leading-tight text-right">
-                                                First Class<br><span class="text-[9px] font-medium text-slate-500">頭等艙</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- MESSAGE -->
-                                <div class="h-[54px] py-1 flex flex-col items-center justify-center text-center shrink-0 min-w-0 bg-transparent">
-                                    <p id="outMessageP" class="text-xs sm:text-sm italic font-semibold text-dyson-rose leading-normal break-words px-1">"YOU ARE MY DESTINATION."</p>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <!-- DASHED TEAR LINE CONNECTED WITH SIDE NOTCHES -->
-                        <div class="relative flex items-center justify-center my-0.5 shrink-0">
-                            <div class="absolute left-0 -translate-x-1/2 w-5 h-5 bg-[#f4ecee] rounded-full z-10 shadow-inner"></div>
-                            <div class="w-full border-t border-dashed border-slate-200/80"></div>
-                            <div class="absolute right-0 translate-x-1/2 w-5 h-5 bg-[#f4ecee] rounded-full z-10 shadow-inner"></div>
-                        </div>
-
-                        <!-- BOTTOM SECTION (BELOW TEAR LINE) - WHITE BG -->
-                        <div class="px-4 py-0 flex-1 flex flex-col justify-start bg-white overflow-hidden">
-
-                            <!-- ROUTE TPE ANY -->
-                            <div class="pt-5 pb-3 shrink-0 flex flex-col items-center justify-center">
-                                <div class="flex items-center justify-between w-full px-1">
-                                    <span id="outOriginCodeP" class="text-3xl font-black text-slate-800 tracking-wider leading-none">TPE</span>
-                                    <svg class="w-6 h-6 text-dyson-rose fill-current shrink-0" viewBox="0 0 24 24">
-                                        <g transform="rotate(90 12 12)">
-                                            <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
-                                        </g>
-                                    </svg>
-                                    <span id="outDestCodeP" class="text-3xl font-black text-dyson-rose tracking-wider leading-none">ANY</span>
-                                </div>
-                                
-                                <div class="flex justify-between items-center w-full px-1 mt-1 text-[10px] font-bold">
-                                    <span id="outOriginP" class="text-slate-500 uppercase tracking-wider text-left break-words max-w-[45%] leading-none">TAIPEI</span>
-                                    <span id="outDestinationP" class="text-dyson-rose/80 uppercase tracking-wider text-right break-words max-w-[45%] leading-none">ANYWHERE</span>
-                                </div>
-                            </div>
-
-                            <!-- LOWER CONTAINER FOR DETAILS & BAGGAGE WITH NATURAL FLEX FILL -->
-                            <div class="flex-1 flex flex-col justify-start">
-                                <!-- FLIGHT DETAILS GRID -->
-                                <div class="pt-2.5 pb-2.5 shrink-0 bg-white border-t border-slate-200/80">
-                                    <div class="grid grid-cols-4 gap-1 text-center bg-transparent items-start">
-                                        <div class="px-0.5 min-w-0">
-                                            <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tight leading-normal mb-0.5">DATE</div>
-                                            <div id="outDateP" class="font-extrabold text-slate-800 text-xs leading-normal">2026/08/19</div>
-                                        </div>
-                                        <div class="px-0.5 min-w-0">
-                                            <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tighter leading-normal mb-0.5">BOARDING</div>
-                                            <div id="outTimeP" class="font-extrabold text-slate-800 text-xs leading-normal">13:14</div>
-                                        </div>
-                                        <div class="px-0.5 min-w-0">
-                                            <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tight leading-normal mb-0.5">GATE</div>
-                                            <div id="outGateP" class="font-extrabold text-slate-900 text-xs leading-normal">19</div>
-                                        </div>
-                                        <div class="px-0.5 min-w-0">
-                                            <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tight leading-normal mb-0.5">SEAT</div>
-                                            <div id="outSeatP" class="font-extrabold text-slate-900 text-xs leading-normal">52O</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- SEAMLESS SOFT PINK CONTAINER FOR BAGGAGE & SUBTEXT -->
-                                <div class="-mx-4 flex-1 flex flex-col justify-between bg-rose-50/50 border-t border-rose-100/80 text-slate-800">
-                                    <!-- BAGGAGE ALLOWANCE SECTION -->
-                                    <div class="px-4 pt-2.5 pb-1">
-                                        <div class="flex items-center justify-between text-[8px] font-medium text-slate-500 uppercase tracking-wider mb-0.5">
-                                            <span><i class="fa-solid fa-suitcase-rolling text-dyson-rose mr-1"></i> BAGGAGE</span>
-                                            <span class="text-slate-800 font-bold">INCLUDED</span>
-                                        </div>
-                                        <div class="text-xs font-extrabold text-slate-800 space-y-0.5">
-                                            <p class="leading-tight">1 x 330g HD19 國際電壓隨行吹風機</p>
-                                            <p class="leading-tight">1 x 七夕情人節限定專屬優惠券</p>
-                                        </div>
-                                    </div>
-
-                                    <!-- DYSON PRODUCT SUBTEXT -->
-                                    <div class="px-2 text-center border-t border-rose-100/80 h-[45px] flex flex-col justify-center shrink-0">
-                                        <p class="text-[9px] text-slate-500 font-medium leading-tight">七夕情人節限定 x 輕巧登機 x 完美造型<br>Supersonic™ Travel HD19 國際電壓隨行吹風機</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <!-- PORTRAIT BACK SIDE -->
-                    <div id="ticketPortraitBack" class="backface-hidden rotate-y-180 bg-gradient-to-br from-white via-rose-50/90 to-amber-50/50 text-slate-800 w-full h-full rounded-3xl shadow-2xl p-5 border border-rose-100 flex flex-col justify-between absolute inset-0 overflow-hidden">
-                        
-                        <div class="ticket-header-grad p-3 text-white relative -m-5 mb-1 shrink-0">
-                            <div class="flex justify-between items-center px-1">
-                                <div class="flex items-center space-x-2">
-                                    <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" referrerpolicy="no-referrer" class="h-4 object-contain filter brightness-0 invert" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
-                                    <span class="text-[9px] font-bold uppercase">HD19</span>
-                                </div>
-                                <span class="text-[10px] font-black uppercase tracking-wider">TRAVEL SPECIFICATIONS</span>
-                            </div>
-                        </div>
-
-                        <div class="flex-1 flex flex-col justify-start space-y-2 pt-1">
-                            <div class="w-[140px] h-[140px] bg-white/80 border border-rose-100 shadow-sm rounded-2xl shrink-0 mx-auto relative overflow-hidden">
-                                <img src="https://img2.91mai.com/o2o/image/8c945b4d-ce18-4ac1-8b0e-08d3f19d287a.png" alt="Dyson Product Back" referrerpolicy="no-referrer" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[100%] w-auto max-w-none max-h-none object-contain filter drop-shadow-md" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
-                            </div>
-
-                            <div class="space-y-1.5">
-                                <div class="bg-white/80 border border-rose-100 rounded-xl p-2 flex items-center gap-2 shadow-sm">
-                                    <div class="w-8 h-8 rounded-lg bg-rose-50 border border-rose-200/60 flex items-center justify-center shrink-0 p-1">
-                                        <img src="https://img2.91mai.com/o2o/image/8f7026ab-fa75-439f-95ae-bcc5d3b6d994.png" alt="Worldwide Voltage" referrerpolicy="no-referrer" class="h-full object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
-                                    </div>
-                                    <div class="min-w-0">
-                                        <div class="text-[11px] font-bold text-dyson-rose tracking-wide uppercase leading-normal mb-0.5">WORLDWIDE VOLTAGE 國際電壓</div>
-                                        <div class="text-[10px] font-semibold text-slate-600 leading-normal">100-240V~ 50/60Hz．全球適用</div>
-                                    </div>
-                                </div>
-
-                                <div class="bg-white/80 border border-rose-100 rounded-xl p-2 flex items-center gap-2 shadow-sm">
-                                    <div class="w-8 h-8 rounded-lg bg-rose-50 border border-rose-200/60 flex items-center justify-center shrink-0 p-1">
-                                        <img src="https://img2.91mai.com/o2o/image/e4fdaf70-c264-42d4-ad0b-6b615005d1e7.png" alt="Travel Ready" referrerpolicy="no-referrer" class="h-full object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
-                                    </div>
-                                    <div class="min-w-0">
-                                        <div class="text-[11px] font-bold text-dyson-rose tracking-wide uppercase leading-normal mb-0.5">TRAVEL READY 旅行好夥伴</div>
-                                        <div class="text-[10px] font-semibold text-slate-600 leading-normal">輕巧好收納．輕鬆好攜帶</div>
-                                    </div>
-                                </div>
-
-                                <div class="bg-white/80 border border-rose-100 rounded-xl p-2 flex items-center gap-2 shadow-sm">
-                                    <div class="w-8 h-8 rounded-lg bg-rose-50 border border-rose-200/60 flex items-center justify-center shrink-0 p-1">
-                                        <img src="https://img2.91mai.com/o2o/image/7317e915-5215-4653-870d-5e32b76fab4e.png" alt="Smart Temp Control" referrerpolicy="no-referrer" class="h-full object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
-                                    </div>
-                                    <div class="min-w-0">
-                                        <div class="text-[11px] font-bold text-dyson-rose tracking-wide uppercase leading-normal mb-0.5">SMART TEMPERATURE CONTROL 智慧控溫</div>
-                                        <div class="text-[10px] font-semibold text-slate-600 leading-normal">每秒智慧監測100次．秀髮零熱損</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="border-t border-rose-200/80 text-center text-[9px] text-slate-500 shrink-0 h-[45px] flex items-center justify-center -mx-5 -mb-5">
-                            <p class="font-medium">Dyson Supersonic™ Travel 隨行護航</p>
-                        </div>
-
-                    </div>
-
                 </div>
             </div>
 
-            <!-- Simplified Action Buttons with Header -->
-            <div class="w-full max-w-lg mt-6 px-2 flex flex-col items-center">
-                <p class="text-xs font-bold text-dyson-rose tracking-wider uppercase mb-2.5 flex items-center gap-1.5">
-                    <i class="fa-solid fa-heart text-dyson-pink"></i> 立即分享專屬登機證
-                </p>
-                <div class="w-full grid grid-cols-3 gap-2 sm:gap-3">
-                    <button type="button" onclick="downloadBoardingPass()" class="w-full py-3 bg-white hover:bg-rose-50 text-dyson-dark font-bold text-xs sm:text-sm rounded-xl border border-rose-200/80 shadow-md flex items-center justify-center gap-1.5 transition transform active:scale-95">
-                        <i class="fa-solid fa-file-arrow-down text-dyson-rose"></i> 下載圖片
-                    </button>
-                    <button type="button" onclick="shareBoardingPass()" class="w-full py-3 bg-gradient-to-r from-dyson-pink via-dyson-rose to-dyson-bronze hover:opacity-95 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg hover:shadow-rose-300/40 flex items-center justify-center gap-1.5 transition transform active:scale-95">
-                        <i class="fa-solid fa-image"></i> 分享圖片
-                    </button>
-                    <button type="button" onclick="shareGameLink()" class="w-full py-3 bg-rose-50 hover:bg-rose-100/80 text-dyson-dark font-bold text-xs sm:text-sm rounded-xl border border-rose-200 shadow-sm flex items-center justify-center gap-1.5 transition transform active:scale-95">
-                        <i class="fa-solid fa-paper-plane text-dyson-rose"></i> 分享遊戲
-                    </button>
+            <!-- Portrait Boarding Pass Container (320x580) -->
+            <div id="wrapperPortrait" class="w-full flex flex-col items-center justify-center transition-all duration-300 perspective-1000">
+                <div class="flex flex-col sm:flex-row items-start justify-center gap-5 w-full">
+                    
+                    <div id="cardInnerPortrait" onclick="toggleCardFlip()" class="transform-style-3d w-[320px] h-[580px] relative cursor-pointer group shrink-0">
+                        
+                        <!-- PORTRAIT FRONT SIDE -->
+                        <div id="ticketPortrait" class="backface-hidden w-full h-full bg-white shadow-2xl rounded-3xl overflow-hidden relative text-slate-800 flex flex-col justify-between absolute inset-0 border border-rose-100">
+
+                            <!-- Header -->
+                            <div class="ticket-header-grad px-3.5 py-3 text-white relative overflow-hidden shrink-0">
+                                <div class="flex justify-between items-center relative z-10">
+                                    <div class="flex items-center space-x-2">
+                                        <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" data-is-dark="true" referrerpolicy="no-referrer" class="h-4 object-contain filter brightness-0 invert" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this, true);">
+                                        <img src="https://img2.91mai.com/o2o/image/868ce2a2-8242-44af-a034-4af1b72ea151.png" alt="Category Logo" data-is-dark="true" referrerpolicy="no-referrer" class="h-3.5 object-contain filter brightness-0 invert" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this, true);">
+                                    </div>
+                                    <span class="text-xs font-black tracking-widest uppercase font-serif">BOARDING PASS</span>
+                                </div>
+                                <p class="text-[8.5px] tracking-tight uppercase mt-1 text-white/90 font-bold leading-normal block">DYSON AIRWAYS • FLIGHT HD19 • VALENTINE SPECIAL</p>
+                        </div>
+
+                        <!-- TOP SECTION (ABOVE TEAR LINE) - FAINT SOFT PINK BG -->
+                        <div class="px-4 pt-2 pb-1 bg-rose-50/50 flex flex-col justify-between shrink-0">
+                            
+                            <!-- Product Image & QR Code Side-by-Side -->
+                                <div class="pb-1 relative flex items-center justify-between px-1 shrink-0">
+                                    <div class="flex items-center justify-center flex-1 pr-2">
+                                        <img src="https://img.91app.com/webapi/imagesV3/Original/SalePage/11670106/2/639202210906470000?v=1" alt="Dyson HD19" referrerpolicy="no-referrer" class="w-24 h-24 object-contain rounded-2xl overflow-hidden" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                    </div>
+                                    <div class="flex flex-col items-center justify-center shrink-0 pl-3 border-l border-dashed border-rose-200">
+                                        <span class="text-[8px] font-light text-dyson-rose tracking-tight mb-1">了解更多活動資訊</span>
+                                        <img id="qrCodePortrait" src="" alt="QR Code" class="h-11 w-11 object-contain rounded-none shadow-sm">
+                                    </div>
+                                </div>
+
+                                <!-- PASSENGER, CLASS AND MESSAGE GROUP -->
+                                <div class="pt-1.5 pb-1 shrink-0 bg-transparent space-y-1">
+                                    <div class="flex justify-between items-start shrink-0 px-0.5">
+                                        <div class="flex flex-col text-left min-w-0 flex-1 pr-2">
+                                            <span class="text-[8px] font-medium text-slate-500 uppercase tracking-widest mb-0.5">PASSENGER</span>
+                                            <div class="h-[48px] flex items-start justify-start min-w-0">
+                                                <span id="outPassengerP" class="font-black text-dyson-rose text-[20px] leading-tight block break-words">YOU & ME</span>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-col text-right shrink-0 pl-2">
+                                            <span class="text-[8px] font-medium text-slate-500 uppercase tracking-widest mb-0.5">CLASS</span>
+                                            <div class="h-[48px] flex flex-col items-end justify-start min-w-0">
+                                                <div id="outClassP" class="font-extrabold text-slate-900 text-xs leading-tight text-right">
+                                                    First Class<br><span class="text-[9px] font-medium text-slate-500">頭等艙</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- MESSAGE -->
+                                    <div class="h-[54px] py-1 flex flex-col items-center justify-center text-center shrink-0 min-w-0 bg-transparent">
+                                        <p id="outMessageP" class="text-xs sm:text-sm italic font-semibold text-dyson-rose leading-normal break-words px-1">"YOU ARE MY DESTINATION."</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- DASHED TEAR LINE CONNECTED WITH SIDE NOTCHES -->
+                            <div class="relative flex items-center justify-center my-0.5 shrink-0">
+                                <div class="absolute left-0 -translate-x-1/2 w-5 h-5 bg-[#f4ecee] rounded-full z-10 shadow-inner"></div>
+                                <div class="w-full border-t border-dashed border-slate-200/80"></div>
+                                <div class="absolute right-0 translate-x-1/2 w-5 h-5 bg-[#f4ecee] rounded-full z-10 shadow-inner"></div>
+                            </div>
+
+                            <!-- BOTTOM SECTION (BELOW TEAR LINE) - WHITE BG -->
+                            <div class="px-4 py-0 flex-1 flex flex-col justify-start bg-white overflow-hidden">
+
+                                <!-- ROUTE TPE ANY -->
+                                <div class="pt-5 pb-3 shrink-0 flex flex-col items-center justify-center">
+                                    <div class="flex items-center justify-between w-full px-1">
+                                        <span id="outOriginCodeP" class="text-3xl font-black text-slate-800 tracking-wider leading-none">TPE</span>
+                                        <svg class="w-6 h-6 text-dyson-rose fill-current shrink-0" viewBox="0 0 24 24">
+                                            <g transform="rotate(90 12 12)">
+                                                <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                                            </g>
+                                        </svg>
+                                        <span id="outDestCodeP" class="text-3xl font-black text-dyson-rose tracking-wider leading-none">ANY</span>
+                                    </div>
+                                    
+                                    <div class="flex justify-between items-center w-full px-1 mt-1 text-[10px] font-bold">
+                                        <span id="outOriginP" class="text-slate-500 uppercase tracking-wider text-left break-words max-w-[45%] leading-none">TAIPEI</span>
+                                        <span id="outDestinationP" class="text-dyson-rose/80 uppercase tracking-wider text-right break-words max-w-[45%] leading-none">ANYWHERE</span>
+                                    </div>
+                                </div>
+
+                                <!-- LOWER CONTAINER FOR DETAILS & BAGGAGE WITH NATURAL FLEX FILL -->
+                                <div class="flex-1 flex flex-col justify-start">
+                                    <!-- FLIGHT DETAILS GRID -->
+                                    <div class="pt-2.5 pb-2.5 shrink-0 bg-white border-t border-slate-200/80">
+                                        <div class="grid grid-cols-4 gap-1 text-center bg-transparent items-start">
+                                            <div class="px-0.5 min-w-0">
+                                                <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tight leading-normal mb-0.5">DATE</div>
+                                                <div id="outDateP" class="font-extrabold text-slate-800 text-xs leading-normal">2026/08/19</div>
+                                            </div>
+                                            <div class="px-0.5 min-w-0">
+                                                <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tighter leading-normal mb-0.5">BOARDING</div>
+                                                <div id="outTimeP" class="font-extrabold text-slate-800 text-xs leading-normal">13:14</div>
+                                            </div>
+                                            <div class="px-0.5 min-w-0">
+                                                <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tight leading-normal mb-0.5">GATE</div>
+                                                <div id="outGateP" class="font-extrabold text-slate-900 text-xs leading-normal">19</div>
+                                            </div>
+                                            <div class="px-0.5 min-w-0">
+                                                <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tight leading-normal mb-0.5">SEAT</div>
+                                                <div id="outSeatP" class="font-extrabold text-slate-900 text-xs leading-normal">52O</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- SEAMLESS SOFT PINK CONTAINER FOR BAGGAGE & SUBTEXT -->
+                                    <div class="-mx-4 flex-1 flex flex-col justify-between bg-rose-50/50 border-t border-rose-100/80 text-slate-800">
+                                        <!-- BAGGAGE ALLOWANCE SECTION -->
+                                        <div class="px-4 pt-2.5 pb-1">
+                                            <div class="flex items-center justify-between text-[8px] font-medium text-slate-500 uppercase tracking-wider mb-0.5">
+                                                <span><i class="fa-solid fa-suitcase-rolling text-dyson-rose mr-1"></i> BAGGAGE</span>
+                                                <span class="text-slate-800 font-bold">INCLUDED</span>
+                                            </div>
+                                            <div class="text-xs font-extrabold text-slate-800 space-y-0.5">
+                                                <p class="leading-tight">1 x 330g HD19 國際電壓隨行吹風機</p>
+                                                <p class="leading-tight">1 x 七夕情人節限定專屬優惠券</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- DYSON PRODUCT SUBTEXT -->
+                                        <div class="px-2 text-center border-t border-rose-100/80 h-[45px] flex flex-col justify-center shrink-0">
+                                            <p class="text-[9px] text-slate-500 font-medium leading-tight">七夕情人節限定 x 輕巧登機 x 完美造型<br>Supersonic™ Travel HD19 國際電壓隨行吹風機</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- PORTRAIT BACK SIDE -->
+                        <div id="ticketPortraitBack" class="backface-hidden rotate-y-180 bg-gradient-to-br from-white via-rose-50/90 to-amber-50/50 text-slate-800 w-full h-full rounded-3xl shadow-2xl p-5 border border-rose-100 flex flex-col justify-between absolute inset-0 overflow-hidden">
+                            
+                            <div class="ticket-header-grad p-3 text-white relative -m-5 mb-1 shrink-0">
+                                <div class="flex justify-between items-center px-1">
+                                    <div class="flex items-center space-x-2">
+                                        <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" referrerpolicy="no-referrer" class="h-4 object-contain filter brightness-0 invert" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                        <span class="text-[9px] font-bold uppercase">HD19</span>
+                                    </div>
+                                    <span class="text-[10px] font-black uppercase tracking-wider">TRAVEL SPECIFICATIONS</span>
+                                </div>
+                            </div>
+
+                            <div class="flex-1 flex flex-col justify-start space-y-2 pt-1">
+                                <div class="w-[140px] h-[140px] bg-white/80 border border-rose-100 shadow-sm rounded-2xl shrink-0 mx-auto relative overflow-hidden">
+                                    <img src="https://img2.91mai.com/o2o/image/8c945b4d-ce18-4ac1-8b0e-08d3f19d287a.png" alt="Dyson Product Back" referrerpolicy="no-referrer" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[100%] w-auto max-w-none max-h-none object-contain filter drop-shadow-md" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                </div>
+
+                                <div class="space-y-1.5">
+                                    <div class="bg-white/80 border border-rose-100 rounded-xl p-2 flex items-center gap-2 shadow-sm">
+                                        <div class="w-8 h-8 rounded-lg bg-rose-50 border border-rose-200/60 flex items-center justify-center shrink-0 p-1">
+                                            <img src="https://img2.91mai.com/o2o/image/8f7026ab-fa75-439f-95ae-bcc5d3b6d994.png" alt="Worldwide Voltage" referrerpolicy="no-referrer" class="h-full object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                        </div>
+                                        <div class="min-w-0">
+                                            <div class="text-[11px] font-bold text-dyson-rose tracking-wide uppercase leading-normal mb-0.5">WORLDWIDE VOLTAGE 國際電壓</div>
+                                            <div class="text-[10px] font-semibold text-slate-600 leading-normal">100-240V~ 50/60Hz．全球適用</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white/80 border border-rose-100 rounded-xl p-2 flex items-center gap-2 shadow-sm">
+                                        <div class="w-8 h-8 rounded-lg bg-rose-50 border border-rose-200/60 flex items-center justify-center shrink-0 p-1">
+                                            <img src="https://img2.91mai.com/o2o/image/e4fdaf70-c264-42d4-ad0b-6b615005d1e7.png" alt="Travel Ready" referrerpolicy="no-referrer" class="h-full object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                        </div>
+                                        <div class="min-w-0">
+                                            <div class="text-[11px] font-bold text-dyson-rose tracking-wide uppercase leading-normal mb-0.5">TRAVEL READY 旅行好夥伴</div>
+                                            <div class="text-[10px] font-semibold text-slate-600 leading-normal">輕巧好收納．輕鬆好攜帶</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white/80 border border-rose-100 rounded-xl p-2 flex items-center gap-2 shadow-sm">
+                                        <div class="w-8 h-8 rounded-lg bg-rose-50 border border-rose-200/60 flex items-center justify-center shrink-0 p-1">
+                                            <img src="https://img2.91mai.com/o2o/image/7317e915-5215-4653-870d-5e32b76fab4e.png" alt="Smart Temp Control" referrerpolicy="no-referrer" class="h-full object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                        </div>
+                                        <div class="min-w-0">
+                                            <div class="text-[11px] font-bold text-dyson-rose tracking-wide uppercase leading-normal mb-0.5">SMART TEMPERATURE CONTROL 智慧控溫</div>
+                                            <div class="text-[10px] font-semibold text-slate-600 leading-normal">每秒智慧監測100次．秀髮零熱損</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-t border-rose-200/80 text-center text-[9px] text-slate-500 shrink-0 h-[45px] flex items-center justify-center -mx-5 -mb-5">
+                                <p class="font-medium">Dyson Supersonic™ Travel 隨行護航</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Action Buttons directly on the right side of the Portrait Card (Top Aligned) -->
+                    <div class="flex flex-col items-center sm:items-start justify-start gap-3 shrink-0 pt-0">
+                        <p class="text-xs font-bold text-dyson-rose tracking-wider uppercase flex items-center gap-1.5 whitespace-nowrap">
+                            <i class="fa-solid fa-heart text-dyson-pink"></i> 立即分享專屬登機證
+                        </p>
+                        <div class="flex flex-col gap-2.5 w-36 sm:w-40">
+                            <button type="button" onclick="downloadBoardingPass()" class="w-full py-2.5 px-3 bg-white hover:bg-rose-50 text-dyson-dark font-bold text-xs rounded-xl border border-rose-200/80 shadow-md flex items-center justify-center gap-2 transition transform active:scale-95">
+                                <i class="fa-solid fa-file-arrow-down text-dyson-rose"></i> 下載圖片
+                            </button>
+                            <button type="button" onclick="shareBoardingPass()" class="w-full py-2.5 px-3 bg-gradient-to-r from-dyson-pink via-dyson-rose to-dyson-bronze hover:opacity-95 text-white font-bold text-xs rounded-xl shadow-lg hover:shadow-rose-300/40 flex items-center justify-center gap-2 transition transform active:scale-95">
+                                <i class="fa-solid fa-image"></i> 分享圖片
+                            </button>
+                            <button type="button" onclick="shareGameLink()" class="w-full py-2.5 px-3 bg-rose-50 hover:bg-rose-100/80 text-dyson-dark font-bold text-xs rounded-xl border border-rose-200 shadow-sm flex items-center justify-center gap-2 transition transform active:scale-95">
+                                <i class="fa-solid fa-paper-plane text-dyson-rose"></i> 分享遊戲
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
