@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dyson Supersonic Nural™ HD19 | 情人節專屬登機證</title>
+    <title>Dyson Supersonic™ Travel HD19 | 情人節專屬登機證</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- html2canvas for Direct HTML Snapshot -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <!-- QRCode.js for 100% Reliable Native QR Code Generation (No CORS Issues) -->
+    <!-- QRCode.js for Native QR Code Generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,12 +23,13 @@
                 extend: {
                     colors: {
                         dyson: {
-                            pink: '#f4b8be',
-                            rose: '#d1828e',
+                            pink: '#e89da2',
+                            rose: '#c9707e',
                             bronze: '#b86b72',
                             dark: '#1e1c24',
-                            cream: '#fbf7f4',
-                            accent: '#e0a96d'
+                            cream: '#faf5f3',
+                            accent: '#d89b65',
+                            softBg: '#f6ecee'
                         }
                     },
                     fontFamily: {
@@ -42,18 +43,18 @@
     <style>
         body {
             font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
-            background: linear-gradient(135deg, #231b28 0%, #3a2638 50%, #1e1522 100%);
-            color: #f3f4f6;
+            background: linear-gradient(135deg, #faf7f5 0%, #f4ecee 50%, #fdfbfb 100%);
+            color: #2d2a32;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
         .ambient-glow {
             position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(244, 184, 190, 0.25) 0%, rgba(209, 130, 142, 0.08) 50%, transparent 70%);
-            filter: blur(60px);
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(232, 157, 162, 0.22) 0%, rgba(209, 130, 142, 0.08) 50%, transparent 70%);
+            filter: blur(70px);
             pointer-events: none;
             border-radius: 50%;
             z-index: 0;
@@ -64,7 +65,7 @@
             top: 50%;
             width: 20px;
             height: 20px;
-            background-color: #231b28;
+            background-color: #f4ecee;
             border-radius: 50%;
             transform: translateY(-50%);
             z-index: 20;
@@ -76,6 +77,17 @@
         .export-mode .ticket-tear-right {
             background-color: #ffffff;
             box-shadow: inset 0 0 4px rgba(0,0,0,0.15);
+        }
+
+        /* html2canvas Export Precision Corrections */
+        .export-mode span,
+        .export-mode p,
+        .export-mode div {
+            line-height: 1 !important;
+        }
+
+        .export-mode .flex.items-center {
+            align-items: center !important;
         }
 
         .dashed-tear {
@@ -104,10 +116,10 @@
             width: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.03);
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(244, 184, 190, 0.4);
+            background: rgba(201, 112, 126, 0.4);
             border-radius: 3px;
         }
 
@@ -119,22 +131,23 @@
         }
     </style>
 </head>
-<body class="relative min-h-screen flex flex-col justify-between selection:bg-dyson-pink selection:text-white">
+<body class="relative min-h-screen flex flex-col justify-between selection:bg-dyson-rose selection:text-white">
 
+    <!-- Ambient background light -->
     <div class="ambient-glow -top-20 -left-20"></div>
     <div class="ambient-glow top-1/2 right-0"></div>
 
-    <header class="relative z-10 border-b border-white/10 backdrop-blur-md bg-black/20">
+    <header class="relative z-10 border-b border-rose-100/80 backdrop-blur-md bg-white/60">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <span class="font-black tracking-tighter text-white text-xl font-serif">dyson</span>
-                <span class="text-xs bg-dyson-pink/20 text-dyson-pink border border-dyson-pink/40 px-2.5 py-0.5 rounded-full font-semibold uppercase tracking-wider">HD19 Supersonic Nural™</span>
+                <span class="font-black tracking-tighter text-dyson-dark text-xl font-serif">dyson</span>
+                <span class="text-xs bg-rose-100/80 text-dyson-rose border border-rose-200 px-2.5 py-0.5 rounded-full font-semibold uppercase tracking-wider">HD19 Supersonic™ Travel</span>
             </div>
             
-            <div class="flex items-center space-x-3 text-xs text-slate-300">
-                <span class="hidden sm:inline"><i class="fa-solid fa-heart text-dyson-rose mr-1 animate-pulse"></i> 情人節特別限定</span>
-                <button onclick="playAirportChime()" class="bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-full transition flex items-center gap-2 border border-white/10">
-                    <i class="fa-solid fa-volume-high text-dyson-pink"></i>
+            <div class="flex items-center space-x-3 text-xs text-slate-600">
+                <span class="hidden sm:inline font-medium"><i class="fa-solid fa-heart text-dyson-rose mr-1 animate-pulse"></i> 情人節特別限定</span>
+                <button onclick="playAirportChime()" class="bg-rose-50 hover:bg-rose-100 text-dyson-dark px-3 py-1.5 rounded-full transition flex items-center gap-2 border border-rose-200/80 shadow-sm active:scale-95">
+                    <i class="fa-solid fa-volume-high text-dyson-rose"></i>
                     <span>登機廣播音效</span>
                 </button>
             </div>
@@ -144,124 +157,154 @@
     <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         <!-- Form Controls Panel -->
-        <section class="lg:col-span-5 bg-white/10 backdrop-blur-xl border border-white/15 p-6 rounded-3xl shadow-2xl space-y-6">
-            <div class="border-b border-white/10 pb-3">
-                <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                    <i class="fa-solid fa-ticket text-dyson-pink"></i> 訂製專屬dyson浪漫機票
+        <section class="lg:col-span-5 bg-white/80 backdrop-blur-xl border border-rose-100/80 p-6 rounded-3xl shadow-xl space-y-6">
+            <div class="border-b border-rose-100 pb-3">
+                <h2 class="text-xl font-bold text-dyson-dark flex items-center gap-2">
+                    <i class="fa-solid fa-ticket text-dyson-rose"></i> 訂製專屬 dyson 浪漫機票
                 </h2>
             </div>
 
-            <div class="bg-dyson-rose/10 border border-dyson-rose/30 rounded-2xl p-3.5 space-y-2">
-                <span class="text-xs font-bold text-dyson-pink flex items-center gap-1.5">
+            <!-- Quick Preset Mode -->
+            <div class="bg-rose-50/70 border border-rose-200/60 rounded-2xl p-3.5 space-y-2">
+                <span class="text-xs font-bold text-dyson-rose flex items-center gap-1.5">
                     <i class="fa-solid fa-wand-magic-sparkles"></i> 浪漫情境一鍵切換模式：
                 </span>
                 <div class="grid grid-cols-2 gap-2">
-                    <button type="button" onclick="applyModePreset('gift')" class="py-2.5 px-3 bg-white/10 hover:bg-dyson-pink/30 text-white text-xs font-semibold rounded-xl border border-white/20 flex items-center justify-center gap-1.5 transition">
-                        <i class="fa-solid fa-paper-plane text-dyson-pink"></i> 飛向心愛的人
+                    <button type="button" onclick="applyModePreset('gift')" class="py-2.5 px-3 bg-white hover:bg-rose-100/50 text-dyson-dark text-xs font-semibold rounded-xl border border-rose-200/80 flex items-center justify-center gap-1.5 transition shadow-sm active:scale-95">
+                        <i class="fa-solid fa-paper-plane text-dyson-rose"></i> 飛向心愛的人
                     </button>
-                    <button type="button" onclick="applyModePreset('together')" class="py-2.5 px-3 bg-white/10 hover:bg-dyson-pink/30 text-white text-xs font-semibold rounded-xl border border-white/20 flex items-center justify-center gap-1.5 transition">
-                        <i class="fa-solid fa-heart-circle-bolt text-dyson-pink"></i> 浪漫同行
+                    <button type="button" onclick="applyModePreset('together')" class="py-2.5 px-3 bg-white hover:bg-rose-100/50 text-dyson-dark text-xs font-semibold rounded-xl border border-rose-200/80 flex items-center justify-center gap-1.5 transition shadow-sm active:scale-95">
+                        <i class="fa-solid fa-heart-circle-bolt text-dyson-rose"></i> 浪漫同行
                     </button>
                 </div>
             </div>
 
             <form id="ticketForm" class="space-y-4" onsubmit="event.preventDefault();">
                 
+                <!-- Passenger Name -->
                 <div>
                     <div class="flex justify-between items-center mb-1">
-                        <label class="block text-xs font-semibold text-dyson-pink uppercase tracking-wider">
+                        <label class="block text-xs font-bold text-dyson-rose uppercase tracking-wider">
                             <i class="fa-solid fa-user-heart mr-1"></i> 旅客姓名 / 情侶名稱 (Passenger)
                         </label>
-                        <span id="charCount" class="text-[10px] text-slate-400 font-mono">8/18</span>
+                        <span id="charCount" class="text-[10px] text-slate-500 font-mono">8/18</span>
                     </div>
-                    <input type="text" id="inPassenger" value="YOU & ME" maxlength="18" class="w-full bg-black/40 border border-white/20 rounded-xl px-4 py-2.5 text-sm font-semibold text-white placeholder-slate-500 focus:outline-none focus:border-dyson-pink focus:ring-1 focus:ring-dyson-pink transition">
+                    <input type="text" id="inPassenger" value="YOU & ME" maxlength="18" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-semibold text-dyson-dark placeholder-slate-400 focus:outline-none focus:border-dyson-rose focus:ring-1 focus:ring-dyson-rose transition">
+                </div>
+
+                <!-- Flight Route -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
+                            <i class="fa-solid fa-plane-departure mr-1 text-dyson-rose"></i> 出發地 (FROM)
+                        </label>
+                        <input type="text" id="inOrigin" value="TAIPEI" maxlength="12" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold text-dyson-dark focus:outline-none focus:border-dyson-rose transition uppercase">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
+                            <i class="fa-solid fa-plane-arrival mr-1 text-dyson-rose"></i> 目的地 (TO)
+                        </label>
+                        <input type="text" id="inDestination" value="YOUR HEART" maxlength="12" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold text-dyson-dark focus:outline-none focus:border-dyson-rose transition uppercase">
+                    </div>
+                </div>
+
+                <!-- Date & Time Controls -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
+                            <i class="fa-solid fa-calendar-days mr-1 text-dyson-rose"></i> 日期 (DATE)
+                        </label>
+                        <input type="date" id="inDate" value="2026-08-19" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
+                            <i class="fa-solid fa-clock mr-1 text-dyson-rose"></i> 時間 (TIME)
+                        </label>
+                        <input type="text" id="inTime" value="13:14" maxlength="5" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
-                            <i class="fa-solid fa-plane-departure mr-1 text-dyson-pink"></i> 出發地 (FROM)
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
+                            <i class="fa-solid fa-door-open mr-1 text-dyson-rose"></i> 登機門 (GATE)
                         </label>
-                        <input type="text" id="inOrigin" value="TAIPEI" maxlength="12" class="w-full bg-black/40 border border-white/20 rounded-xl px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-dyson-pink transition uppercase">
+                        <input type="text" id="inGate" value="19" maxlength="6" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
-                            <i class="fa-solid fa-plane-arrival mr-1 text-dyson-pink"></i> 目的地 (TO)
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
+                            <i class="fa-solid fa-chair mr-1 text-dyson-rose"></i> 座位 (SEAT)
                         </label>
-                        <input type="text" id="inDestination" value="YOUR HEART" maxlength="12" class="w-full bg-black/40 border border-white/20 rounded-xl px-3 py-2 text-sm font-bold text-white focus:outline-none focus:border-dyson-pink transition uppercase">
+                        <input type="text" id="inSeat" value="52A" maxlength="6" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
                     </div>
                 </div>
 
+                <!-- Message Control -->
                 <div>
                     <div class="flex justify-between items-center mb-1">
-                        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
-                            <i class="fa-solid fa-quote-left mr-1 text-dyson-pink"></i> 情意悄悄話 (Message)
+                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                            <i class="fa-solid fa-quote-left mr-1 text-dyson-rose"></i> 情意悄悄話 (Message)
                         </label>
-                        <button type="button" onclick="randomizeInspiration()" class="text-[10px] text-dyson-pink hover:text-white bg-dyson-pink/20 hover:bg-dyson-pink/40 border border-dyson-pink/30 px-2.5 py-0.5 rounded-full transition flex items-center justify-center">
+                        <button type="button" onclick="randomizeInspiration()" class="text-[10px] text-dyson-rose hover:text-white bg-rose-100/60 hover:bg-dyson-rose border border-rose-200 px-2.5 py-0.5 rounded-full transition flex items-center justify-center font-medium">
                             隨機靈感
                         </button>
                     </div>
-                    <input type="text" id="inMessage" value="YOU ARE MY DESTINATION." maxlength="45" class="w-full bg-black/40 border border-white/20 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-dyson-pink transition">
+                    <input type="text" id="inMessage" value="YOU ARE MY DESTINATION." maxlength="45" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-xs text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
                 </div>
 
+                <!-- Format Controls -->
                 <div class="pt-2">
-                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">預覽與產出版本 (View Format)</label>
+                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">預覽與產出版本 (View Format)</label>
                     <div class="grid grid-cols-2 gap-2">
-                        <button type="button" id="btnModeLandscape" onclick="switchMode('landscape')" class="py-2.5 px-3 rounded-xl border border-dyson-pink bg-dyson-pink/20 text-white font-semibold text-xs flex items-center justify-center gap-2 transition shadow-lg">
-                            <i class="fa-solid fa-desktop"></i> 橫式 (電腦/分享)
+                        <button type="button" id="btnModePortrait" onclick="switchMode('portrait')" class="py-2.5 px-3 rounded-xl border border-dyson-rose bg-rose-100/70 text-dyson-dark font-bold text-xs flex items-center justify-center gap-2 transition shadow-sm">
+                            <i class="fa-solid fa-mobile-screen-button text-dyson-rose"></i> 直式 (手機)
                         </button>
-                        <button type="button" id="btnModePortrait" onclick="switchMode('portrait')" class="py-2.5 px-3 rounded-xl border border-white/10 bg-black/30 text-slate-300 hover:text-white font-semibold text-xs flex items-center justify-center gap-2 transition">
-                            <i class="fa-solid fa-mobile-screen-button"></i> 直式 (手機卡包)
+                        <button type="button" id="btnModeLandscape" onclick="switchMode('landscape')" class="py-2.5 px-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 hover:text-dyson-dark font-semibold text-xs flex items-center justify-center gap-2 transition">
+                            <i class="fa-solid fa-desktop"></i> 橫式 (電腦)
                         </button>
                     </div>
                 </div>
 
-                <div class="pt-2">
-                    <button type="button" onclick="downloadBoardingPass()" class="w-full py-3.5 bg-gradient-to-r from-dyson-pink via-dyson-rose to-dyson-bronze hover:opacity-90 text-white font-bold text-sm rounded-xl shadow-xl hover:shadow-dyson-pink/30 flex items-center justify-center gap-2 transition transform active:scale-95">
-                        <i class="fa-solid fa-download"></i> 下載專屬登機證 (100% 完整產出)
-                    </button>
-                </div>
             </form>
         </section>
 
         <section class="lg:col-span-7 flex flex-col items-center justify-center w-full min-h-[500px]">
             
             <div class="w-full flex justify-between items-center mb-4 px-2">
-                <span class="text-xs font-semibold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span class="text-xs font-semibold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
                     Live Boarding Pass Preview
                 </span>
-                <button type="button" onclick="toggleCardFlip()" class="text-xs text-dyson-pink hover:text-white bg-dyson-pink/20 hover:bg-dyson-pink/40 border border-dyson-pink/30 px-3 py-1 rounded-full font-medium transition flex items-center gap-1.5 shadow">
-                    <i class="fa-solid fa-rotate text-dyson-pink"></i> 翻轉檢視卡片背面
+                <button type="button" onclick="toggleCardFlip()" class="text-xs text-dyson-rose hover:text-dyson-dark bg-white/80 hover:bg-rose-50 border border-rose-200 px-3 py-1 rounded-full font-semibold transition flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid fa-rotate text-dyson-rose"></i> 翻轉檢視卡片背面
                 </button>
             </div>
 
             <!-- Landscape Boarding Pass Container (672x320) -->
-            <div id="wrapperLandscape" class="w-full flex justify-center transition-all duration-300 perspective-1000">
+            <div id="wrapperLandscape" class="hidden w-full flex justify-center transition-all duration-300 perspective-1000">
                 <div id="cardInnerLandscape" onclick="toggleCardFlip()" class="transform-style-3d w-full max-w-2xl h-[320px] relative cursor-pointer group">
                     
                     <!-- LANDSCAPE FRONT SIDE -->
-                    <div id="ticketLandscape" class="backface-hidden ticket-pass-bg w-full h-full rounded-3xl shadow-2xl text-slate-800 overflow-hidden relative border border-white/60 flex absolute inset-0">
+                    <div id="ticketLandscape" class="backface-hidden ticket-pass-bg w-full h-full rounded-3xl shadow-2xl text-slate-800 overflow-hidden relative border border-white/80 flex absolute inset-0">
                         <div class="ticket-tear-left shadow-inner"></div>
                         
-                        <div class="w-2/3 p-5 flex flex-col justify-between relative bg-gradient-to-br from-white/90 via-rose-50/60 to-orange-50/40 overflow-hidden">
+                        <div class="w-2/3 p-5 flex flex-col justify-between relative bg-gradient-to-br from-white/95 via-rose-50/70 to-orange-50/50 overflow-hidden">
                             <div class="flex justify-between items-start relative z-10 shrink-0">
-                                <div>
+                                <div class="min-w-0 flex-1 pr-2">
                                     <div class="flex items-center space-x-2">
                                         <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" referrerpolicy="no-referrer" class="h-4 sm:h-5 object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                                         <img src="https://img2.91mai.com/o2o/image/868ce2a2-8242-44af-a034-4af1b72ea151.png" alt="Category Logo" referrerpolicy="no-referrer" class="h-3.5 sm:h-4 object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
-                                        <!-- Bulletproof SVG Image Pill Badge for HD19 -->
-                                        <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2248%22%20height%3D%2220%22%20viewBox%3D%220%200%2048%2020%22%3E%3Crect%20width%3D%2248%22%20height%3D%2220%22%20rx%3D%2210%22%20fill%3D%22%23d1828e%22%2F%3E%3Ctext%20x%3D%2224%22%20y%3D%2210.5%22%20font-family%3D%22Montserrat%2C%20Arial%2C%20sans-serif%22%20font-weight%3D%22800%22%20font-size%3D%2210%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22central%22%3EHD19%3C%2Ftext%3E%3C%2Fsvg%3E" alt="HD19" class="h-4 sm:h-4.5 object-contain shrink-0">
                                     </div>
-                                    <p class="text-[9px] text-dyson-rose font-bold tracking-wider mt-0.5">DYSON AIRWAYS • VALENTINE SPECIAL</p>
+                                    <p class="text-[8px] sm:text-[9px] text-dyson-rose font-bold tracking-tight mt-0.5 whitespace-nowrap">DYSON AIRWAYS • FLIGHT HD19 • VALENTINE SPECIAL</p>
                                 </div>
-                                <span class="text-xs font-extrabold text-slate-400 tracking-widest font-serif">BOARDING PASS</span>
+                                <span class="text-xs font-extrabold text-slate-500 tracking-wider font-serif whitespace-nowrap shrink-0 ml-2 text-right">BOARDING PASS</span>
                             </div>
 
                             <div class="mt-4 mb-1 relative z-10 shrink-0">
                                 <div class="flex items-center justify-between px-1 min-h-[48px]">
                                     <div class="text-left w-[42%] min-w-0 pr-1 flex flex-col justify-center">
-                                        <p id="outOriginL" class="text-2xl sm:text-3xl font-black text-slate-800 tracking-tight font-sans leading-none break-normal">TAIPEI</p>
+                                        <p class="text-2xl sm:text-3xl font-black text-slate-800 tracking-wider font-sans leading-none">TPE</p>
+                                        <p id="outOriginL" class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-1 break-words">TAIPEI</p>
                                     </div>
 
                                     <div class="w-16 sm:w-20 px-1 flex flex-col items-center justify-center shrink-0">
@@ -275,24 +318,20 @@
                                                 </svg>
                                             </div>
                                         </div>
+                                        <span class="text-[8px] font-bold text-dyson-rose/80 uppercase tracking-widest text-center mt-1">FLIGHT HD19</span>
                                     </div>
 
                                     <div class="text-right w-[42%] min-w-0 pl-1 flex flex-col justify-center">
-                                        <p id="outDestinationL" class="text-2xl sm:text-3xl font-black text-dyson-rose tracking-tight font-sans leading-none break-normal">LONDON</p>
+                                        <p class="text-2xl sm:text-3xl font-black text-dyson-rose tracking-wider font-sans leading-none">YOU</p>
+                                        <p id="outDestinationL" class="text-[10px] font-bold text-dyson-rose/80 uppercase tracking-wider mt-1 break-words">YOUR HEART</p>
                                     </div>
-                                </div>
-
-                                <div class="flex items-center justify-between px-1 mt-1">
-                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest w-[42%] text-left">FROM</p>
-                                    <span class="text-[8px] font-bold text-dyson-rose/80 uppercase tracking-widest text-center w-16 sm:w-20 shrink-0">FLIGHT HD19</span>
-                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest w-[42%] text-right">TO</p>
                                 </div>
                             </div>
 
                             <div class="flex items-center justify-between pt-2.5 border-t border-slate-200/80 relative z-10 shrink-0">
                                 <div class="pr-2 flex-1 min-w-0 flex flex-col justify-center">
                                     <p id="outMessageL" class="text-sm italic text-dyson-rose font-semibold tracking-wide leading-snug break-words">"YOU ARE MY DESTINATION."</p>
-                                    <p class="text-[9px] text-slate-400 font-medium mt-0.5 leading-tight">情人節限定 x 輕巧登機 x 完美造型<br>Supersonic Nural™ 吹護合一</p>
+                                    <p class="text-[9px] text-slate-500 font-medium mt-0.5 leading-tight">情人節限定 x 輕巧登機 x 完美造型<br>Supersonic™ Travel HD19 國際電壓隨行吹風機</p>
                                 </div>
 
                                 <div class="flex flex-col items-center shrink-0">
@@ -308,18 +347,18 @@
                             <div class="ticket-tear-right shadow-inner"></div>
 
                             <div class="flex justify-between items-center shrink-0 pb-1 border-b border-slate-100">
-                                <span class="font-extrabold text-slate-400 text-[10px] tracking-widest uppercase font-serif">PASSENGER COUPON</span>
+                                <span class="font-extrabold text-slate-500 text-[10px] tracking-widest uppercase font-serif">PASSENGER COUPON</span>
                                 <i class="fa-solid fa-heart text-dyson-rose text-xs"></i>
                             </div>
 
                             <div class="space-y-1.5 py-1 text-xs min-w-0 flex-1 flex flex-col justify-center">
                                 <div class="pb-0.5">
-                                    <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest">PASSENGER</p>
+                                    <p class="text-[8px] font-medium text-slate-500 uppercase tracking-widest">PASSENGER</p>
                                     <p id="outPassengerStub" class="font-black text-dyson-rose text-[18px] leading-snug break-words">YOU & ME</p>
                                 </div>
                                 
                                 <div>
-                                    <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">CLASS</p>
+                                    <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wider">CLASS</p>
                                     <div id="outClassStub" class="font-extrabold text-slate-800 text-xs leading-snug">
                                         First Class<br><span class="text-[9px] font-medium text-slate-500">頭等艙</span>
                                     </div>
@@ -327,22 +366,22 @@
 
                                 <div class="flex justify-between items-center">
                                     <div>
-                                        <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">DATE</p>
+                                        <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wider">DATE</p>
                                         <p id="outDateStub" class="font-extrabold text-slate-800 text-xs">2026/08/19</p>
                                     </div>
                                     <div class="text-right">
-                                        <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">BOARDING TIME</p>
+                                        <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wider">BOARDING TIME</p>
                                         <p id="outTimeStub" class="font-extrabold text-slate-800 text-xs">13:14</p>
                                     </div>
                                 </div>
 
                                 <div class="flex justify-between items-center">
                                     <div>
-                                        <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">GATE</p>
+                                        <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wider">GATE</p>
                                         <p id="outGateStub" class="font-extrabold text-slate-900 text-xs">19</p>
                                     </div>
                                     <div class="text-right">
-                                        <p class="text-[8px] font-bold text-slate-400 uppercase tracking-wider">SEAT</p>
+                                        <p class="text-[8px] font-medium text-slate-500 uppercase tracking-wider">SEAT</p>
                                         <p id="outSeatStub" class="font-extrabold text-slate-900 text-xs">52A</p>
                                     </div>
                                 </div>
@@ -355,57 +394,57 @@
                     </div>
 
                     <!-- LANDSCAPE BACK SIDE -->
-                    <div id="ticketLandscapeBack" class="backface-hidden rotate-y-180 bg-gradient-to-br from-[#1e1c24] via-[#2d2230] to-[#17121b] text-white w-full h-full rounded-3xl shadow-2xl p-5 border border-dyson-rose/40 flex flex-col justify-between absolute inset-0 overflow-hidden">
+                    <div id="ticketLandscapeBack" class="backface-hidden rotate-y-180 ticket-pass-bg text-slate-800 w-full h-full rounded-3xl shadow-2xl p-5 border border-white/80 flex flex-col justify-between absolute inset-0 overflow-hidden">
                         
-                        <div class="flex justify-between items-center border-b border-white/10 pb-2.5 shrink-0">
+                        <div class="flex justify-between items-center border-b border-rose-200/80 pb-2.5 shrink-0">
                             <div class="flex items-center space-x-2">
-                                <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" referrerpolicy="no-referrer" class="h-4 sm:h-5 object-contain filter brightness-0 invert" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
-                                <span class="text-xs font-bold text-dyson-pink">Supersonic Nural™ HD19</span>
+                                <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" referrerpolicy="no-referrer" class="h-4 sm:h-5 object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                <span class="text-xs font-bold text-dyson-rose">Supersonic™ Travel HD19</span>
                             </div>
-                            <span class="inline-flex items-center justify-center text-[10px] bg-dyson-rose/30 text-dyson-pink border border-dyson-rose/40 px-3 py-1 rounded-full font-mono uppercase leading-none text-center">TRAVEL ESSENTIALS</span>
+                            <span class="inline-flex items-center justify-center text-[10px] bg-rose-100/80 text-dyson-rose border border-rose-200 px-3 py-1 rounded-full font-semibold uppercase leading-none text-center">TRAVEL ESSENTIALS</span>
                         </div>
 
                         <div class="flex-1 grid grid-cols-12 gap-3 items-center py-1.5 min-h-0">
-                            <div class="col-span-4 h-[180px] w-full bg-white/5 rounded-2xl border border-white/10 relative overflow-hidden mx-auto">
-                                <img src="https://img2.91mai.com/o2o/image/8c945b4d-ce18-4ac1-8b0e-08d3f19d287a.png" alt="Dyson Product Back" referrerpolicy="no-referrer" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[100%] w-auto max-w-none max-h-none object-contain filter drop-shadow-lg" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                            <div class="col-span-4 h-[180px] w-full bg-white/80 rounded-2xl border border-rose-100 shadow-sm relative overflow-hidden mx-auto">
+                                <img src="https://img2.91mai.com/o2o/image/8c945b4d-ce18-4ac1-8b0e-08d3f19d287a.png" alt="Dyson Product Back" referrerpolicy="no-referrer" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[100%] w-auto max-w-none max-h-none object-contain filter drop-shadow-md" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                             </div>
 
                             <div class="col-span-8 flex flex-col justify-center space-y-2">
-                                <div class="bg-white/5 border border-white/10 rounded-xl p-2.5 flex items-center gap-3 hover:border-dyson-pink/40 transition">
-                                    <div class="w-8 h-8 rounded-lg bg-dyson-pink/10 border border-dyson-pink/30 flex items-center justify-center shrink-0 p-1">
-                                        <img src="https://img2.91mai.com/o2o/image/8f7026ab-fa75-439f-95ae-bcc5d3b6d994.png" alt="Worldwide Voltage" referrerpolicy="no-referrer" class="h-full object-contain filter brightness-120" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                <div class="bg-white/80 border border-rose-100/90 rounded-xl p-2.5 flex items-center gap-3 shadow-sm hover:border-dyson-rose/40 transition">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-50 border border-rose-200/60 flex items-center justify-center shrink-0 p-1">
+                                        <img src="https://img2.91mai.com/o2o/image/8f7026ab-fa75-439f-95ae-bcc5d3b6d994.png" alt="Worldwide Voltage" referrerpolicy="no-referrer" class="h-full object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                                     </div>
                                     <div class="min-w-0">
-                                        <div class="text-[11px] font-bold text-dyson-pink tracking-wide uppercase leading-normal mb-0.5">WORLDWIDE VOLTAGE 國際電壓</div>
-                                        <div class="text-[10px] font-semibold text-slate-200 leading-normal">100-240V~ 50/60Hz．全球適用</div>
+                                        <div class="text-[11px] font-bold text-dyson-rose tracking-wide uppercase leading-normal mb-0.5">WORLDWIDE VOLTAGE 國際電壓</div>
+                                        <div class="text-[10px] font-semibold text-slate-600 leading-normal">100-240V~ 50/60Hz．全球適用</div>
                                     </div>
                                 </div>
 
-                                <div class="bg-white/5 border border-white/10 rounded-xl p-2.5 flex items-center gap-3 hover:border-dyson-pink/40 transition">
-                                    <div class="w-8 h-8 rounded-lg bg-dyson-pink/10 border border-dyson-pink/30 flex items-center justify-center shrink-0 p-1">
-                                        <img src="https://img2.91mai.com/o2o/image/e4fdaf70-c264-42d4-ad0b-6b615005d1e7.png" alt="Travel Ready" referrerpolicy="no-referrer" class="h-full object-contain filter brightness-120" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                <div class="bg-white/80 border border-rose-100/90 rounded-xl p-2.5 flex items-center gap-3 shadow-sm hover:border-dyson-rose/40 transition">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-50 border border-rose-200/60 flex items-center justify-center shrink-0 p-1">
+                                        <img src="https://img2.91mai.com/o2o/image/e4fdaf70-c264-42d4-ad0b-6b615005d1e7.png" alt="Travel Ready" referrerpolicy="no-referrer" class="h-full object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                                     </div>
                                     <div class="min-w-0">
-                                        <div class="text-[11px] font-bold text-dyson-pink tracking-wide uppercase leading-normal mb-0.5">TRAVEL READY 旅行好夥伴</div>
-                                        <div class="text-[10px] font-semibold text-slate-200 leading-normal">輕巧好收納．輕鬆好攜帶</div>
+                                        <div class="text-[11px] font-bold text-dyson-rose tracking-wide uppercase leading-normal mb-0.5">TRAVEL READY 旅行好夥伴</div>
+                                        <div class="text-[10px] font-semibold text-slate-600 leading-normal">輕巧好收納．輕鬆好攜帶</div>
                                     </div>
                                 </div>
 
-                                <div class="bg-white/5 border border-white/10 rounded-xl p-2.5 flex items-center gap-3 hover:border-dyson-pink/40 transition">
-                                    <div class="w-8 h-8 rounded-lg bg-dyson-pink/10 border border-dyson-pink/30 flex items-center justify-center shrink-0 p-1">
-                                        <img src="https://img2.91mai.com/o2o/image/7317e915-5215-4653-870d-5e32b76fab4e.png" alt="Smart Temp Control" referrerpolicy="no-referrer" class="h-full object-contain filter brightness-120" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                <div class="bg-white/80 border border-rose-100/90 rounded-xl p-2.5 flex items-center gap-3 shadow-sm hover:border-dyson-rose/40 transition">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-50 border border-rose-200/60 flex items-center justify-center shrink-0 p-1">
+                                        <img src="https://img2.91mai.com/o2o/image/7317e915-5215-4653-870d-5e32b76fab4e.png" alt="Smart Temp Control" referrerpolicy="no-referrer" class="h-full object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                                     </div>
                                     <div class="min-w-0">
-                                        <div class="text-[11px] font-bold text-dyson-pink tracking-wide uppercase leading-normal mb-0.5">SMART TEMPERATURE CONTROL 智慧控溫</div>
-                                        <div class="text-[10px] font-semibold text-slate-200 leading-normal">每秒智慧監測100次．秀髮零熱損</div>
+                                        <div class="text-[11px] font-bold text-dyson-rose tracking-wide uppercase leading-normal mb-0.5">SMART TEMPERATURE CONTROL 智慧控溫</div>
+                                        <div class="text-[10px] font-semibold text-slate-600 leading-normal">每秒智慧監測100次．秀髮零熱損</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="flex justify-between items-center border-t border-white/10 pt-1.5 text-[10px] text-slate-400 shrink-0">
+                        <div class="flex justify-between items-center border-t border-rose-200/80 pt-1.5 text-[10px] text-slate-500 shrink-0">
                             <span>智慧護髮黑科技 • 隨行寵愛首選</span>
-                            <span class="text-dyson-pink font-semibold flex items-center gap-1"><i class="fa-solid fa-plane-departure"></i> Ready To Take Off</span>
+                            <span class="text-dyson-rose font-bold flex items-center gap-1"><i class="fa-solid fa-plane-departure"></i> Ready To Take Off</span>
                         </div>
 
                     </div>
@@ -414,111 +453,139 @@
             </div>
 
             <!-- Portrait Boarding Pass Container (320x580) -->
-            <div id="wrapperPortrait" class="hidden w-full flex justify-center transition-all duration-300 perspective-1000">
+            <div id="wrapperPortrait" class="w-full flex justify-center transition-all duration-300 perspective-1000">
                 <div id="cardInnerPortrait" onclick="toggleCardFlip()" class="transform-style-3d w-[320px] h-[580px] relative cursor-pointer group">
                     
                     <!-- PORTRAIT FRONT SIDE -->
                     <div id="ticketPortrait" class="backface-hidden w-full h-full bg-white shadow-2xl rounded-3xl overflow-hidden relative text-slate-800 flex flex-col justify-between absolute inset-0 border border-rose-100">
-                        <div class="ticket-tear-left shadow-inner"></div>
-                        <div class="ticket-tear-right shadow-inner"></div>
 
-                        <div class="ticket-header-grad p-4 text-white relative overflow-hidden shrink-0">
+                        <!-- Header -->
+                        <div class="ticket-header-grad p-3.5 text-white relative overflow-hidden shrink-0">
                             <div class="flex justify-between items-center relative z-10">
                                 <div class="flex items-center space-x-2">
                                     <img src="https://img2.91mai.com/o2o/image/b547989b-62c9-47e2-b548-5f00574216ea.png" alt="dyson" referrerpolicy="no-referrer" class="h-4 object-contain filter brightness-0 invert" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                                     <img src="https://img2.91mai.com/o2o/image/868ce2a2-8242-44af-a034-4af1b72ea151.png" alt="Category Logo" referrerpolicy="no-referrer" class="h-3.5 object-contain filter brightness-0 invert" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
-                                    <!-- Bulletproof SVG Image Pill Badge for Portrait HD19 -->
-                                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2248%22%20height%3D%2220%22%20viewBox%3D%220%200%2048%2020%22%3E%3Crect%20width%3D%2248%22%20height%3D%2220%22%20rx%3D%2210%22%20fill%3D%22rgba(255%2C255%2C255%2C0.3)%22%2F%3E%3Ctext%20x%3D%2224%22%20y%3D%2210.5%22%20font-family%3D%22Montserrat%2C%20Arial%2C%20sans-serif%22%20font-weight%3D%22800%22%20font-size%3D%2210%22%20fill%3D%22%23ffffff%22%20text-anchor%3D%22middle%22%20dominant-baseline%3D%22central%22%3EHD19%3C%2Ftext%3E%3C%2Fsvg%3E" alt="HD19" class="h-3.5 object-contain shrink-0">
                                 </div>
                                 <span class="text-xs font-black tracking-widest uppercase font-serif">BOARDING PASS</span>
                             </div>
-                            <p class="text-[8px] tracking-widest uppercase mt-1 text-white/90 font-bold">DYSON AIRWAYS • FLIGHT HD19</p>
+                            <p class="text-[8px] tracking-widest uppercase mt-0.5 text-white/90 font-bold">DYSON AIRWAYS • FLIGHT HD19</p>
                         </div>
 
-                        <div class="px-4 py-3 flex-1 flex flex-col justify-between bg-white divide-y divide-slate-100 overflow-hidden">
+                        <!-- TOP SECTION (ABOVE TEAR LINE) - FAINT SOFT PINK BG -->
+                        <div class="px-4 pt-2 pb-1 bg-rose-50/40 flex flex-col justify-between shrink-0">
                             
-                            <div class="pb-1.5 relative h-32 flex items-center justify-center shrink-0">
-                                <img src="https://img.91app.com/webapi/imagesV3/Original/SalePage/11670106/2/639202210906470000?v=1" alt="Dyson HD19" referrerpolicy="no-referrer" class="w-28 h-28 object-contain rounded-2xl overflow-hidden" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                            <!-- Product Image & QR Code Side-by-Side -->
+                            <div class="pb-1 relative flex items-center justify-between px-1 shrink-0">
+                                <div class="flex items-center justify-center flex-1 pr-2">
+                                    <img src="https://img.91app.com/webapi/imagesV3/Original/SalePage/11670106/2/639202210906470000?v=1" alt="Dyson HD19" referrerpolicy="no-referrer" class="w-[110px] h-[110px] object-contain rounded-none overflow-hidden filter drop-shadow-sm transition-transform hover:scale-105" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                </div>
+                                <div class="flex flex-col items-center justify-center shrink-0 pl-3 border-l border-dashed border-rose-200">
+                                    <span class="text-[7px] font-extrabold text-dyson-rose uppercase tracking-widest mb-1">BOARDING PASS</span>
+                                    <img id="qrCodePortrait" src="" alt="QR Code" class="h-11 w-11 object-contain rounded-none shadow-sm">
+                                </div>
                             </div>
 
-                            <div class="py-2 shrink-0">
-                                <div class="flex items-center justify-between px-1 min-h-[36px]">
-                                    <div class="text-left w-[38%] min-w-0 flex flex-col justify-center">
-                                        <p id="outOriginP" class="text-xl sm:text-2xl font-black text-slate-800 tracking-tight leading-none break-normal">TAIPEI</p>
+                            <!-- PASSENGER, CLASS AND MESSAGE GROUP -->
+                            <div class="pt-2.5 pb-1 shrink-0 bg-transparent space-y-1">
+                                <div class="flex justify-between items-start shrink-0 px-0.5">
+                                    <div class="flex flex-col text-left min-w-0 flex-1 pr-2">
+                                        <span class="text-[8px] font-medium text-slate-500 uppercase tracking-widest mb-0.5">PASSENGER</span>
+                                        <span id="outPassengerP" class="font-black text-dyson-rose text-[18px] leading-tight break-words">YOU & ME</span>
                                     </div>
+                                    <div class="flex flex-col text-right shrink-0 pl-2">
+                                        <span class="text-[8px] font-medium text-slate-500 uppercase tracking-widest mb-0.5">CLASS</span>
+                                        <div id="outClassP" class="font-extrabold text-slate-900 text-xs leading-tight">
+                                            First Class<br><span class="text-[9px] font-medium text-slate-500">頭等艙</span>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                    <div class="w-16 px-1 flex flex-col items-center justify-center shrink-0">
-                                        <div class="w-full relative flex items-center justify-center h-5">
-                                            <div class="w-full border-t-2 border-dashed border-dyson-rose/60"></div>
-                                            <div class="absolute w-6 h-6 rounded-full bg-white/90 border border-white/80 shadow-sm flex items-center justify-center">
-                                                <svg class="w-3.5 h-3.5 text-dyson-rose fill-current" viewBox="0 0 24 24">
-                                                    <g transform="rotate(90 12 12)">
-                                                        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
-                                                    </g>
-                                                </svg>
-                                            </div>
+                                <!-- MESSAGE -->
+                                <div class="pt-1 pb-1 flex flex-col items-center justify-center h-[52px] text-center shrink-0 min-w-0 bg-transparent">
+                                    <p id="outMessageP" class="text-sm italic font-semibold text-dyson-rose leading-snug break-words">"YOU ARE MY DESTINATION."</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- DASHED TEAR LINE CONNECTED WITH SIDE NOTCHES -->
+                        <div class="relative flex items-center justify-center my-0.5 shrink-0">
+                            <div class="absolute left-0 -translate-x-1/2 w-5 h-5 bg-[#f4ecee] rounded-full z-10 shadow-inner"></div>
+                            <div class="w-full border-t border-dashed border-slate-200/80"></div>
+                            <div class="absolute right-0 translate-x-1/2 w-5 h-5 bg-[#f4ecee] rounded-full z-10 shadow-inner"></div>
+                        </div>
+
+                        <!-- BOTTOM SECTION (BELOW TEAR LINE) - WHITE BG -->
+                        <div class="px-4 py-0 flex-1 flex flex-col justify-start bg-white overflow-hidden">
+
+                            <!-- ROUTE TPE YOU (OPTICAL 41PX SPACING FOR PLANE ICON) -->
+                            <div class="pt-[41px] pb-[25px] shrink-0 flex flex-col items-center justify-center">
+                                <div class="flex items-center justify-between w-full px-1">
+                                    <span class="text-3xl font-black text-slate-800 tracking-wider leading-none">TPE</span>
+                                    <svg class="w-6 h-6 text-dyson-rose fill-current shrink-0" viewBox="0 0 24 24">
+                                        <g transform="rotate(90 12 12)">
+                                            <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                                        </g>
+                                    </svg>
+                                    <span class="text-3xl font-black text-dyson-rose tracking-wider leading-none">YOU</span>
+                                </div>
+                                
+                                <div class="flex justify-between items-center w-full px-1 mt-1 text-[10px] font-bold">
+                                    <span id="outOriginP" class="text-slate-500 uppercase tracking-wider text-left break-words max-w-[45%] leading-none">TAIPEI</span>
+                                    <span id="outDestinationP" class="text-dyson-rose/80 uppercase tracking-wider text-right break-words max-w-[45%] leading-none">YOUR HEART</span>
+                                </div>
+                            </div>
+
+                            <!-- LOWER CONTAINER FOR DETAILS & BAGGAGE WITH NATURAL FLEX FILL -->
+                            <div class="flex-1 flex flex-col justify-start">
+                                <!-- FLIGHT DETAILS GRID -->
+                                <div class="pt-2.5 pb-2.5 shrink-0 bg-white border-t border-slate-200/80">
+                                    <div class="grid grid-cols-4 gap-1 text-center bg-transparent items-start">
+                                        <div class="px-0.5 min-w-0">
+                                            <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tight leading-normal mb-0.5">DATE</div>
+                                            <div id="outDateP" class="font-extrabold text-slate-800 text-xs leading-normal">2026/08/19</div>
+                                        </div>
+                                        <div class="px-0.5 min-w-0">
+                                            <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tighter leading-normal mb-0.5">BOARDING TIME</div>
+                                            <div id="outTimeP" class="font-extrabold text-slate-800 text-xs leading-normal">13:14</div>
+                                        </div>
+                                        <div class="px-0.5 min-w-0">
+                                            <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tight leading-normal mb-0.5">GATE</div>
+                                            <div id="outGateP" class="font-extrabold text-slate-900 text-xs leading-normal">19</div>
+                                        </div>
+                                        <div class="px-0.5 min-w-0">
+                                            <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tight leading-normal mb-0.5">SEAT</div>
+                                            <div id="outSeatP" class="font-extrabold text-slate-900 text-xs leading-normal">52A</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- SEAMLESS SOFT PINK CONTAINER FOR BAGGAGE & SUBTEXT -->
+                                <div class="-mx-4 flex-1 flex flex-col justify-start bg-rose-50/40 border-t border-rose-100/80 text-slate-800">
+                                    <!-- BAGGAGE ALLOWANCE SECTION -->
+                                    <div class="px-4 pt-1.5 pb-1">
+                                        <div class="flex items-center justify-between text-[8px] font-medium text-slate-500 uppercase tracking-wider mb-0.5">
+                                            <span><i class="fa-solid fa-suitcase-rolling text-dyson-rose mr-1"></i> BAGGAGE</span>
+                                            <span class="text-slate-800 font-bold">INCLUDED</span>
+                                        </div>
+                                        <div class="text-[10px] font-extrabold text-slate-800 space-y-0.5">
+                                            <p class="leading-tight">1 x 330g HD19 國際電壓隨行吹風機</p>
+                                            <p class="leading-tight">1 x Crash Baggage MINI ICON 撞擊隨身包</p>
                                         </div>
                                     </div>
 
-                                    <div class="text-right w-[38%] min-w-0 flex flex-col justify-center">
-                                        <p id="outDestinationP" class="text-xl sm:text-2xl font-black text-dyson-rose tracking-tight leading-none break-normal">LONDON</p>
+                                    <!-- DYSON PRODUCT SUBTEXT -->
+                                    <div class="px-2 py-1.5 text-center border-t border-rose-100/80 my-auto">
+                                        <p class="text-[9px] text-slate-500 font-medium leading-tight">情人節限定 x 輕巧登機 x 完美造型<br>Supersonic™ Travel HD19 國際電壓隨行吹風機</p>
                                     </div>
                                 </div>
-
-                                <div class="flex items-center justify-between px-1 mt-0.5">
-                                    <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest w-[42%] text-left">FROM</p>
-                                    <p class="text-[8px] font-extrabold text-dyson-rose uppercase tracking-wider text-center shrink-0">FLIGHT HD19</p>
-                                    <p class="text-[8px] font-bold text-slate-400 uppercase tracking-widest w-[42%] text-right">TO</p>
-                                </div>
-                            </div>
-
-                            <div class="py-2 space-y-1.5 shrink-0 bg-white">
-                                <div class="flex justify-between items-center min-w-0 pb-0.5">
-                                    <span class="text-[8px] font-bold text-slate-400 uppercase tracking-widest shrink-0 mr-1">PASSENGER</span>
-                                    <span id="outPassengerP" class="font-black text-dyson-rose text-[18px] leading-snug break-words text-right">YOU & ME</span>
-                                </div>
-
-                                <div class="flex justify-between items-center min-w-0">
-                                    <span class="text-[8px] font-bold text-slate-400 uppercase tracking-widest shrink-0 mr-1">CLASS</span>
-                                    <div id="outClassP" class="font-bold text-dyson-rose text-xs text-right leading-snug min-w-0 max-w-[170px] break-words">
-                                        First Class<br><span class="text-[9px] font-medium text-dyson-rose/80">頭等艙</span>
-                                    </div>
-                                </div>
-
-                                <div class="grid grid-cols-4 gap-1 py-2 text-center bg-white rounded-xl border border-rose-100 items-start">
-                                    <div class="border-r border-rose-100 px-0.5 min-w-0">
-                                        <div class="text-[7px] font-bold text-slate-400 uppercase tracking-tight leading-normal mb-1">FLIGHT</div>
-                                        <div class="font-extrabold text-dyson-rose text-[9px] leading-normal">HD19</div>
-                                    </div>
-                                    <div class="border-r border-rose-100 px-0.5 min-w-0">
-                                        <div class="text-[7px] font-bold text-slate-400 uppercase tracking-tight leading-normal mb-1">DATE</div>
-                                        <div id="outDateP" class="font-extrabold text-slate-800 text-[9px] leading-normal">2026/08/19</div>
-                                    </div>
-                                    <div class="border-r border-rose-100 px-0.5 min-w-0">
-                                        <div class="text-[6.5px] font-bold text-slate-400 uppercase tracking-tighter leading-normal mb-1">BOARDING TIME</div>
-                                        <div id="outTimeP" class="font-extrabold text-slate-800 text-[9px] leading-normal">13:14</div>
-                                    </div>
-                                    <div class="px-0.5 min-w-0">
-                                        <div class="text-[6.5px] font-bold text-slate-400 uppercase tracking-tighter leading-normal mb-1">GATE / SEAT</div>
-                                        <div class="font-extrabold text-dyson-rose text-[9px] leading-normal"><span id="outGateP">19</span> / <span id="outSeatP">52A</span></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="py-2 text-center bg-rose-50/80 rounded-2xl px-2.5 shrink-0 min-w-0 my-0.5 border border-rose-100">
-                                <p id="outMessageP" class="text-sm italic font-semibold text-dyson-rose leading-snug break-words">"YOU ARE MY DESTINATION."</p>
-                                <p class="text-[8px] text-slate-400 mt-0.5 leading-tight">情人節限定 x 輕巧登機 x 完美造型<br>Supersonic Nural™ 吹護合一</p>
-                            </div>
-
-                            <div class="pt-1 text-center flex justify-center shrink-0">
-                                <img id="qrCodePortrait" src="" alt="QR Code" class="h-12 w-12 object-contain rounded-none">
                             </div>
 
                         </div>
                     </div>
 
                     <!-- PORTRAIT BACK SIDE -->
-                    <div id="ticketPortraitBack" class="backface-hidden rotate-y-180 bg-gradient-to-br from-[#1e1c24] via-[#2d2230] to-[#17121b] text-white w-full h-full rounded-3xl shadow-2xl p-5 border border-dyson-rose/40 flex flex-col justify-between absolute inset-0 overflow-hidden">
+                    <div id="ticketPortraitBack" class="backface-hidden rotate-y-180 bg-gradient-to-br from-white via-rose-50/90 to-amber-50/50 text-slate-800 w-full h-full rounded-3xl shadow-2xl p-5 border border-rose-100 flex flex-col justify-between absolute inset-0 overflow-hidden">
                         
                         <div class="ticket-header-grad p-3 text-white relative -m-5 mb-1 shrink-0">
                             <div class="flex justify-between items-center px-1">
@@ -531,45 +598,45 @@
                         </div>
 
                         <div class="flex-1 flex flex-col justify-start space-y-2 pt-1">
-                            <div class="w-[140px] h-[140px] bg-white/5 border border-white/10 rounded-2xl shrink-0 mx-auto relative overflow-hidden">
+                            <div class="w-[140px] h-[140px] bg-white/80 border border-rose-100 shadow-sm rounded-2xl shrink-0 mx-auto relative overflow-hidden">
                                 <img src="https://img2.91mai.com/o2o/image/8c945b4d-ce18-4ac1-8b0e-08d3f19d287a.png" alt="Dyson Product Back" referrerpolicy="no-referrer" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[100%] w-auto max-w-none max-h-none object-contain filter drop-shadow-md" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                             </div>
 
                             <div class="space-y-1.5">
-                                <div class="bg-white/5 border border-white/10 rounded-xl p-2 flex items-center gap-2">
-                                    <div class="w-8 h-8 rounded-lg bg-dyson-pink/10 border border-dyson-pink/30 flex items-center justify-center shrink-0 p-1">
-                                        <img src="https://img2.91mai.com/o2o/image/8f7026ab-fa75-439f-95ae-bcc5d3b6d994.png" alt="Worldwide Voltage" referrerpolicy="no-referrer" class="h-full object-contain filter brightness-120" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                <div class="bg-white/80 border border-rose-100 rounded-xl p-2 flex items-center gap-2 shadow-sm">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-50 border border-rose-200/60 flex items-center justify-center shrink-0 p-1">
+                                        <img src="https://img2.91mai.com/o2o/image/8f7026ab-fa75-439f-95ae-bcc5d3b6d994.png" alt="Worldwide Voltage" referrerpolicy="no-referrer" class="h-full object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                                     </div>
                                     <div class="min-w-0">
-                                        <div class="text-[11px] font-bold text-dyson-pink tracking-wide uppercase leading-normal mb-0.5">WORLDWIDE VOLTAGE 國際電壓</div>
-                                        <div class="text-[10px] font-semibold text-slate-200 leading-normal">100-240V~ 50/60Hz．全球適用</div>
+                                        <div class="text-[11px] font-bold text-dyson-rose tracking-wide uppercase leading-normal mb-0.5">WORLDWIDE VOLTAGE 國際電壓</div>
+                                        <div class="text-[10px] font-semibold text-slate-600 leading-normal">100-240V~ 50/60Hz．全球適用</div>
                                     </div>
                                 </div>
 
-                                <div class="bg-white/5 border border-white/10 rounded-xl p-2 flex items-center gap-2">
-                                    <div class="w-8 h-8 rounded-lg bg-dyson-pink/10 border border-dyson-pink/30 flex items-center justify-center shrink-0 p-1">
-                                        <img src="https://img2.91mai.com/o2o/image/e4fdaf70-c264-42d4-ad0b-6b615005d1e7.png" alt="Travel Ready" referrerpolicy="no-referrer" class="h-full object-contain filter brightness-120" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                <div class="bg-white/80 border border-rose-100 rounded-xl p-2 flex items-center gap-2 shadow-sm">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-50 border border-rose-200/60 flex items-center justify-center shrink-0 p-1">
+                                        <img src="https://img2.91mai.com/o2o/image/e4fdaf70-c264-42d4-ad0b-6b615005d1e7.png" alt="Travel Ready" referrerpolicy="no-referrer" class="h-full object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                                     </div>
                                     <div class="min-w-0">
-                                        <div class="text-[11px] font-bold text-dyson-pink tracking-wide uppercase leading-normal mb-0.5">TRAVEL READY 旅行好夥伴</div>
-                                        <div class="text-[10px] font-semibold text-slate-200 leading-normal">輕巧好收納．輕鬆好攜帶</div>
+                                        <div class="text-[11px] font-bold text-dyson-rose tracking-wide uppercase leading-normal mb-0.5">TRAVEL READY 旅行好夥伴</div>
+                                        <div class="text-[10px] font-semibold text-slate-600 leading-normal">輕巧好收納．輕鬆好攜帶</div>
                                     </div>
                                 </div>
 
-                                <div class="bg-white/5 border border-white/10 rounded-xl p-2 flex items-center gap-2">
-                                    <div class="w-8 h-8 rounded-lg bg-dyson-pink/10 border border-dyson-pink/30 flex items-center justify-center shrink-0 p-1">
-                                        <img src="https://img2.91mai.com/o2o/image/7317e915-5215-4653-870d-5e32b76fab4e.png" alt="Smart Temp Control" referrerpolicy="no-referrer" class="h-full object-contain filter brightness-120" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
+                                <div class="bg-white/80 border border-rose-100 rounded-xl p-2 flex items-center gap-2 shadow-sm">
+                                    <div class="w-8 h-8 rounded-lg bg-rose-50 border border-rose-200/60 flex items-center justify-center shrink-0 p-1">
+                                        <img src="https://img2.91mai.com/o2o/image/7317e915-5215-4653-870d-5e32b76fab4e.png" alt="Smart Temp Control" referrerpolicy="no-referrer" class="h-full object-contain" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                                     </div>
                                     <div class="min-w-0">
-                                        <div class="text-[11px] font-bold text-dyson-pink tracking-wide uppercase leading-normal mb-0.5">SMART TEMPERATURE CONTROL 智慧控溫</div>
-                                        <div class="text-[10px] font-semibold text-slate-200 leading-normal">每秒智慧監測100次．秀髮零熱損</div>
+                                        <div class="text-[11px] font-bold text-dyson-rose tracking-wide uppercase leading-normal mb-0.5">SMART TEMPERATURE CONTROL 智慧控溫</div>
+                                        <div class="text-[10px] font-semibold text-slate-600 leading-normal">每秒智慧監測100次．秀髮零熱損</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="border-t border-white/10 pt-1.5 text-center text-[9px] text-slate-400 shrink-0">
-                            <p>Dyson Supersonic Nural™ 隨行護航</p>
+                        <div class="border-t border-rose-200/80 pt-1.5 text-center text-[9px] text-slate-500 shrink-0">
+                            <p>Dyson Supersonic™ Travel 隨行護航</p>
                         </div>
 
                     </div>
@@ -577,22 +644,29 @@
                 </div>
             </div>
 
+            <!-- Download Button directly under Card Preview -->
+            <div class="w-full max-w-md mt-6 px-2">
+                <button type="button" onclick="shareBoardingPass()" class="w-full py-3.5 bg-gradient-to-r from-dyson-pink via-dyson-rose to-dyson-bronze hover:opacity-95 text-white font-bold text-sm rounded-xl shadow-lg hover:shadow-rose-300/40 flex items-center justify-center gap-2 transition transform active:scale-95">
+                    <i class="fa-solid fa-share-nodes"></i> 分享專屬登機證
+                </button>
+            </div>
+
         </section>
 
     </main>
 
-    <footer class="relative z-10 border-t border-white/10 py-4 text-center text-xs text-slate-500">
-        <p>© 2026 Dyson Supersonic Nural™ HD19 Valentine's Campaign. All rights reserved.</p>
+    <footer class="relative z-10 border-t border-rose-100 py-4 text-center text-xs text-slate-500">
+        <p>© 2026 Dyson Supersonic™ Travel HD19 Valentine's Campaign. All rights reserved.</p>
     </footer>
 
     <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 pointer-events-none bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl border border-dyson-pink/40 flex items-center gap-3 transition-all duration-300">
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 pointer-events-none bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl border border-dyson-rose/40 flex items-center gap-3 transition-all duration-300">
         <i id="toastIcon" class="fa-solid fa-circle-check text-dyson-pink text-lg"></i>
         <span id="toastMsg" class="text-xs font-semibold">登機證資訊已即時更新</span>
     </div>
 
     <script>
-        let currentMode = 'landscape';
+        let currentMode = 'portrait';
         let isFlipped = false;
 
         const classOptions = [
@@ -635,7 +709,6 @@
         }
 
         function initQrCode() {
-            // Generate a 100% native Base64 QR Code to prevent CORS/html2canvas export missing issue
             const targetUrl = "https://www.dyson.tw/";
             const tempContainer = document.createElement('div');
             tempContainer.style.display = 'none';
@@ -648,7 +721,6 @@
                 if (qrP) qrP.src = dataUrl;
             }
 
-            // Set initial reliable vector fallback
             const defaultSvgQr = getFallbackSvgDataUrl('qr');
             applyQrDataUrl(defaultSvgQr);
 
@@ -712,9 +784,8 @@
             const seat = document.getElementById('inSeat')?.value || '52A';
             const message = document.getElementById('inMessage')?.value || 'YOU ARE MY DESTINATION.';
 
-            // Render Class dynamically from random selection
             const classHtmlStub = `${currentClassObj.en}<br><span class="text-[9px] font-medium text-slate-500">${currentClassObj.zh}</span>`;
-            const classHtmlP = `${currentClassObj.en}<br><span class="text-[9px] font-medium text-slate-500">${currentClassObj.zh}</span>`;
+            const classHtmlP = `${currentClassObj.en} ${currentClassObj.zh}`;
 
             // Landscape updates
             setText('outPassengerStub', passenger);
@@ -740,7 +811,7 @@
             setText('outMessageP', `"${message}"`);
 
             const elClassP = document.getElementById('outClassP');
-            if (elClassP) elClassP.innerHTML = classHtmlP;
+            if (elClassP) elClassP.innerHTML = classHtmlStub;
         }
 
         function setText(id, value) {
@@ -758,13 +829,13 @@
             if (mode === 'landscape') {
                 wrapL.classList.remove('hidden');
                 wrapP.classList.add('hidden');
-                btnL.className = "py-2.5 px-3 rounded-xl border border-dyson-pink bg-dyson-pink/20 text-white font-semibold text-xs flex items-center justify-center gap-2 transition shadow-lg";
-                btnP.className = "py-2.5 px-3 rounded-xl border border-white/10 bg-black/30 text-slate-300 hover:text-white font-semibold text-xs flex items-center justify-center gap-2 transition";
+                btnL.className = "py-2.5 px-3 rounded-xl border border-dyson-rose bg-rose-100/70 text-dyson-dark font-bold text-xs flex items-center justify-center gap-2 transition shadow-sm";
+                btnP.className = "py-2.5 px-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 hover:text-dyson-dark font-semibold text-xs flex items-center justify-center gap-2 transition";
             } else {
                 wrapL.classList.add('hidden');
                 wrapP.classList.remove('hidden');
-                btnP.className = "py-2.5 px-3 rounded-xl border border-dyson-pink bg-dyson-pink/20 text-white font-semibold text-xs flex items-center justify-center gap-2 transition shadow-lg";
-                btnL.className = "py-2.5 px-3 rounded-xl border border-white/10 bg-black/30 text-slate-300 hover:text-white font-semibold text-xs flex items-center justify-center gap-2 transition";
+                btnP.className = "py-2.5 px-3 rounded-xl border border-dyson-rose bg-rose-100/70 text-dyson-dark font-bold text-xs flex items-center justify-center gap-2 transition shadow-sm";
+                btnL.className = "py-2.5 px-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 hover:text-dyson-dark font-semibold text-xs flex items-center justify-center gap-2 transition";
             }
 
             if (isFlipped) {
@@ -829,44 +900,6 @@
             currentClassObj = getRandomClass();
             updatePass();
             showToast("已隨機套用浪漫靈感與機票艙等！");
-        }
-
-        function setDestination(dest) {
-            const elDest = document.getElementById('inDestination');
-            if (elDest) elDest.value = dest;
-            updatePass();
-        }
-
-        function setDate(dateStr) {
-            const elDate = document.getElementById('inDate');
-            if (elDate) elDate.value = dateStr;
-            updatePass();
-        }
-
-        function randomizeInspiration() {
-            const messages = [
-                "YOU ARE MY DESTINATION.",
-                "EVERY MOMENT WITH YOU IS MAGICAL.",
-                "FLYING HIGH ON YOUR LOVE.",
-                "TO THE MOON AND BACK, WITH YOU.",
-                "MY FAVORITE PLACE IS NEXT TO YOU.",
-                "LOVE IS IN THE AIR, ALWAYS WITH YOU."
-            ];
-            const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-            document.getElementById('inMessage').value = randomMsg;
-            currentClassObj = getRandomClass();
-            updatePass();
-            showToast("已隨機套用浪漫靈感與機票艙等！");
-        }
-
-        function setDestination(dest) {
-            document.getElementById('inDestination').value = dest;
-            updatePass();
-        }
-
-        function setDate(dateStr) {
-            document.getElementById('inDate').value = dateStr;
-            updatePass();
         }
 
         function showToast(msg, iconClass = "fa-circle-check") {
@@ -938,10 +971,9 @@
             let svg = '';
 
             if (type.includes('qr') || type.includes('384e9d67') || type.includes('dce7f5e3')) {
-                // High-resolution vector QR code SVG Data URL
                 svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#ffffff" rx="0"/><rect x="8" y="8" width="28" height="28" rx="0" fill="#1e1c24"/><rect x="13" y="13" width="18" height="18" rx="0" fill="#ffffff"/><rect x="17" y="17" width="10" height="10" rx="0" fill="#d1828e"/><rect x="64" y="8" width="28" height="28" rx="0" fill="#1e1c24"/><rect x="69" y="13" width="18" height="18" rx="0" fill="#ffffff"/><rect x="73" y="17" width="10" height="10" rx="0" fill="#d1828e"/><rect x="8" y="64" width="28" height="28" rx="0" fill="#1e1c24"/><rect x="13" y="69" width="18" height="18" rx="0" fill="#ffffff"/><rect x="17" y="73" width="10" height="10" rx="0" fill="#d1828e"/><rect x="68" y="68" width="14" height="14" rx="0" fill="#1e1c24"/><rect x="71" y="71" width="8" height="8" rx="0" fill="#ffffff"/><rect x="73" y="73" width="4" height="4" rx="0" fill="#d1828e"/><g fill="#1e1c24"><rect x="42" y="10" width="5" height="5"/><rect x="50" y="10" width="5" height="5"/><rect x="42" y="18" width="5" height="5"/><rect x="50" y="26" width="5" height="5"/><rect x="10" y="42" width="5" height="5"/><rect x="18" y="42" width="5" height="5"/><rect x="26" y="42" width="5" height="5"/><rect x="34" y="42" width="5" height="5"/><rect x="42" y="42" width="5" height="5"/><rect x="50" y="42" width="5" height="5"/><rect x="58" y="42" width="5" height="5"/><rect x="66" y="42" width="5" height="5"/><rect x="74" y="42" width="5" height="5"/><rect x="82" y="42" width="5" height="5"/><rect x="42" y="50" width="5" height="5"/><rect x="50" y="50" width="5" height="5"/><rect x="58" y="50" width="5" height="5"/><rect x="42" y="58" width="5" height="5"/><rect x="58" y="58" width="5" height="5"/><rect x="82" y="50" width="5" height="5"/><rect x="82" y="58" width="5" height="5"/><rect x="10" y="50" width="5" height="5"/><rect x="26" y="50" width="5" height="5"/><rect x="34" y="58" width="5" height="5"/><rect x="42" y="66" width="5" height="5"/><rect x="50" y="66" width="5" height="5"/><rect x="42" y="74" width="5" height="5"/><rect x="58" y="74" width="5" height="5"/><rect x="50" y="82" width="5" height="5"/><rect x="58" y="82" width="5" height="5"/><rect x="82" y="82" width="5" height="5"/></g><g fill="#d1828e"><rect x="50" y="18" width="5" height="5"/><rect x="42" y="26" width="5" height="5"/><rect x="50" y="34" width="5" height="5"/><rect x="58" y="34" width="5" height="5"/><rect x="50" y="58" width="5" height="5"/><rect x="66" y="50" width="5" height="5"/><rect x="74" y="58" width="5" height="5"/><rect x="18" y="50" width="5" height="5"/><rect x="18" y="58" width="5" height="5"/><rect x="50" y="74" width="5" height="5"/><rect x="42" y="82" width="5" height="5"/></g></svg>`;
             } else if (type.includes('dyson_back') || type.includes('8c945b4d')) {
-                svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240"><rect width="240" height="240" rx="20" fill="#2a1f2e" stroke="rgba(244,184,190,0.2)" stroke-width="2"/><defs><linearGradient id="pGrad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fce8eb"/><stop offset="100%" stop-color="#d1828e"/></linearGradient><linearGradient id="bGrad1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e0a96d"/><stop offset="100%" stop-color="#b86b72"/></linearGradient></defs><g transform="translate(18, 15)"><circle cx="45" cy="55" r="32" fill="none" stroke="url(#pGrad1)" stroke-width="14"/><circle cx="45" cy="55" r="22" fill="#1e1c24"/><circle cx="45" cy="55" r="12" fill="url(#bGrad1)"/><circle cx="45" cy="55" r="5" fill="#ffffff" opacity="0.9"/><rect x="38" y="86" width="14" height="95" rx="7" fill="url(#pGrad1)"/><rect x="38" y="145" width="14" height="32" rx="4" fill="#17121b"/></g><g transform="translate(115, 15)"><rect x="10" y="32" width="65" height="46" rx="8" fill="url(#pGrad1)"/><rect x="5" y="30" width="12" height="50" rx="4" fill="#1e1c24"/><rect x="62" y="35" width="15" height="40" rx="4" fill="url(#bGrad1)"/><rect x="35" y="78" width="14" height="103" rx="7" fill="url(#pGrad1)"/><rect x="35" y="145" width="14" height="32" rx="4" fill="#17121b"/></g></svg>`;
+                svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240"><rect width="240" height="240" rx="20" fill="#fdf2f4" stroke="rgba(209,130,142,0.3)" stroke-width="2"/><defs><linearGradient id="pGrad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fce8eb"/><stop offset="100%" stop-color="#d1828e"/></linearGradient><linearGradient id="bGrad1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#e0a96d"/><stop offset="100%" stop-color="#b86b72"/></linearGradient></defs><g transform="translate(18, 15)"><circle cx="45" cy="55" r="32" fill="none" stroke="url(#pGrad1)" stroke-width="14"/><circle cx="45" cy="55" r="22" fill="#1e1c24"/><circle cx="45" cy="55" r="12" fill="url(#bGrad1)"/><circle cx="45" cy="55" r="5" fill="#ffffff" opacity="0.9"/><rect x="38" y="86" width="14" height="95" rx="7" fill="url(#pGrad1)"/><rect x="38" y="145" width="14" height="32" rx="4" fill="#17121b"/></g><g transform="translate(115, 15)"><rect x="10" y="32" width="65" height="46" rx="8" fill="url(#pGrad1)"/><rect x="5" y="30" width="12" height="50" rx="4" fill="#1e1c24"/><rect x="62" y="35" width="15" height="40" rx="4" fill="url(#bGrad1)"/><rect x="35" y="78" width="14" height="103" rx="7" fill="url(#pGrad1)"/><rect x="35" y="145" width="14" height="32" rx="4" fill="#17121b"/></g></svg>`;
             } else if (type.includes('hd19') || type.includes('639202210906470000')) {
                 svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180"><rect width="180" height="180" rx="20" fill="none"/><defs><linearGradient id="pGrad2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fce8eb"/><stop offset="50%" stop-color="#f4b8be"/><stop offset="100%" stop-color="#d1828e"/></linearGradient><linearGradient id="bGrad2" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#e0a96d"/><stop offset="100%" stop-color="#b86b72"/></linearGradient></defs><circle cx="90" cy="62" r="38" fill="none" stroke="url(#pGrad2)" stroke-width="16"/><circle cx="90" cy="62" r="26" fill="#1e1c24"/><circle cx="90" cy="62" r="14" fill="url(#bGrad2)"/><circle cx="90" cy="62" r="6" fill="#ffffff" opacity="0.95"/><rect x="82" y="98" width="16" height="68" rx="8" fill="url(#pGrad2)"/><rect x="82" y="142" width="16" height="22" rx="4" fill="#2d2230"/></svg>`;
             } else if (type.includes('dyson') || type.includes('b547989b')) {
@@ -962,7 +994,6 @@
         async function imageToDataUrl(url, alt) {
             if (!url || url.startsWith('data:')) return url;
 
-            // Attempt 1: Direct CORS fetch
             try {
                 const res = await fetch(url, { mode: 'cors' });
                 if (res.ok) {
@@ -972,7 +1003,6 @@
                 }
             } catch (e) {}
 
-            // Attempt 2: Multi-proxy fetch (handles img.91app.com & img2.91mai.com)
             const proxies = [
                 `https://images.weserv.nl/?url=${encodeURIComponent(url)}`,
                 `https://corsproxy.io/?${encodeURIComponent(url)}`,
@@ -990,30 +1020,6 @@
                 } catch (e) {}
             }
 
-            // Attempt 3: Canvas drawing
-            try {
-                const dataUrl = await new Promise((resolve) => {
-                    const img = new Image();
-                    img.crossOrigin = 'anonymous';
-                    img.onload = () => {
-                        try {
-                            const cvs = document.createElement('canvas');
-                            cvs.width = img.naturalWidth || img.width || 200;
-                            cvs.height = img.naturalHeight || img.height || 200;
-                            const ctx = cvs.getContext('2d');
-                            ctx.drawImage(img, 0, 0);
-                            resolve(cvs.toDataURL('image/png'));
-                        } catch (err) {
-                            resolve(null);
-                        }
-                    };
-                    img.onerror = () => resolve(null);
-                    img.src = `https://images.weserv.nl/?url=${encodeURIComponent(url)}`;
-                });
-                if (dataUrl) return dataUrl;
-            } catch (e) {}
-
-            // Ultimate fallback: guaranteed SVG Data URL
             return getFallbackSvgDataUrl(alt);
         }
 
@@ -1026,8 +1032,8 @@
             });
         }
 
-        async function downloadBoardingPass() {
-            showToast("正在根據 HTML 畫面導出高畫質圖檔...", "fa-spinner fa-spin");
+        async function shareBoardingPass() {
+            showToast("正在生成專屬登機證...", "fa-spinner fa-spin");
             playAirportChime();
 
             if (document.fonts && document.fonts.ready) {
@@ -1047,40 +1053,33 @@
                 return;
             }
 
-            // Create temporary container for html2canvas snapshot
-            const cloneContainer = document.createElement('div');
-            cloneContainer.style.position = 'fixed';
-            cloneContainer.style.left = '-9999px';
-            cloneContainer.style.top = '-9999px';
-            cloneContainer.style.zIndex = '-9999';
-            
-            if (currentMode === 'landscape') {
-                cloneContainer.style.width = '672px';
-                cloneContainer.style.height = '320px';
-            } else {
-                cloneContainer.style.width = '320px';
-                cloneContainer.style.height = '580px';
-            }
+            const width = currentMode === 'landscape' ? 672 : 320;
+            const targetHeight = currentMode === 'landscape' ? 320 : 580;
+
+            const tempContainer = document.createElement('div');
+            tempContainer.style.position = 'fixed';
+            tempContainer.style.left = '-9999px';
+            tempContainer.style.top = '0';
+            tempContainer.style.width = width + 'px';
+            tempContainer.style.height = targetHeight + 'px';
+            tempContainer.style.zIndex = '-9999';
+            tempContainer.style.transform = 'none';
+            tempContainer.style.perspective = 'none';
 
             const clonedEl = sourceEl.cloneNode(true);
-            
-            // Strip 3D rotation / transform effects on clone and add export mode class
-            clonedEl.classList.add('export-mode');
             clonedEl.style.transform = 'none';
             clonedEl.style.webkitTransform = 'none';
             clonedEl.style.position = 'relative';
             clonedEl.style.top = '0';
             clonedEl.style.left = '0';
-            clonedEl.style.width = '100%';
-            clonedEl.style.height = '100%';
-            clonedEl.style.backfaceVisibility = 'visible';
-            clonedEl.style.webkitBackfaceVisibility = 'visible';
+            clonedEl.style.width = width + 'px';
+            clonedEl.style.height = targetHeight + 'px';
+            clonedEl.classList.remove('rotate-y-180', 'backface-hidden');
 
-            // Convert images in cloned element to embedded Data URLs (guaranteed)
             const imgs = clonedEl.querySelectorAll('img');
             for (let img of imgs) {
                 try {
-                    if (img.src.startsWith('data:')) continue;
+                    if (img.src && img.src.startsWith('data:')) continue;
                     const dataUrl = await imageToDataUrl(img.src, img.alt || img.id || '');
                     if (dataUrl) {
                         img.src = dataUrl;
@@ -1092,8 +1091,8 @@
                 }
             }
 
-            cloneContainer.appendChild(clonedEl);
-            document.body.appendChild(cloneContainer);
+            tempContainer.appendChild(clonedEl);
+            document.body.appendChild(tempContainer);
 
             try {
                 const canvas = await html2canvas(clonedEl, {
@@ -1101,26 +1100,72 @@
                     useCORS: true,
                     allowTaint: true,
                     backgroundColor: null,
-                    logging: false,
-                    width: currentMode === 'landscape' ? 672 : 320,
-                    height: currentMode === 'landscape' ? 320 : 580
+                    width: width,
+                    height: targetHeight,
+                    windowWidth: width,
+                    windowHeight: targetHeight,
+                    logging: false
                 });
+
+                document.body.removeChild(tempContainer);
 
                 const passenger = document.getElementById('inPassenger')?.value || 'YOU_AND_ME';
                 const sideLabel = isFlipped ? 'Back' : 'Front';
-                const link = document.createElement('a');
-                link.download = `Dyson_HD19_${currentMode}_${sideLabel}_${passenger.replace(/\s+/g, '_')}.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
+                const fileName = `Dyson_HD19_${currentMode}_${sideLabel}_${passenger.replace(/\s+/g, '_')}.png`;
+                const shareText = "✈️ Dyson Airways HD19 航班即將起飛！快來領取你的情人節專屬登機證 ❤️👉 https://hlh.tw/dyson-hd19-boarding-pass";
+                const shareUrl = "https://hlh.tw/dyson-hd19-boarding-pass";
 
-                showToast("登機證圖檔已成功導出（含完整QR碼與精細邊框）！", "fa-circle-check");
+                canvas.toBlob(async (blob) => {
+                    if (!blob) {
+                        showToast("生成圖片失敗，請再試一次", "fa-circle-exclamation");
+                        return;
+                    }
+
+                    const file = new File([blob], fileName, { type: 'image/png' });
+
+                    // Try Native Web Share API first
+                    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                        try {
+                            await navigator.share({
+                                text: shareText,
+                                files: [file]
+                            });
+                            showToast("分享成功！", "fa-circle-check");
+                            return;
+                        } catch (shareErr) {
+                            if (shareErr.name === 'AbortError') {
+                                showToast("取消分享", "fa-circle-info");
+                                return;
+                            }
+                        }
+                    }
+
+                    // Fallback for Desktop or devices that don't support file sharing
+                    const link = document.createElement('a');
+                    link.download = fileName;
+                    link.href = URL.createObjectURL(blob);
+                    link.click();
+
+                    // Copy share text to clipboard
+                    try {
+                        const tempInput = document.createElement('textarea');
+                        tempInput.value = shareText;
+                        document.body.appendChild(tempInput);
+                        tempInput.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(tempInput);
+                        showToast("已下載圖片並複製分享連結與文案！", "fa-circle-check");
+                    } catch (clipErr) {
+                        showToast("已下載專屬登機證圖檔！", "fa-circle-check");
+                    }
+                }, 'image/png');
+
             } catch (err) {
-                console.error('html2canvas export error:', err);
-                showToast("導出失敗，請再試一次", "fa-circle-exclamation");
-            } finally {
-                if (document.body.contains(cloneContainer)) {
-                    document.body.removeChild(cloneContainer);
+                if (document.body.contains(tempContainer)) {
+                    document.body.removeChild(tempContainer);
                 }
+                console.error('導出失敗:', err);
+                showToast("生成失敗，請再試一次", "fa-circle-exclamation");
             }
         }
     </script>
