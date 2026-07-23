@@ -1150,7 +1150,7 @@
                     scale: 3,
                     useCORS: true,
                     allowTaint: true,
-                    backgroundColor: null,
+                    backgroundColor: '#ffffff',
                     width: width,
                     height: targetHeight,
                     windowWidth: width,
@@ -1208,10 +1208,23 @@
         }
 
         async function shareBoardingPass() {
+            const shareText = "✈️ Dyson Airways HD19 航班即將起飛！快來領取你的情人節專屬登機證 ❤️👉 https://hlh.tw/dyson-hd19-boarding-pass";
+            const shareUrl = "https://hlh.tw/dyson-hd19-boarding-pass";
+
+            // Execute clipboard copy IMMEDIATELY on user click gesture to bypass browser async restriction
+            try {
+                const tempInput = document.createElement('textarea');
+                tempInput.value = shareText;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+            } catch (clipErr) {
+                console.log('Clipboard copy failed');
+            }
+
             try {
                 const { canvas, fileName } = await generateBoardingPassCanvas();
-                const shareText = "✈️ Dyson Airways HD19 航班即將起飛！快來領取你的情人節專屬登機證 ❤️👉 https://hlh.tw/dyson-hd19-boarding-pass";
-                const shareUrl = "https://hlh.tw/dyson-hd19-boarding-pass";
 
                 canvas.toBlob(async (blob) => {
                     if (!blob) {
@@ -1220,18 +1233,6 @@
                     }
 
                     const file = new File([blob], fileName, { type: 'image/png' });
-
-                    // Auto copy share text to clipboard before native share call
-                    try {
-                        const tempInput = document.createElement('textarea');
-                        tempInput.value = shareText;
-                        document.body.appendChild(tempInput);
-                        tempInput.select();
-                        document.execCommand('copy');
-                        document.body.removeChild(tempInput);
-                    } catch (clipErr) {
-                        console.log('Clipboard copy failed');
-                    }
 
                     const shareData = {
                         title: "Dyson HD19 情人節專屬登機證",
@@ -1244,7 +1245,7 @@
                     if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
                         try {
                             await navigator.share(shareData);
-                            showToast("已開啟分享！文案已自動複製，可長按貼上 ❤️", "fa-circle-check");
+                            showToast("已開啟分享！專屬文案與連結已自動複製，可直接貼上 ❤️", "fa-circle-check");
                             return;
                         } catch (shareErr) {
                             if (shareErr.name === 'AbortError') {
@@ -1260,7 +1261,7 @@
                     link.href = URL.createObjectURL(blob);
                     link.click();
 
-                    showToast("已下載圖片並複製分享連結與文案！", "fa-circle-check");
+                    showToast("已下載圖片！分享文案與連結已自動複製至剪貼簿 ❤️", "fa-circle-check");
                 }, 'image/png');
 
             } catch (err) {
