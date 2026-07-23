@@ -638,17 +638,22 @@
                 </div>
             </div>
 
-            <!-- Download / Share Buttons directly under Card Preview -->
-            <div class="w-full max-w-lg mt-6 px-2 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-                <button type="button" onclick="shareBoardingPass()" class="w-full py-3.5 bg-gradient-to-r from-dyson-pink via-dyson-rose to-dyson-bronze hover:opacity-95 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg hover:shadow-rose-300/40 flex items-center justify-center gap-1.5 transition transform active:scale-95">
-                    <i class="fa-solid fa-share-nodes"></i> 分享專屬登機證
-                </button>
-                <button type="button" onclick="downloadBoardingPass()" class="w-full py-3.5 bg-white hover:bg-rose-50 text-dyson-dark font-bold text-xs sm:text-sm rounded-xl border border-rose-200/80 shadow-md flex items-center justify-center gap-1.5 transition transform active:scale-95">
-                    <i class="fa-solid fa-download text-dyson-rose"></i> 下載專屬登機證
-                </button>
-                <button type="button" onclick="copyShareText()" class="w-full py-3.5 bg-rose-50 hover:bg-rose-100/80 text-dyson-dark font-bold text-xs sm:text-sm rounded-xl border border-rose-200 shadow-sm flex items-center justify-center gap-1.5 transition transform active:scale-95">
-                    <i class="fa-solid fa-copy text-dyson-rose"></i> 複製分享文案
-                </button>
+            <!-- Simplified Action Buttons with Header -->
+            <div class="w-full max-w-lg mt-6 px-2 flex flex-col items-center">
+                <p class="text-xs font-bold text-dyson-rose tracking-wider uppercase mb-2.5 flex items-center gap-1.5">
+                    <i class="fa-solid fa-heart text-dyson-pink"></i> 立即分享專屬登機證
+                </p>
+                <div class="w-full grid grid-cols-3 gap-2 sm:gap-3">
+                    <button type="button" onclick="downloadBoardingPass()" class="w-full py-3 bg-white hover:bg-rose-50 text-dyson-dark font-bold text-xs sm:text-sm rounded-xl border border-rose-200/80 shadow-md flex items-center justify-center gap-1.5 transition transform active:scale-95">
+                        <i class="fa-solid fa-file-arrow-down text-dyson-rose"></i> 下載圖片
+                    </button>
+                    <button type="button" onclick="shareBoardingPass()" class="w-full py-3 bg-gradient-to-r from-dyson-pink via-dyson-rose to-dyson-bronze hover:opacity-95 text-white font-bold text-xs sm:text-sm rounded-xl shadow-lg hover:shadow-rose-300/40 flex items-center justify-center gap-1.5 transition transform active:scale-95">
+                        <i class="fa-solid fa-image"></i> 分享圖片
+                    </button>
+                    <button type="button" onclick="shareGameLink()" class="w-full py-3 bg-rose-50 hover:bg-rose-100/80 text-dyson-dark font-bold text-xs sm:text-sm rounded-xl border border-rose-200 shadow-sm flex items-center justify-center gap-1.5 transition transform active:scale-95">
+                        <i class="fa-solid fa-paper-plane text-dyson-rose"></i> 分享遊戲
+                    </button>
+                </div>
             </div>
 
         </section>
@@ -1231,10 +1236,35 @@
             }
         }
 
-        function copyShareText() {
+        async function shareGameLink() {
+            const shareTitle = "Dyson HD19 情人節專屬登機證";
+            const shareText = "✈️ Dyson Airways HD19 航班即將起飛！快來領取你的情人節專屬登機證 ❤️";
+            const shareUrl = "https://hlh.tw/dyson-hd19-boarding-pass";
+
+            const shareData = {
+                title: shareTitle,
+                text: shareText,
+                url: shareUrl
+            };
+
+            // Try Native Web Share API for text/link directly to apps like LINE, FB, Messages
+            if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+                try {
+                    await navigator.share(shareData);
+                    showToast("成功分享遊戲連結！ ❤️", "fa-circle-check");
+                    return;
+                } catch (shareErr) {
+                    if (shareErr.name === 'AbortError') {
+                        showToast("取消分享", "fa-circle-info");
+                        return;
+                    }
+                }
+            }
+
+            // Fallback: Copy link text to clipboard
             const success = copyShareTextToClipboard();
             if (success) {
-                showToast("文案與連結已複製！發文時直接「貼上」即可 ❤️", "fa-copy");
+                showToast("遊戲連結與文案已複製！直接貼上發送給好友 ❤️", "fa-copy");
             } else {
                 showToast("複製失敗，請手動複製", "fa-circle-exclamation");
             }
@@ -1269,7 +1299,7 @@
                     if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
                         try {
                             await navigator.share(shareData);
-                            showToast("分享文案與連結已自動複製！貼上即可發文 ❤️", "fa-circle-check");
+                            showToast("文案與連結已自動複製！貼上即可發文 ❤️", "fa-circle-check");
                             return;
                         } catch (shareErr) {
                             if (shareErr.name === 'AbortError') {
