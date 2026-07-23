@@ -170,11 +170,11 @@
                     <i class="fa-solid fa-wand-magic-sparkles"></i> 浪漫情境一鍵切換模式：
                 </span>
                 <div class="grid grid-cols-2 gap-2">
-                    <button type="button" onclick="applyModePreset('gift')" class="py-2.5 px-3 bg-white hover:bg-rose-100/50 text-dyson-dark text-xs font-semibold rounded-xl border border-rose-200/80 flex items-center justify-center gap-1.5 transition shadow-sm active:scale-95">
-                        <i class="fa-solid fa-paper-plane text-dyson-rose"></i> 飛向心愛的人
-                    </button>
                     <button type="button" onclick="applyModePreset('together')" class="py-2.5 px-3 bg-white hover:bg-rose-100/50 text-dyson-dark text-xs font-semibold rounded-xl border border-rose-200/80 flex items-center justify-center gap-1.5 transition shadow-sm active:scale-95">
                         <i class="fa-solid fa-heart-circle-bolt text-dyson-rose"></i> 浪漫同行
+                    </button>
+                    <button type="button" onclick="applyModePreset('gift')" class="py-2.5 px-3 bg-white hover:bg-rose-100/50 text-dyson-dark text-xs font-semibold rounded-xl border border-rose-200/80 flex items-center justify-center gap-1.5 transition shadow-sm active:scale-95">
+                        <i class="fa-solid fa-paper-plane text-dyson-rose"></i> 飛向心愛的人
                     </button>
                 </div>
             </div>
@@ -195,16 +195,22 @@
                 <!-- Flight Route -->
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
-                            <i class="fa-solid fa-plane-departure mr-1 text-dyson-rose"></i> 出發地 (FROM)
-                        </label>
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                                <i class="fa-solid fa-plane-departure mr-1 text-dyson-rose"></i> 出發地 (FROM)
+                            </label>
+                            <span id="charCountOrigin" class="text-[10px] text-slate-500 font-mono">6/12</span>
+                        </div>
                         <input type="text" id="inOrigin" value="TAIPEI" maxlength="12" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold text-dyson-dark focus:outline-none focus:border-dyson-rose transition uppercase">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
-                            <i class="fa-solid fa-plane-arrival mr-1 text-dyson-rose"></i> 目的地 (TO)
-                        </label>
-                        <input type="text" id="inDestination" value="YOUR HEART" maxlength="12" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold text-dyson-dark focus:outline-none focus:border-dyson-rose transition uppercase">
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                                <i class="fa-solid fa-plane-arrival mr-1 text-dyson-rose"></i> 目的地 (TO)
+                            </label>
+                            <span id="charCountDest" class="text-[10px] text-slate-500 font-mono">8/12</span>
+                        </div>
+                        <input type="text" id="inDestination" value="ANYWHERE" maxlength="12" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold text-dyson-dark focus:outline-none focus:border-dyson-rose transition uppercase">
                     </div>
                 </div>
 
@@ -230,9 +236,12 @@
                         <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider">
                             <i class="fa-solid fa-quote-left mr-1 text-dyson-rose"></i> 情意悄悄話 (Message)
                         </label>
-                        <button type="button" onclick="randomizeInspiration()" class="text-[10px] text-dyson-rose hover:text-white bg-rose-100/60 hover:bg-dyson-rose border border-rose-200 px-2.5 py-0.5 rounded-full transition flex items-center justify-center font-medium">
-                            隨機靈感
-                        </button>
+                        <div class="flex items-center gap-2">
+                            <span id="charCountMsg" class="text-[10px] text-slate-500 font-mono">23/45</span>
+                            <button type="button" onclick="randomizeInspiration()" class="text-[10px] text-dyson-rose hover:text-white bg-rose-100/60 hover:bg-dyson-rose border border-rose-200 px-2.5 py-0.5 rounded-full transition flex items-center justify-center font-medium">
+                                隨機靈感
+                            </button>
+                        </div>
                     </div>
                     <input type="text" id="inMessage" value="YOU ARE MY DESTINATION." maxlength="45" class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3 py-2 text-xs text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
                 </div>
@@ -288,7 +297,7 @@
                             <div class="mt-4 mb-1 relative z-10 shrink-0">
                                 <div class="flex items-center justify-between px-1 min-h-[48px]">
                                     <div class="text-left w-[42%] min-w-0 pr-1 flex flex-col justify-center">
-                                        <p class="text-2xl sm:text-3xl font-black text-slate-800 tracking-wider font-sans leading-none">TPE</p>
+                                        <p id="outOriginCodeL" class="text-2xl sm:text-3xl font-black text-slate-800 tracking-wider font-sans leading-none">TPE</p>
                                         <p id="outOriginL" class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mt-1 break-words">TAIPEI</p>
                                     </div>
 
@@ -307,8 +316,8 @@
                                     </div>
 
                                     <div class="text-right w-[42%] min-w-0 pl-1 flex flex-col justify-center">
-                                        <p class="text-2xl sm:text-3xl font-black text-dyson-rose tracking-wider font-sans leading-none">YOU</p>
-                                        <p id="outDestinationL" class="text-[10px] font-bold text-dyson-rose/80 uppercase tracking-wider mt-1 break-words">YOUR HEART</p>
+                                        <p id="outDestCodeL" class="text-2xl sm:text-3xl font-black text-dyson-rose tracking-wider font-sans leading-none">ANY</p>
+                                        <p id="outDestinationL" class="text-[10px] font-bold text-dyson-rose/80 uppercase tracking-wider mt-1 break-words">ANYWHERE</p>
                                     </div>
                                 </div>
                             </div>
@@ -512,21 +521,21 @@
                         <!-- BOTTOM SECTION (BELOW TEAR LINE) - WHITE BG -->
                         <div class="px-4 py-0 flex-1 flex flex-col justify-start bg-white overflow-hidden">
 
-                            <!-- ROUTE TPE YOU -->
+                            <!-- ROUTE TPE ANY -->
                             <div class="pt-5 pb-3 shrink-0 flex flex-col items-center justify-center">
                                 <div class="flex items-center justify-between w-full px-1">
-                                    <span class="text-3xl font-black text-slate-800 tracking-wider leading-none">TPE</span>
+                                    <span id="outOriginCodeP" class="text-3xl font-black text-slate-800 tracking-wider leading-none">TPE</span>
                                     <svg class="w-6 h-6 text-dyson-rose fill-current shrink-0" viewBox="0 0 24 24">
                                         <g transform="rotate(90 12 12)">
                                             <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
                                         </g>
                                     </svg>
-                                    <span class="text-3xl font-black text-dyson-rose tracking-wider leading-none">YOU</span>
+                                    <span id="outDestCodeP" class="text-3xl font-black text-dyson-rose tracking-wider leading-none">ANY</span>
                                 </div>
                                 
                                 <div class="flex justify-between items-center w-full px-1 mt-1 text-[10px] font-bold">
                                     <span id="outOriginP" class="text-slate-500 uppercase tracking-wider text-left break-words max-w-[45%] leading-none">TAIPEI</span>
-                                    <span id="outDestinationP" class="text-dyson-rose/80 uppercase tracking-wider text-right break-words max-w-[45%] leading-none">YOUR HEART</span>
+                                    <span id="outDestinationP" class="text-dyson-rose/80 uppercase tracking-wider text-right break-words max-w-[45%] leading-none">ANYWHERE</span>
                                 </div>
                             </div>
 
@@ -834,7 +843,7 @@
         function updatePass() {
             const passenger = document.getElementById('inPassenger')?.value || 'YOU & ME';
             const origin = (document.getElementById('inOrigin')?.value || 'TAIPEI').toUpperCase();
-            const destination = (document.getElementById('inDestination')?.value || 'YOUR HEART').toUpperCase();
+            const destination = (document.getElementById('inDestination')?.value || 'ANYWHERE').toUpperCase();
             const rawDate = document.getElementById('inDate')?.value || '2026-08-19';
             const formattedDate = rawDate.replace(/-/g, '/');
             
@@ -842,14 +851,47 @@
 
             const gate = document.getElementById('inGate')?.value || '19';
             const seat = document.getElementById('inSeat')?.value || '52O';
-            const message = document.getElementById('inMessage')?.value || 'YOU ARE MY DESTINATION.';
+            const message = document.getElementById('inMessage')?.value || 'FLYING TOGETHER INTO OUR BRIGHT FUTURE.';
+
+            // Helper for 3-letter airport code calculation
+            function getCode(str, isDest) {
+                const s = (str || '').trim().toUpperCase();
+                if (!isDest) {
+                    if (s === 'TAIPEI' || s === 'TPE') return 'TPE';
+                    if (s === 'ME') return 'ME!';
+                } else {
+                    if (s === 'ANYWHERE' || s === 'ANY') return 'ANY';
+                    if (s === 'YOUR HEART' || s === 'YOU') return 'YOU';
+                }
+                if (s.length === 0) return isDest ? 'ANY' : 'TPE';
+                if (s.length === 1) return s + '!!';
+                if (s.length === 2) return s + '!';
+                return s.substring(0, 3);
+            }
+
+            const origCode = getCode(origin, false);
+            const destCode = getCode(destination, true);
+
+            // Update Character Counters
+            const cntPass = document.getElementById('charCount');
+            if (cntPass) cntPass.innerText = `${passenger.length}/15`;
+
+            const cntOrig = document.getElementById('charCountOrigin');
+            if (cntOrig) cntOrig.innerText = `${origin.length}/12`;
+
+            const cntDest = document.getElementById('charCountDest');
+            if (cntDest) cntDest.innerText = `${destination.length}/12`;
+
+            const cntMsg = document.getElementById('charCountMsg');
+            if (cntMsg) cntMsg.innerText = `${message.length}/45`;
 
             const classHtmlStub = `${currentClassObj.en}<br><span class="text-[9px] font-medium text-slate-500">${currentClassObj.zh}</span>`;
-            const classHtmlP = `${currentClassObj.en} ${currentClassObj.zh}`;
 
             // Landscape updates
             setText('outPassengerStub', passenger);
+            setText('outOriginCodeL', origCode);
             setText('outOriginL', origin);
+            setText('outDestCodeL', destCode);
             setText('outDestinationL', destination);
             setText('outDateStub', formattedDate);
             setText('outTimeStub', time);
@@ -862,7 +904,9 @@
 
             // Portrait updates
             setText('outPassengerP', passenger);
+            setText('outOriginCodeP', origCode);
             setText('outOriginP', origin);
+            setText('outDestCodeP', destCode);
             setText('outDestinationP', destination);
             setText('outDateP', formattedDate);
             setText('outTimeP', time);
@@ -926,20 +970,23 @@
 
         function applyModePreset(preset) {
             const elPass = document.getElementById('inPassenger');
+            const elOrig = document.getElementById('inOrigin');
             const elDest = document.getElementById('inDestination');
             const elMsg = document.getElementById('inMessage');
 
+            currentClassObj = getRandomClass();
+
             if (preset === 'gift') {
                 if (elPass) elPass.value = 'Dyson';
+                if (elOrig) elOrig.value = 'ME';
                 if (elDest) elDest.value = 'YOUR HEART';
                 if (elMsg) elMsg.value = 'EVERY MOMENT WITH YOU IS MY FAVORITE DESTINATION.';
-                currentClassObj = classOptions.find(c => c.en === 'Love VIP Class') || getRandomClass();
                 showToast("已載入「飛向心愛的人」浪漫設定！");
             } else if (preset === 'together') {
                 if (elPass) elPass.value = 'YOU & ME';
-                if (elDest) elDest.value = 'FOREVER';
+                if (elOrig) elOrig.value = 'TAIPEI';
+                if (elDest) elDest.value = 'ANYWHERE';
                 if (elMsg) elMsg.value = 'FLYING TOGETHER INTO OUR BRIGHT FUTURE.';
-                currentClassObj = classOptions.find(c => c.en === 'First Class') || getRandomClass();
                 showToast("已載入「浪漫同行」專屬設定！");
             }
             updatePass();
