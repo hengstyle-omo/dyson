@@ -245,16 +245,14 @@
                 </h2>
             </div>
 
-            <!-- Compact Theme & Preset Grid -->
-            <!-- 修改點：移除 md:grid-cols-2，強制設定為 grid-cols-1 讓兩區塊一律上下堆疊 -->
-            <div class="grid grid-cols-1 gap-2">
-                <!-- Compact Theme & Preset Grid -->
-                <div class="bg-white border border-rose-200/60 rounded-xl p-2 space-y-1.5">
+            <!-- Vertical Stack for Theme & Preset -->
+            <div class="flex flex-col gap-3">
+                <!-- Theme Selection -->
+                <div class="bg-white border border-rose-200/60 rounded-xl p-3 space-y-2">
                     <span class="text-[10px] font-bold text-dyson-rose flex items-center gap-1 uppercase tracking-tight">
                         <i class="fa-solid fa-palette"></i> 配色主題 Theme
                     </span>
-                    <div class="grid grid-cols-2 gap-1">
-                        <!-- Standardized White Background for Theme Buttons -->
+                    <div class="grid grid-cols-2 gap-2">
                         <button type="button" id="btnThemePink" onclick="setTheme('pink')" class="py-1.5 px-1 bg-white border-2 border-dyson-rose text-dyson-dark text-[10px] font-bold rounded-lg flex items-center justify-center gap-1 transition shadow-sm active:scale-95">
                             <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: #e89da2 !important; border: 1.5px solid #c9707e !important;"></span> 粉霧玫瑰
                         </button>
@@ -265,12 +263,11 @@
                 </div>
 
                 <!-- Scenario Preset Option -->
-                <!-- 修改點：背景改為 bg-white，與配色主題一致 -->
-                <div class="bg-white border border-rose-200/60 rounded-xl p-2 space-y-1.5">
+                <div class="bg-rose-50/70 border border-rose-200/60 rounded-xl p-3 space-y-2">
                     <span class="text-[10px] font-bold text-dyson-rose flex items-center gap-1 tracking-tight">
                         <i class="fa-solid fa-wand-magic-sparkles"></i> 浪漫情境 Preset
                     </span>
-                    <div class="grid grid-cols-2 gap-1">
+                    <div class="grid grid-cols-2 gap-2">
                         <button type="button" onclick="applyModePreset('together')" class="py-1.5 px-1 bg-white hover:bg-rose-100/50 text-dyson-dark text-[10px] font-semibold rounded-lg border border-rose-200/80 flex items-center justify-center gap-1 transition shadow-sm active:scale-95">
                             <i class="fa-solid fa-heart-circle-bolt text-dyson-rose text-[10px]"></i> 浪漫同行
                         </button>
@@ -1420,7 +1417,7 @@
         }
 
         function copyShareTextToClipboard() {
-            const shareText = "Dyson Airways HD19 航班即將起飛✈️ 快來領取你的專屬登機證❤️ 👉 https://hlh.tw/dyson-hd19-boarding-pass";
+            const shareText = "✈️ Dyson Airways HD19 航班即將起飛！快來領取你的專屬登機證 ❤️👉 https://hlh.tw/dyson-hd19-boarding-pass";
             try {
                 const tempInput = document.createElement('textarea');
                 tempInput.value = shareText;
@@ -1442,7 +1439,7 @@
 
         async function shareGameLink() {
             const shareTitle = "Dyson HD19 專屬登機證";
-            const shareText = "Dyson Airways HD19 航班即將起飛✈️ 快來領取你的專屬登機證❤️";
+            const shareText = "✈️ Dyson Airways HD19 航班即將起飛！快來領取你的專屬登機證 ❤️";
             const shareUrl = "https://hlh.tw/dyson-hd19-boarding-pass";
 
             const shareData = {
@@ -1475,7 +1472,7 @@
         }
 
         async function shareBoardingPass() {
-            const shareText = "Dyson Airways HD19 航班即將起飛✈️ 快來領取你的專屬登機證❤️ 👉 https://hlh.tw/dyson-hd19-boarding-pass";
+            const shareText = "✈️ Dyson Airways HD19 航班即將起飛！快來領取你的專屬登機證 ❤️👉 https://hlh.tw/dyson-hd19-boarding-pass";
             const shareUrl = "https://hlh.tw/dyson-hd19-boarding-pass";
 
             // Execute mobile-compatible clipboard copy IMMEDIATELY on user click gesture
@@ -1503,7 +1500,7 @@
                     if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
                         try {
                             await navigator.share(shareData);
-                            showToast("圖片與連結已自動複製！貼上即可發文 ❤️", "fa-circle-check");
+                            showToast("文案與連結已自動複製！貼上即可發文 ❤️", "fa-circle-check");
                             return;
                         } catch (shareErr) {
                             if (shareErr.name === 'AbortError') {
@@ -1519,7 +1516,7 @@
                     link.href = URL.createObjectURL(blob);
                     link.click();
 
-                    showToast("已下載圖片！已自動複製圖片，可直接「貼上」❤️", "fa-circle-check");
+                    showToast("已下載圖片！分享文案已自動複製，可直接「貼上」❤️", "fa-circle-check");
                 }, 'image/png');
 
             } catch (err) {
