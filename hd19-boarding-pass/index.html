@@ -246,8 +246,8 @@
             </div>
 
             <!-- Compact Theme & Preset Grid -->
-            <!-- 修改點：grid-cols-1 md:grid-cols-2 讓手機版變為上下堆疊 -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <!-- 修改點：移除 md:grid-cols-2，強制設定為 grid-cols-1 讓兩區塊一律上下堆疊 -->
+            <div class="grid grid-cols-1 gap-2">
                 <!-- Compact Theme & Preset Grid -->
                 <div class="bg-white border border-rose-200/60 rounded-xl p-2 space-y-1.5">
                     <span class="text-[10px] font-bold text-dyson-rose flex items-center gap-1 uppercase tracking-tight">
@@ -265,7 +265,8 @@
                 </div>
 
                 <!-- Scenario Preset Option -->
-                <div class="bg-rose-50/70 border border-rose-200/60 rounded-xl p-2 space-y-1.5">
+                <!-- 修改點：背景改為 bg-white，與配色主題一致 -->
+                <div class="bg-white border border-rose-200/60 rounded-xl p-2 space-y-1.5">
                     <span class="text-[10px] font-bold text-dyson-rose flex items-center gap-1 tracking-tight">
                         <i class="fa-solid fa-wand-magic-sparkles"></i> 浪漫情境 Preset
                     </span>
