@@ -238,15 +238,15 @@
 
     <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         <!-- Form Controls Panel -->
-        <section class="lg:col-span-5 bg-white border border-rose-100/80 p-4.5 sm:p-6 rounded-3xl shadow-xl space-y-3.5 sm:space-y-5">
-            <div class="border-b border-rose-100 pb-2.5 flex justify-between items-center">
+        <section class="lg:col-span-5 bg-white border border-rose-100/80 p-5 sm:p-8 rounded-3xl shadow-xl space-y-4">
+            <div class="border-b border-rose-100 pb-4 flex justify-between items-center px-2">
                 <h2 class="text-lg sm:text-xl font-bold text-dyson-dark flex items-center gap-2">
                     <i class="fa-solid fa-ticket text-dyson-rose"></i> 訂製專屬 dyson 浪漫機票
                 </h2>
             </div>
 
             <!-- Vertical Stack for Theme & Preset -->
-            <div class="flex flex-col gap-3">
+            <div class="flex flex-col gap-3 px-2">
                 <!-- Theme Selection -->
                 <div class="bg-white border border-rose-200/60 rounded-xl p-3 space-y-2">
                     <span class="text-[10px] font-bold text-dyson-rose flex items-center gap-1 uppercase tracking-tight">
@@ -278,51 +278,50 @@
                 </div>
             </div>
 
-            <form id="ticketForm" class="space-y-4" onsubmit="event.preventDefault();">
+            <!-- Form Groups -->
+            <form id="ticketForm" class="space-y-3 px-2" onsubmit="event.preventDefault();">
                 
                 <!-- Passenger Name -->
-                <div class="px-3">
+                <div>
                     <div class="flex justify-between items-center mb-1">
-                        <label class="block text-xs font-bold text-dyson-rose uppercase tracking-wider">
+                        <label class="block text-[10px] font-bold text-dyson-rose uppercase tracking-wider">
                             <i class="fa-solid fa-user-heart mr-1"></i> 旅客 / 情侶名稱 Passenger
                         </label>
                         <span id="charCount" class="text-[10px] text-slate-500 font-mono">8/15</span>
                     </div>
-                    <input type="text" id="inPassenger" value="YOU & ME" maxlength="15" class="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-4 py-2.5 text-sm font-semibold text-dyson-dark placeholder-slate-400 focus:outline-none focus:border-dyson-rose focus:ring-1 focus:ring-dyson-rose transition">
+                    <input type="text" id="inPassenger" value="YOU & ME" maxlength="15" class="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-3 py-2 text-sm font-semibold text-dyson-dark placeholder-slate-400 focus:outline-none focus:border-dyson-rose focus:ring-1 focus:ring-dyson-rose transition">
                 </div>
 
                 <!-- Flight Route -->
-                <div class="grid grid-cols-2 gap-3 px-3">
+                <div class="grid grid-cols-2 gap-3">
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider">
-                                <i class="fa-solid fa-plane-departure mr-1 text-dyson-rose"></i> 出發地 FROM
+                            <label class="block text-[10px] font-semibold text-slate-600 uppercase tracking-wider">
+                                <i class="fa-solid fa-plane-departure mr-1 text-dyson-rose"></i> 出發 FROM
                             </label>
-                            <span id="charCountOrigin" class="text-[10px] text-slate-500 font-mono">6/12</span>
                         </div>
                         <input type="text" id="inOrigin" value="TAIPEI" maxlength="12" class="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-3 py-2 text-sm font-bold text-dyson-dark focus:outline-none focus:border-dyson-rose transition uppercase">
                     </div>
                     <div>
                         <div class="flex justify-between items-center mb-1">
-                            <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                            <label class="block text-[10px] font-semibold text-slate-600 uppercase tracking-wider">
                                 <i class="fa-solid fa-plane-arrival mr-1 text-dyson-rose"></i> 目的地 TO
                             </label>
-                            <span id="charCountDest" class="text-[10px] text-slate-500 font-mono">8/12</span>
                         </div>
                         <input type="text" id="inDestination" value="ANYWHERE" maxlength="12" class="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-3 py-2 text-sm font-bold text-dyson-dark focus:outline-none focus:border-dyson-rose transition uppercase">
                     </div>
                 </div>
 
                 <!-- Date & Time Controls -->
-                <div class="grid grid-cols-2 gap-3 px-3">
+                <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
+                        <label class="block text-[10px] font-semibold text-slate-600 uppercase tracking-wider mb-1">
                             <i class="fa-solid fa-calendar-days mr-1 text-dyson-rose"></i> 日期 DATE
                         </label>
                         <input type="date" id="inDate" value="2026-08-19" class="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-3 py-2 text-xs font-semibold text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1">
+                        <label class="block text-[10px] font-semibold text-slate-600 uppercase tracking-wider mb-1">
                             <i class="fa-solid fa-clock mr-1 text-dyson-rose"></i> BOARDING
                         </label>
                         <input type="text" id="inTime" value="13:14" placeholder="13:14" maxlength="5" class="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-3 py-2 text-xs font-bold font-mono text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
@@ -330,29 +329,24 @@
                 </div>
 
                 <!-- Message Control -->
-                <div class="px-3">
+                <div>
                     <div class="flex justify-between items-center mb-1">
-                        <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider">
+                        <label class="block text-[10px] font-semibold text-slate-600 uppercase tracking-wider">
                             <i class="fa-solid fa-quote-left mr-1 text-dyson-rose"></i> 情意悄悄話 Message
                         </label>
-                        <div class="flex items-center gap-2">
-                            <span id="charCountMsg" class="text-[10px] text-slate-500 font-mono">23/45</span>
-                            <button type="button" onclick="randomizeInspiration()" class="text-[10px] text-dyson-rose hover:text-white bg-rose-100/60 hover:bg-dyson-rose border border-rose-200 px-2.5 py-0.5 rounded-full transition flex items-center justify-center font-medium">
-                                隨機靈感
-                            </button>
-                        </div>
+                        <button type="button" onclick="randomizeInspiration()" class="text-[9px] text-dyson-rose bg-rose-100/60 border border-rose-200 px-2 py-0.5 rounded-full transition font-medium">隨機</button>
                     </div>
                     <input type="text" id="inMessage" value="YOU ARE MY DESTINATION." maxlength="45" class="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-3 py-2 text-xs text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
                 </div>
 
                 <!-- Format Controls -->
-                <div class="pt-2">
-                    <label class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">預覽與產出版本 VIEW FORMAT</label>
+                <div class="pt-1">
+                    <label class="block text-[10px] font-semibold text-slate-600 uppercase tracking-wider mb-2">預覽格式 VIEW FORMAT</label>
                     <div class="grid grid-cols-2 gap-2">
-                        <button type="button" id="btnModePortrait" onclick="switchMode('portrait')" class="py-2.5 px-3 rounded-xl border border-dyson-rose bg-rose-100/70 text-dyson-dark font-bold text-xs flex items-center justify-center gap-2 transition shadow-sm">
+                        <button type="button" id="btnModePortrait" onclick="switchMode('portrait')" class="py-2 px-3 rounded-xl border border-dyson-rose bg-rose-100/70 text-dyson-dark font-bold text-[11px] flex items-center justify-center gap-2 transition shadow-sm">
                             <i class="fa-solid fa-mobile-screen-button text-dyson-rose"></i> 手機版
                         </button>
-                        <button type="button" id="btnModeLandscape" onclick="switchMode('landscape')" class="py-2.5 px-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 hover:text-dyson-dark font-semibold text-xs flex items-center justify-center gap-2 transition">
+                        <button type="button" id="btnModeLandscape" onclick="switchMode('landscape')" class="py-2 px-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 font-semibold text-[11px] flex items-center justify-center gap-2 transition">
                             <i class="fa-solid fa-desktop"></i> 電腦版
                         </button>
                     </div>
