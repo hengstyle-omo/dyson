@@ -86,17 +86,6 @@
             box-shadow: inset 0 0 4px rgba(0,0,0,0.15);
         }
 
-        /* html2canvas Export Precision Corrections */
-        .export-mode span,
-        .export-mode p,
-        .export-mode div {
-            line-height: 1.35 !important;
-        }
-
-        .export-mode .flex.items-center {
-            align-items: center !important;
-        }
-
         .dashed-tear {
             background-image: linear-gradient(to bottom, #cbd5e1 50%, rgba(255, 255, 255, 0) 0%);
             background-position: left;
@@ -507,7 +496,7 @@
                                         <img src="https://img.91app.com/webapi/imagesV3/Original/SalePage/11670106/2/639202210906470000?v=1" alt="Dyson HD19" referrerpolicy="no-referrer" class="w-24 h-24 object-contain rounded-2xl overflow-hidden" onerror="this.onerror=null; this.src=getFallbackSvgDataUrl(this);">
                                     </div>
                                     <div class="flex flex-col items-center justify-center shrink-0 pl-3 border-l border-dashed border-rose-200">
-                                        <span class="text-[8px] font-light text-dyson-rose tracking-tight mb-1">了解更多活動資訊</span>
+                                        <span class="text-[8px] font-light text-dyson-rose tracking-tight mb-1 -mt-1.5">了解更多活動資訊</span>
                                         <img id="qrCodePortrait" src="" alt="QR Code" class="h-11 w-11 object-contain rounded-none shadow-sm">
                                     </div>
                                 </div>
@@ -524,7 +513,7 @@
                                         <div class="flex flex-col text-right shrink-0 pl-2">
                                             <span class="text-[8px] font-medium text-slate-500 uppercase tracking-widest mb-0.5">CLASS</span>
                                             <div class="h-[48px] flex flex-col items-end justify-start min-w-0">
-                                                <div id="outClassP" class="font-extrabold text-slate-900 text-xs leading-tight text-right">
+                                                <div id="outClassP" class="font-extrabold text-slate-900 text-xs leading-tight text-right pt-[3px]">
                                                     First Class<br><span class="text-[9px] font-medium text-slate-500">頭等艙</span>
                                                 </div>
                                             </div>
@@ -550,14 +539,17 @@
                             <div class="px-4 py-0 flex-1 flex flex-col justify-start bg-white overflow-hidden">
 
                                 <!-- ROUTE TPE ANY -->
-                                <div class="pt-5 pb-3 shrink-0 flex flex-col items-center justify-center">
+                                <div class="pt-3.5 pb-3 shrink-0 flex flex-col items-center justify-center">
                                     <div class="flex items-center justify-between w-full px-1">
                                         <span id="outOriginCodeP" class="text-3xl font-black text-slate-800 tracking-wider leading-none">TPE</span>
-                                        <svg class="w-6 h-6 text-dyson-rose fill-current shrink-0" viewBox="0 0 24 24">
-                                            <g transform="rotate(90 12 12)">
-                                                <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
-                                            </g>
-                                        </svg>
+                                        <div class="flex flex-col items-center justify-center shrink-0 px-1">
+                                            <svg class="w-6 h-6 text-dyson-rose fill-current shrink-0" viewBox="0 0 24 24">
+                                                <g transform="rotate(90 12 12)">
+                                                    <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+                                                </g>
+                                            </svg>
+                                            <span class="text-[8px] font-bold text-dyson-rose/80 uppercase tracking-widest text-center mt-0.5">FLIGHT HD19</span>
+                                        </div>
                                         <span id="outDestCodeP" class="text-3xl font-black text-dyson-rose tracking-wider leading-none">ANY</span>
                                     </div>
                                     
@@ -567,39 +559,45 @@
                                     </div>
                                 </div>
 
+                                <!-- INDEPENDENT GRAY DIVIDER LINE -->
+                                <div class="w-full border-t border-slate-200/80 shrink-0"></div>
+
                                 <!-- LOWER CONTAINER FOR DETAILS & BAGGAGE WITH NATURAL FLEX FILL -->
                                 <div class="flex-1 flex flex-col justify-start">
                                     <!-- FLIGHT DETAILS GRID -->
-                                    <div class="pt-2.5 pb-2.5 shrink-0 bg-white border-t border-slate-200/80">
+                                    <div class="py-3 shrink-0 bg-white">
                                         <div class="grid grid-cols-4 gap-1 text-center bg-transparent items-start">
                                             <div class="px-0.5 min-w-0">
-                                                <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tight leading-normal mb-0.5">DATE</div>
+                                                <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tight leading-normal mb-1">DATE</div>
                                                 <div id="outDateP" class="font-extrabold text-slate-800 text-xs leading-normal">2026/08/19</div>
                                             </div>
                                             <div class="px-0.5 min-w-0">
-                                                <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tighter leading-normal mb-0.5">BOARDING</div>
+                                                <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tighter leading-normal mb-1">BOARDING</div>
                                                 <div id="outTimeP" class="font-extrabold text-slate-800 text-xs leading-normal">13:14</div>
                                             </div>
                                             <div class="px-0.5 min-w-0">
-                                                <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tight leading-normal mb-0.5">GATE</div>
+                                                <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tight leading-normal mb-1">GATE</div>
                                                 <div id="outGateP" class="font-extrabold text-slate-900 text-xs leading-normal">19</div>
                                             </div>
                                             <div class="px-0.5 min-w-0">
-                                                <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tight leading-normal mb-0.5">SEAT</div>
+                                                <div class="text-[8px] font-medium text-slate-500 uppercase tracking-tight leading-normal mb-1">SEAT</div>
                                                 <div id="outSeatP" class="font-extrabold text-slate-900 text-xs leading-normal">52O</div>
                                             </div>
                                         </div>
                                     </div>
 
+                                    <!-- INDEPENDENT PINK DIVIDER LINE -->
+                                    <div class="-mx-4 border-t border-rose-100/80 shrink-0"></div>
+
                                     <!-- SEAMLESS SOFT PINK CONTAINER FOR BAGGAGE & SUBTEXT -->
-                                    <div class="-mx-4 flex-1 flex flex-col justify-between bg-rose-50/50 border-t border-rose-100/80 text-slate-800">
+                                    <div class="-mx-4 flex-1 flex flex-col justify-between bg-rose-50/50 text-slate-800">
                                         <!-- BAGGAGE ALLOWANCE SECTION -->
-                                        <div class="px-4 pt-2.5 pb-1">
-                                            <div class="flex items-center justify-between text-[8px] font-medium text-slate-500 uppercase tracking-wider mb-0.5">
-                                                <span><i class="fa-solid fa-suitcase-rolling text-dyson-rose mr-1"></i> BAGGAGE</span>
+                                        <div class="px-4 py-3">
+                                            <div class="flex items-center justify-between text-[8px] font-medium text-slate-500 uppercase tracking-wider mb-1">
+                                                <span><i class="fa-solid fa-suitcase-rolling text-dyson-rose text-[10px] mr-1"></i> BAGGAGE</span>
                                                 <span class="text-slate-800 font-bold">INCLUDED</span>
                                             </div>
-                                            <div class="text-xs font-semibold text-slate-700 space-y-0.5">
+                                            <div class="text-xs font-normal text-slate-700 space-y-0.5">
                                                 <p class="leading-tight">1 x 330g HD19 國際電壓隨行吹風機</p>
                                                 <p class="leading-tight">1 x 七夕情人節限定專屬優惠券</p>
                                             </div>
@@ -1250,14 +1248,6 @@
                         const target = clonedDoc.getElementById(targetId);
                         if (target) {
                             target.classList.add('export-mode');
-                            // Ensure text elements inside cloned document have enough line-height for canvas text metrics
-                            const texts = target.querySelectorAll('p, span, div');
-                            texts.forEach(el => {
-                                el.style.lineHeight = '1.35';
-                                el.style.webkitLineClamp = 'none';
-                                el.style.maxHeight = 'none';
-                                el.style.overflow = 'visible';
-                            });
                         }
                     }
                 });
