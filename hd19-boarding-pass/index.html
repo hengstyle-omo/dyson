@@ -238,10 +238,10 @@
 
     <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 sm:pt-24 pb-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         <!-- Form Controls Panel -->
-        <section class="lg:col-span-5 bg-white border border-rose-100/80 p-5 sm:p-8 rounded-3xl shadow-xl space-y-4">
-            <div class="border-b border-rose-100 pb-4 flex justify-between items-center px-2">
+        <section class="lg:col-span-5 bg-white border border-rose-100/80 p-6 sm:p-8 rounded-3xl shadow-xl space-y-3.5 sm:space-y-5">
+            <div class="border-b border-rose-100 pb-2.5 px-2 flex justify-between items-center">
                 <h2 class="text-lg sm:text-xl font-bold text-dyson-dark flex items-center gap-2">
-                    <i class="fa-solid fa-ticket text-dyson-rose"></i> 訂製專屬 dyson 浪漫機票
+                    <i class="fa-solid fa-ticket text-dyson-rose"></i> 訂製情人節專屬機票
                 </h2>
             </div>
 
@@ -265,13 +265,13 @@
                 <!-- Scenario Preset Option -->
                 <div class="bg-rose-50/70 border border-rose-200/60 rounded-xl p-3 space-y-2">
                     <span class="text-[10px] font-bold text-dyson-rose flex items-center gap-1 tracking-tight">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> 浪漫情境 Preset
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> 浪漫情境 VIBES
                     </span>
                     <div class="grid grid-cols-2 gap-2">
-                        <button type="button" onclick="applyModePreset('together')" class="py-1.5 px-1 bg-white hover:bg-rose-100/50 text-dyson-dark text-[10px] font-semibold rounded-lg border border-rose-200/80 flex items-center justify-center gap-1 transition shadow-sm active:scale-95">
+                        <button type="button" onclick="applyModePreset('together')" class="py-1.5 px-1 bg-white text-dyson-dark text-[10px] font-semibold rounded-lg border border-rose-200/80 flex items-center justify-center gap-1 transition shadow-sm active:scale-95">
                             <i class="fa-solid fa-heart-circle-bolt text-dyson-rose text-[10px]"></i> 浪漫同行
                         </button>
-                        <button type="button" onclick="applyModePreset('gift')" class="py-1.5 px-1 bg-white hover:bg-rose-100/50 text-dyson-dark text-[10px] font-semibold rounded-lg border border-rose-200/80 flex items-center justify-center gap-1 transition shadow-sm active:scale-95">
+                        <button type="button" onclick="applyModePreset('gift')" class="py-1.5 px-1 bg-white text-dyson-dark text-[10px] font-semibold rounded-lg border border-rose-200/80 flex items-center justify-center gap-1 transition shadow-sm active:scale-95">
                             <i class="fa-solid fa-paper-plane text-dyson-rose text-[10px]"></i> 飛向愛人
                         </button>
                     </div>
@@ -279,13 +279,13 @@
             </div>
 
             <!-- Form Groups -->
-            <form id="ticketForm" class="space-y-3 px-2" onsubmit="event.preventDefault();">
+            <form id="ticketForm" class="space-y-3 px-4" onsubmit="event.preventDefault();">
                 
                 <!-- Passenger Name -->
                 <div>
                     <div class="flex justify-between items-center mb-1">
                         <label class="block text-[10px] font-bold text-dyson-rose uppercase tracking-wider">
-                            <i class="fa-solid fa-user-heart mr-1"></i> 旅客 / 情侶名稱 Passenger
+                            <i class="fa-solid fa-user-heart mr-1"></i> 旅客 / 情侶名稱 PASSENGER
                         </label>
                         <span id="charCount" class="text-[10px] text-slate-500 font-mono">8/15</span>
                     </div>
@@ -297,8 +297,9 @@
                     <div>
                         <div class="flex justify-between items-center mb-1">
                             <label class="block text-[10px] font-semibold text-slate-600 uppercase tracking-wider">
-                                <i class="fa-solid fa-plane-departure mr-1 text-dyson-rose"></i> 出發 FROM
+                                <i class="fa-solid fa-plane-departure mr-1 text-dyson-rose"></i> 出發地 FROM
                             </label>
+                            <span id="charCountOrigin" class="text-[9px] text-slate-400 font-mono">6/12</span>
                         </div>
                         <input type="text" id="inOrigin" value="TAIPEI" maxlength="12" class="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-3 py-2 text-sm font-bold text-dyson-dark focus:outline-none focus:border-dyson-rose transition uppercase">
                     </div>
@@ -307,6 +308,7 @@
                             <label class="block text-[10px] font-semibold text-slate-600 uppercase tracking-wider">
                                 <i class="fa-solid fa-plane-arrival mr-1 text-dyson-rose"></i> 目的地 TO
                             </label>
+                            <span id="charCountDest" class="text-[9px] text-slate-400 font-mono">8/12</span>
                         </div>
                         <input type="text" id="inDestination" value="ANYWHERE" maxlength="12" class="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-3 py-2 text-sm font-bold text-dyson-dark focus:outline-none focus:border-dyson-rose transition uppercase">
                     </div>
@@ -332,9 +334,12 @@
                 <div>
                     <div class="flex justify-between items-center mb-1">
                         <label class="block text-[10px] font-semibold text-slate-600 uppercase tracking-wider">
-                            <i class="fa-solid fa-quote-left mr-1 text-dyson-rose"></i> 情意悄悄話 Message
+                            <i class="fa-solid fa-quote-left mr-1 text-dyson-rose"></i> 情意悄悄話 MESSAGE
                         </label>
-                        <button type="button" onclick="randomizeInspiration()" class="text-[9px] text-dyson-rose bg-rose-100/60 border border-rose-200 px-2 py-0.5 rounded-full transition font-medium">隨機</button>
+                        <div class="flex items-center gap-2">
+                            <span id="charCountMsg" class="text-[9px] text-slate-400 font-mono">23/45</span>
+                            <button type="button" onclick="randomizeInspiration()" class="text-[9px] text-dyson-rose bg-rose-100/60 border border-rose-200 px-2 py-0.5 rounded-full transition font-medium">隨機</button>
+                        </div>
                     </div>
                     <input type="text" id="inMessage" value="YOU ARE MY DESTINATION." maxlength="45" class="w-full bg-slate-50/30 border border-slate-200/80 rounded-xl px-3 py-2 text-xs text-dyson-dark focus:outline-none focus:border-dyson-rose transition">
                 </div>
@@ -950,10 +955,12 @@
                             el.value = formatted;
                         }
                         updatePass();
-                        if (id === 'inPassenger') {
-                            const countEl = document.getElementById('charCount');
-                            if (countEl) countEl.innerText = `${el.value.length}/15`;
-                        }
+                        
+                        // Update character counters
+                        if (id === 'inPassenger') setText('charCount', `${el.value.length}/15`);
+                        if (id === 'inOrigin') setText('charCountOrigin', `${el.value.length}/12`);
+                        if (id === 'inDestination') setText('charCountDest', `${el.value.length}/12`);
+                        if (id === 'inMessage') setText('charCountMsg', `${el.value.length}/45`);
                     });
                 }
             });
@@ -1411,7 +1418,7 @@
         }
 
         function copyShareTextToClipboard() {
-            const shareText = "✈️ Dyson Airways HD19 航班即將起飛！快來領取你的專屬登機證 ❤️👉 https://hlh.tw/dyson-hd19-boarding-pass";
+            const shareText = "✈️ Dyson Airways HD19 航班即將起飛✈️ 快來領取專屬登機證 👉 https://hlh.tw/dyson-hd19-boarding-pass";
             try {
                 const tempInput = document.createElement('textarea');
                 tempInput.value = shareText;
@@ -1459,14 +1466,14 @@
             // Fallback: Copy link text to clipboard
             const success = copyShareTextToClipboard();
             if (success) {
-                showToast("遊戲連結與文案已複製！直接貼上發送給好友 ❤️", "fa-copy");
+                showToast("遊戲連結已複製！直接貼上發送給好友", "fa-copy");
             } else {
                 showToast("複製失敗，請手動複製", "fa-circle-exclamation");
             }
         }
 
         async function shareBoardingPass() {
-            const shareText = "✈️ Dyson Airways HD19 航班即將起飛！快來領取你的專屬登機證 ❤️👉 https://hlh.tw/dyson-hd19-boarding-pass";
+            const shareText = "✈️ Dyson Airways HD19 航班即將起飛✈️ 快來領取專屬登機證 👉 https://hlh.tw/dyson-hd19-boarding-pass";
             const shareUrl = "https://hlh.tw/dyson-hd19-boarding-pass";
 
             // Execute mobile-compatible clipboard copy IMMEDIATELY on user click gesture
@@ -1494,7 +1501,7 @@
                     if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
                         try {
                             await navigator.share(shareData);
-                            showToast("文案與連結已自動複製！貼上即可發文 ❤️", "fa-circle-check");
+                            showToast("圖片與遊戲連結已複製！貼上即可發文", "fa-circle-check");
                             return;
                         } catch (shareErr) {
                             if (shareErr.name === 'AbortError') {
@@ -1510,7 +1517,7 @@
                     link.href = URL.createObjectURL(blob);
                     link.click();
 
-                    showToast("已下載圖片！分享文案已自動複製，可直接「貼上」❤️", "fa-circle-check");
+                    showToast("圖片與遊戲連結已複製！貼上即可發文", "fa-circle-check");
                 }, 'image/png');
 
             } catch (err) {
